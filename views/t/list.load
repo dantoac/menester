@@ -1,1 +1,8 @@
 {{=result}}
+
+<script>
+jQuery(document).ready(function(){
+jQuery(".task_name").popover();
+//jQuery(".task_name").tooltip();
+});
+</script>

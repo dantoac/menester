@@ -1,14 +1,13 @@
 # coding: utf8
 # This is the controller for "Projects".
 
-
+@auth.requires_login()
 def index():
-    session.forget(response)
     projects = LOAD(f='new.load', ajax=True)
     return dict(projects=projects)
 
 
-
+@auth.requires_login()
 def new():
     form = SQLFORM(db.project, request.args(0), _class='')
 

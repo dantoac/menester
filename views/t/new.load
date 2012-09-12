@@ -1,8 +1,8 @@
 {{=form.custom.begin}}
 
-<div id="new_task" style='{{="display:none;" if (not request.args) else "display:block;"}}' class="row-fluid well">
+<div id="new_task" style='{{="display:none;" if (not request.args) else "display:block;"}}' class="row-fluid">
 
-<div class="span8">
+<div class="span8 well">
     
     <label class="control-label" for="task_project">{{=form.custom.label.project}}</label>
     <div class="controls">{{=form.custom.widget.project}}</div>
@@ -16,11 +16,11 @@
 
     
     <label class="control-label" for="task_description">{{=form.custom.label.description}}</label>
-    <div class="controls">{{=form.custom.widget.description}}</div>
+    <div class="controls" style="width:96%;">{{=form.custom.widget.description}}</div>
     
 </div>        
 
-<div class="span4">
+<div class="span4 well">
 
 
     
