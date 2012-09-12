@@ -1,0 +1,7 @@
+<div class="well">
+<h2>Nuevo Proyecto</h2>
+{{=form}}
+</div>
+
+
+{{=result}}

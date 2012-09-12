@@ -1,0 +1,36 @@
+# coding: utf8
+# This is the controller for "Projects".
+
+
+def index():
+    
+    new_project = LOAD(f='new.load', ajax=True)
+    
+    return dict(new_project=new_project)
+
+
+
+def new():
+    #session.forget(response)
+
+    form = SQLFORM(db.project, request.args(0), _class='')
+    
+    if form.process().accepted:
+        response.flash = 'Tarea agregada'
+    elif form.errors:
+        response.flash = 'errores!'
+    
+    data = db(db.project).select()
+    
+    result = TABLE()
+    
+    for p in data:
+        result.append(TR(
+            TD(p.name),
+            TD(p.finish),
+            #TD(A('Tareas', _href=URL(c='t', vars={'p':p.id}), _class='btn', ))
+            TD(A('Tareas', _href=URL(c='t', args=p.slug), _class='btn', ))
+            ))
+    
+    
+    return dict(form=form, result=result)

@@ -1,0 +1,63 @@
+{{extend 'layout.html'}}
+
+{{=form.custom.begin}}
+
+<div id="new_task" class="row-fluid well">
+
+<div class="span8">
+    
+    <label class="control-label" for="task_project">{{=form.custom.label.project}}</label>
+    <div class="controls">{{=form.custom.widget.project}}</div>
+    
+    <label class="control-label" for="task_name">{{=form.custom.label.name}}</label>
+    <div class="controls">{{=form.custom.widget.name}}</div>
+    
+        
+    <label class="control-label" for="task_priority">{{=form.custom.label.priority}}</label>
+    <div class="controls">{{=form.custom.widget.priority}}</div>
+
+    
+    <label class="control-label" for="task_description">{{=form.custom.label.description}}</label>
+    <div class="controls">{{=form.custom.widget.description}}</div>
+    
+</div>        
+
+<div class="span4">
+
+
+    
+    <label class="control-label" for="task_state">{{=form.custom.label.state}}</label>
+    <div class="controls">{{=form.custom.widget.state}}</div>
+
+
+    <label class="control-label" for="task_finish">{{=form.custom.label.finish}}</label>
+    <div class="controls">{{=form.custom.widget.finish}}</div>
+    
+
+
+    <label class="control-label" for="task_responsable">{{#=form.custom.label.responsable}}</label>
+    <div class="controls">{{#=form.custom.widget.responsable}}</div>
+    
+    
+    <label class="control-label" for="task_created">{{=form.custom.label.created}}</label>
+    <div class="controls">{{=form.custom.widget.created}}</div>
+    
+    
+    <label class="control-label" for="task_author">{{#=form.custom.label.author}}</label>
+    <div class="controls">{{#=form.custom.widget.author}}</div>
+    
+    
+    
+    <label class="control-label" for="task_updated">{{=form.custom.label.updated}}</label>
+    <div class="controls">{{=form.custom.widget.updated}}</div>    
+
+<div>
+<input type="submit" value="Agregar Tarea" class="btn btn-primary center btn-large" />
+</div>
+</div>
+
+</div>
+
+{{=form.custom.end}}
+
+{{=task_list}}
