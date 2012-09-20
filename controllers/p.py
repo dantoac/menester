@@ -27,8 +27,7 @@ def new():
     for p in data:
         result.append(TR(
             TD(EM(p.name.title())),
-            TD(prettydate(p.finish)),
-            #TD(A('Tareas', _href=URL(c='t', vars={'p':p.id}), _class='btn', ))
+            TD(p.finish),
             TD(A('Tareas', _href=URL(c='t', f='index.html', vars=dict(p=p.slug)), _class='btn', ))
             ))
 
