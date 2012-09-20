@@ -15,7 +15,7 @@ db.define_table('state',
                 Field('percentage', 'integer', default=0,
                       requires=IS_INT_IN_RANGE(0,101),
                       ),
-                format = '%(name)s %(percentage)s%%'
+                format = '%(percentage)s%% %(name)s'
                 )
 
 if db(db.state).isempty():
