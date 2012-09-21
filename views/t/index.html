@@ -1,8 +1,31 @@
 {{extend "layout.html"}}
 
+<div class="progress">  
+  
+  {{if not progress:}} 
+  Seleccione un <a href="{{=URL(c='p',f='index.html')}}">Proyecto</a>
+  {{else:}}
+  
+  
+  <div class="bar" style="width:{{=progress}}%;">
+    {{=progress}}%
+    {{pass}}
+    
+  </div>
+</div>
 
 
-<button id="btn_new_task" class='btn btn-success' onclick='jQuery("#new_task").slideToggle();'>Nueva Tarea</button>
+<div class="btn-group pull-right">
+  {{vars=request.vars}}
+  {{if vars['showstate']: del vars['showstate']}}
+  <a class="btn btn-mini" href="{{=URL(f='index',vars=request.vars)}}">Tareas Activas</a>
+  
+  {{ vars = dict(dict(showstate='any'),**vars)}}
+  <a class="btn btn-mini" href="{{=URL(f='index',vars=vars)}}">Todas Tareas</a>
+</div>
 
+<button id="btn_new_task" class='btn btn-large btn-primary' onclick='jQuery("#new_task").slideToggle();'>Nueva Tarea</button>
 
 {{=new_task}}
+
+

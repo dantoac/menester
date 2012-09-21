@@ -6,7 +6,7 @@ def index():
     project_id = None
     response.title = 'Tareas'
     response.subtitle = 'Todos los Proyectos'
-    
+    progress=''
     if request.vars.p:
         project = db(db.project.slug == request.vars.p
                         ).select(
@@ -18,45 +18,53 @@ def index():
         
         if project:    
             project_id = project.id
-    
+            progress = total_progress(project_id)
             response.title = 'Proyecto '+project_slug
             response.subtitle = 'Tareas relacionadas'
     
         else:
             response.flash = 'No existe Proyecto "'+project_slug+'"'
 
-    new_task = LOAD(f='new.load', vars={'p':project_id}, 
-                    args=request.args, target='new_task_container',
+    new_task = LOAD(f='new.load', args=request.args, vars=request.vars, 
+                    target='new_task_container',
                     _class='container-fluid', ajax=True, 
                     content=XML('Cargando Tareas... (Si no carga haga %s)' %
-                    A('clic aquí', _href=URL(f='new.html'))))
+                    A('clic aquí', _href=URL(f='new.html, vars=request.vars'))))
     
-    return dict(new_task=new_task)
+
+
+    return dict(progress=progress,new_task=new_task)
 
 
 @auth.requires_login()
 def list():
     
     project_id = None
+
     project = db(db.project.slug == request.vars.p
-                    ).select(db.project.id,limitby=(0,1)).first() 
+                 ).select(db.project.id,limitby=(0,1)).first()
+        
+    #query Tareas en cualquier estado
+    if request.vars.showstate == 'any':
+        query_task_state = (db.task.state != None)
+    else:
+        query_task_state = (db.task.state <> 5)
     
     if project:
         project_id = project.id
         query = (db.task.project == project_id)
         
     else:
-        query = (db.task)
+        query = (db.task.id > 0)
 
-    data = db(query).select(orderby=(db.task.created and ~db.task.priority),
-                            )
+    data = db(query & query_task_state).select(
+        orderby=(db.task.created and ~db.task.priority))
 
     result = TABLE(THEAD(TR(TH('TID'),
         TH('Nombre'),
-        #TH('Prior'),
-        TH('Termina'),
-        TH('Creado'),
-        )), _class='table table-bordered')
+        TH('Progreso'),
+        TH('Autor'),
+        )), _class='table table-bordered table-condensed')
 
     for task in data:
         
@@ -64,33 +72,74 @@ def list():
         
         if task.priority=="5":
             bgcolor="#ef2929;"
+            priority_class = "error"
         elif task.priority=="4":
             bgcolor="#fcaf3f;"
+            priority_class = "warning"
         elif task.priority=="3":
             bgcolor="#fce94f;"
+            priority_class = "success"
         elif task.priority=="2":
             bgcolor="#d3d7cf;"
+            priority_class = "info"
         elif task.priority=="1":
-            bgcolor="#eeeeec;"       
+            bgcolor="#eeeeec;"  
+            priority_class = ""
         else:
             bgcolor="transparent;"
+            priority_class = ""
+
+
+        taskname = task.name
+
+        if task.state == 6:
+            state_class = ""
+            progress_css_class = ""
+            taskname = TAG.DEL(task.name, _class="muted")
+        elif task.state == 5:
+            state_class = "label-inverted"
+            progress_css_class = "progress  progress-striped"
+        elif task.state == 4:
+            state_class = "label-success"
+            progress_css_class = "progress progress-success progress-striped"
+        elif task.state == 3:
+            state_class = "label-warning"
+            progress_css_class = "progress progress-warning  progress-striped"
+        elif task.state == 2:
+            state_class = "label-info"
+            progress_css_class = "progress progress-info  progress-striped"
+        else:
+            state_class = "label-important"
+            progress_css_class = "progress progress-danger  progress-striped"
+        
             
+
+
         result.append(TR(
-                TD(A(task.id, _href=URL(f='new.html', args=task.id), 
-                            _class='btn btn-inverse')),
-                TD(TAG.sub(task.project.name),BR(),
-                    A(task.name, _class='task_name', _rel='popover', 
-                        **{'_data-original-title': task.name,
-                            '_data-content': task.description}
-                        ),BR(),
-                        SPAN(task.state.name, _class='label')
-                        ),
-                #TD(),
-                #TD(task.priority),
-                TD(task.finish),
-                TD(prettydate(task.created),BR(),'by '+str(task.author)),
-                _style='background:'+bgcolor+'color:'+fgcolor)
-                )
+                ## TID
+                TD(A(task.id, _href=URL(f='new.html', args=task.id,
+                                        vars=request.vars), 
+                     _class='btn btn-mini')),
+
+                ## TNAME
+                TD(A(taskname, _class='task_name',
+                     _rel='popover', **{'_data-original-title': '%s %s%%' % \
+                                            (task.name,task.state.percentage),
+                                        '_data-content': task.description}),
+                   BR(), SPAN(task.state.name, _class='label %s' % state_class),
+                   ),
+  
+                ## TPROGRESS
+                TD(
+                    DIV(DIV(_class='bar', 
+                            _style='width:%s%%;' % task.state.percentage),
+                        _class=' %s active' % progress_css_class)),
+                
+                ## TAUTHOR
+                TD(str(task.author),BR(),prettydate(task.created)),
+                #_style='background:'+bgcolor+'color:'+fgcolor)
+                _class = priority_class)
+                      )
                 
     return dict(result=result)
 
@@ -107,8 +156,11 @@ def new():
     
     if form.process().accepted:
         if request.args:
-            session.flash = 'Tarea modificada exitosamente'
-            redirect(URL(c='t',f='index'))
+            session.flash = 'Tarea modificada'
+            if request.vars.p:
+                redirect(URL(c='t',f='index',vars={'p':request.vars.p}))
+            else:
+                redirect(URL(c='t',f='index'))
         else:
             response.flash = 'Tarea '+str(form.vars.id)+' agregada exitosamente'
     elif form.errors:
@@ -120,3 +172,32 @@ def new():
                     _class='')
     
     return dict(form=form, task_list=task_list)
+
+
+def total_progress(project):
+    """
+    Calcula el porcentaje de progreso total de tareas de un
+    proyecto dado por el parámetro integer: 'project', sin
+    considerar las tareas rechazadas (por defecto state.id '6')
+    Retorna el número del porcentaje como string.
+    """
+
+    session.forget(response)
+
+    query = ((db.task.project == project) &
+             (db.task.state == db.state.id) &
+             (db.state.id <> 6)
+             )
+
+    task_count =  db.state.id.count()
+    percentage_sum = db.state.percentage.sum()
+
+    data = db(query).select(percentage_sum, task_count,
+                       cacheable = True).first()
+   
+    total_progress = None
+
+    if data[percentage_sum]:
+        total_progress = data[percentage_sum] / data[task_count] 
+
+    return str(total_progress)

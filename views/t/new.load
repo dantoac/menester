@@ -53,7 +53,7 @@
     <div class="controls">{{=form.custom.widget.updated}}</div>    
 
 <div>
-<input type="submit" value="Agregar Tarea" class="btn btn-primary center btn-large" />
+<input type="submit" value="Registrar Tarea" class="btn btn-primary center btn-large" />
 </div>
 </div>
 
