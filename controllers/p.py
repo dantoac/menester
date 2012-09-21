@@ -27,8 +27,10 @@ def new():
                                            _href=URL(c='p', f='new.html', 
                                                      args=p.id), _class='btn')
                ),
-            TD(),
-            TD(p.finish),
+            TD(DIV(DIV(_class="bar", 
+                       _style="width: %s%%;" % total_progress(p.id)),
+                   _class="progress progress-striped")),
+            TD(p.finish or SPAN('Indefinido',_class='muted')),
             ))
 
 
