@@ -60,7 +60,7 @@ def list():
     data = db(query & query_task_state).select(
         orderby=(db.task.created and ~db.task.priority))
 
-    result = TABLE(THEAD(TR(TH('TID'),
+    result = TABLE(THEAD(TR(TH('#'),
         TH('Nombre'),
         TH('Progreso'),
         TH('Autor'),
