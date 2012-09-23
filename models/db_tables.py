@@ -1,14 +1,14 @@
 # coding: utf8
 
 db.define_table('project',
-    Field('name', 'string', label='Nombre', required=True, 
-          requires=IS_NOT_EMPTY()),
-    Field('slug', compute=lambda n: IS_SLUG()(n['name'])[0]),
-    Field('start', 'datetime', default=request.now,
-            label='Fecha Inicio'),
-    Field('finish', 'datetime', label='Fecha Término'),
-    format = '%(name)s'
-    )
+                Field('name', 'string', label='Nombre', required=True, 
+                      unique=True, requires=[IS_NOT_EMPTY(),IS_NOT_IN_DB(db,'project.name')], ),
+                Field('slug', compute=lambda n: IS_SLUG()(n['name'])[0]),
+                Field('start', 'datetime', default=request.now,
+                      label='Fecha Inicio'),
+                Field('finish', 'datetime', label='Fecha Término'),
+                format = '%(name)s'
+                )
 
 db.define_table('state',
                 Field('name', 'string', required=True),
@@ -21,15 +21,15 @@ db.define_table('state',
 
 if db(db.state).isempty():
     db.state.bulk_insert([
-        dict(name='Nuevo',percentage=10),
-        dict(name='Iniciado',percentage=25),
-        dict(name='Prototipo', percentage=55),
-        dict(name='Pruebas', percentage=75),
-        dict(name='Finalizado', percentage=100),
-        dict(name='Rechazado', percentage=100)
-        ])
-
-
+            dict(name='Nuevo',percentage=10),
+            dict(name='Iniciado',percentage=25),
+            dict(name='Prototipo', percentage=55),
+            dict(name='Pruebas', percentage=75),
+            dict(name='Finalizado', percentage=100),
+            dict(name='Rechazado', percentage=100)
+            ])
+    
+    
 db.define_table('task',
                 Field('project', 'reference project'),
                 Field('project_name'),
