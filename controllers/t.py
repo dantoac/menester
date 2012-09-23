@@ -7,6 +7,7 @@ def index():
     response.title = 'Tareas'
     response.subtitle = 'Todos los Proyectos'
     progress=''
+
     if request.vars.p:
         project = db(db.project.slug == request.vars.p
                         ).select(
@@ -25,7 +26,7 @@ def index():
         else:
             response.flash = 'No existe Proyecto "'+project_slug+'"'
 
-    new_task = LOAD(f='new.load', args=request.args, vars=request.vars, 
+    new_task = LOAD(f='new.load', args=request.args, vars={'pid':project_id},
                     target='new_task_container',
                     _class='container-fluid', ajax=True, 
                     content=XML('Cargando Tareas... (Si no carga haga %s)' %
@@ -149,8 +150,8 @@ def new():
     db.task.author.default=db.auth_user[auth.user_id].email
     db.task.author.update=db.auth_user[auth.user_id].email
     
-    if request.vars.p:
-            db.task.project.default = request.vars.p
+    if request.vars.pid:
+            db.task.project.default = request.vars.pid
     
     form = SQLFORM(db.task, request.args(0))
     
