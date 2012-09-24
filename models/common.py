@@ -11,7 +11,6 @@ def total_progress(project):
 
     query = ((db.task.project_uuid == project) &
              (db.task.state == db.state.id) &
-             (db.state.id <> 6) & 
              (db.task.nullify == False)
              )
 
