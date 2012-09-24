@@ -1,5 +1,7 @@
+<div id="new_project" style='{{="display:none;" if (not request.args) else "display:block;"}}' class="row-fluid">
 <div class="well">
 <h2>Nuevo Proyecto</h2>
 {{=form}}
+</div>
 </div>
 {{=project_list}}

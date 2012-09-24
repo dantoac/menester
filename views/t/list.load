@@ -1,8 +1,119 @@
-{{=result}}
+
+<table class="table table-bordered table-condensed">
+  <thead>
+    <tr>
+      <th>TID</th>
+      <th>Nombre</th>
+      <th>Progreso</th>
+      <th>Autoría</th>
+    </tr>
+
+  </thead>
+
+{{    for task in data:
+
+        
+        fgcolor="none;"
+
+        taskname = task.name
+
+        if task.priority=="5":
+
+            priority_class = "error"
+        elif task.priority=="4":
+
+            priority_class = "warning"
+        elif task.priority=="3":
+
+            priority_class = "success"
+        elif task.priority=="2":
+
+            priority_class = "info"
+        elif task.priority=="1":
+
+            priority_class = ""
+        else:
+            bgcolor="transparent;"
+            priority_class = ""
+
+}} {{pass}}
+
+{{
+
+ 
+
+        if task.state == '6':
+            #finalizado
+            state_class = "label-inverted"
+            progress_css_class = "progress progress-success"
+
+        elif task.state == '5':
+            #en pruebas
+            state_class = "label-success"
+            progress_css_class = "progress"
+
+        elif task.state == '4':
+            #prototipo
+            state_class = "label-warning"
+            progress_css_class = "progress progress-warning"
+
+        elif task.state == '3':
+            #iniciado
+            state_class = "label-info"
+            progress_css_class = "progress progress-info"
+
+        elif task.state == '2':
+            #concepto
+            state_class = "label-important"
+            progress_css_class = "progress progress-danger"
+
+
+        else:
+            #nuevo
+            state_class = ""
+            progress_css_class = ""
+        
+}}
+{{pass}}  
+
+  <tr class = "{{=priority_class}}">
+    <td>
+      {{=A('#'+str(task.id), _href=URL(f='new.html', args=task.id, 
+      vars=request.vars),  _class='btn btn-mini')}}
+    </td>
+    
+    <td>
+      {{if task.nullify:}}
+      <del>
+      {{pass}}
+
+      {{=SPAN(taskname, _class='task_name', _rel='popover', 
+    **{'_data-original-title': '%s %s%%' % (task.name,task.state.percentage), 
+      '_data-content': task.description})}}
+      <br />
+      {{#=SPAN(task.state.name, _class=state_class)}}
+      
+    </td>
+    
+    <td>
+      <div class="progress progress-striped active{{=progress_css_class}}">
+        <div class="bar" style="width:{{=task.state.percentage}}%;"></div>
+      </div>
+      {{#=DIV(DIV(_class='bar', _style='width:%s%%;' % task.state.percentage), _class=progress_css_class)}}
+    </td>
+    
+    <td>
+      {{=TAG.small(SPAN(prettydate(task.created), _class='task_created', 
+      _rel='tooltip', _title=str(task.author)))}}
+    </td>
+  </tr>
+
+
+{{pass}}
 
 <script>
-jQuery(document).ready(function(){
-jQuery(".task_name").popover();
-//jQuery(".task_name").tooltip();
-});
+  jQuery(document).ready(function(){
+  jQuery(".task_name").popover();
+  jQuery(".task_created").tooltip();
+  });
 </script>

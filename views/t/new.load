@@ -5,8 +5,8 @@
 <div class="span8 well">
 
     <div class="span6">
-      <label class="control-label" for="task_project">{{=form.custom.label.project}}</label>
-      <div class="controls">{{=form.custom.widget.project}}</div> 
+      <label class="control-label" for="task_name">{{=form.custom.label.name}}</label>
+      <div class="controls">{{=form.custom.widget.name}}</div>
     </div>
 
     <div class="span6">
@@ -14,9 +14,6 @@
       <div class="controls">{{=form.custom.widget.priority}}</div>
     </div>
 
-
-    <label class="control-label" for="task_name">{{=form.custom.label.name}}</label>
-    <div class="controls">{{=form.custom.widget.name}}</div>
 
     <label class="control-label" for="task_description">{{=form.custom.label.description}}</label>
     <div class="controls" style="width:96%;">{{=form.custom.widget.description}}</div>
@@ -38,22 +35,14 @@
 
     <label class="control-label" for="task_responsable">{{#=form.custom.label.responsable}}</label>
     <div class="controls">{{#=form.custom.widget.responsable}}</div>
+     
     
-    
-    <label class="control-label" for="task_created">{{=form.custom.label.created}}</label>
-    <div class="controls">{{=form.custom.widget.created}}</div>
-    
-    
-    <label class="control-label" for="task_author">{{#=form.custom.label.author}}</label>
-    <div class="controls">{{#=form.custom.widget.author}}</div>
-    
-    
-    
-    <label class="control-label" for="task_updated">{{=form.custom.label.updated}}</label>
-    <div class="controls">{{=form.custom.widget.updated}}</div>    
+    <label class="control-label" for="task_active">{{=form.custom.label.nullify}}</label>
+    <div class="controls">{{=form.custom.widget.nullify}}</div>    
 
+    <p />
 <div>
-<input type="submit" value="Registrar Tarea" class="btn btn-primary center btn-large" />
+<input type="submit" value="Registrar Tarea" class="btn btn-primary center btn-large btn-block" />
 </div>
 </div>
 
@@ -62,3 +51,4 @@
 {{=form.custom.end}}
 
 {{=task_list}}
+

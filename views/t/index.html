@@ -1,6 +1,6 @@
 {{extend "layout.html"}}
 
-<div class="progress">  
+<div class="progress progress-striped active">  
   
   {{if not progress:}} 
   Seleccione un <a href="{{=URL(c='p',f='index.html')}}">Proyecto</a>
@@ -24,8 +24,7 @@
   <a class="btn btn-mini" href="{{=URL(f='index',vars=vars)}}">Todas Tareas</a>
 </div>
 
-<button id="btn_new_task" class='btn btn-large btn-primary' onclick='jQuery("#new_task").slideToggle();'>Nueva Tarea</button>
+<button id="btn_new_task" class='btn btn-large btn-inverse'  onclick='jQuery("#new_task").slideToggle();'>Nueva Tarea</button>
 
 {{=new_task}}
-
 

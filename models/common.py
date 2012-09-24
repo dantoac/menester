@@ -9,16 +9,18 @@ def total_progress(project):
 
     session.forget(response)
 
-    query = ((db.task.project == project) &
+    query = ((db.task.project_uuid == project) &
              (db.task.state == db.state.id) &
-             (db.state.id <> 6)
+             (db.state.id <> 6) & 
+             (db.task.nullify == False)
              )
 
     task_count =  db.state.id.count()
     percentage_sum = db.state.percentage.sum()
 
-    data = db(query).select(percentage_sum, task_count,
-                       cacheable = True).first()
+    data = db(query).select(percentage_sum, task_count, 
+                            cacheable = True,
+                            ).first()
    
     total_progress = None
 
