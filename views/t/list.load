@@ -10,7 +10,10 @@
 
   </thead>
 
-{{    for task in data:
+{{    
+
+#mover esto a una función
+for task in data:
 
         
         fgcolor="none;"
@@ -36,32 +39,33 @@
 
 }} {{pass}}
 
-{{
 
-        if task.state == '6':
+{{
+#mover esto a una función
+        if task.state == 6:
             #finalizado
-            state_class = "label-inverted"
+            state_class = ""
             progress_css_class = "progress progress-success"
 
-        elif task.state == '5':
+        elif task.state == 5:
             #en pruebas
-            state_class = "label-success"
-            progress_css_class = "progress"
+            state_class = "label-important"
+            progress_css_class = "progress progress-danger"
 
-        elif task.state == '4':
+        elif task.state == 4:
             #prototipo
             state_class = "label-warning"
             progress_css_class = "progress progress-warning"
 
-        elif task.state == '3':
+        elif task.state == 3:
             #iniciado
             state_class = "label-info"
-            progress_css_class = "progress progress-info"
+            progress_css_class = "progress"
 
-        elif task.state == '2':
+        elif task.state == 2:
             #concepto
-            state_class = "label-important"
-            progress_css_class = "progress progress-danger"
+            state_class = ""
+            progress_css_class = "progress progress-info"
 
 
         else:
@@ -80,6 +84,7 @@
   taskpriority = task.priority
   taskcreated = task.created
   taskauthor = task.author
+  tasknull = task.nullify
 }}
 
 
@@ -103,12 +108,15 @@
       </span>
 
       <br />
-      <span class={{=state_class}}>{{=taskstate.name}}</span>      
+      <span class="label {{=state_class}}">{{=taskstate.name}}</span>
+      {{if tasknull:}}
+      <span class="label label-inverse">ANULADO</span>
+      {{pass}}
 
     </td>
     
     <td>
-      <div class="progress {{=progress_css_class}} 
+      <div class="{{=progress_css_class}} 
                   {{='progress-striped active' if not task.nullify else ''}}">
         <div class="bar" style="width:{{=taskstate.percentage}}%;"></div>
       </div>
