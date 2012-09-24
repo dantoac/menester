@@ -15,13 +15,13 @@
 </div>
 
 
-<div class="btn-group pull-right">
-  {{vars=request.vars}}
-  {{if vars['showstate']: del vars['showstate']}}
-  <a class="btn btn-mini" href="{{=URL(f='index',vars=request.vars)}}">Tareas Activas</a>
+<div class="btn-group pull-right" data-toggle="buttons-radio">
+
+  {{=A('Tareas Activas', callback=URL('list.load'), target='task_list_container', _class='btn active primary')}}
   
-  {{ vars = dict(dict(showstate='any'),**vars)}}
-  <a class="btn btn-mini" href="{{=URL(f='index',vars=vars)}}">Todas Tareas</a>
+  {{ vars = dict(dict(showstate='any'),**request.vars)}}
+  {{=A('Todas', callback=URL('list.load', vars=vars), target='task_list_container', _class='btn')}}
+
 </div>
 
 <button id="btn_new_task" class='btn btn-large btn-inverse'  onclick='jQuery("#new_task").slideToggle();'>Nueva Tarea</button>
