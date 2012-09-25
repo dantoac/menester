@@ -7,28 +7,45 @@
 <div class="span8 well">
 
     <div class="span6">
-      <label class="control-label" for="task_name">{{=form.custom.label.name}}</label>
+
+      <label class="control-label" for="task_name">Task Name</label>
       <div class="controls">{{=form.custom.widget.name}}</div>
+
+      <!--
+      <label class="control-label" for="task_name">Project UUID</label>
+      <div class="controls">
+        <input value="{{=form.custom.dspval.project_uuid}}"
+               disabled="disabled" type="text" />
+      </div>
+      -->
+      <sup>{{=form.custom.dspval.project_uuid}}</sup>
+
     </div>
+
 
     <div class="span6">
-      <label class="control-label" for="task_priority">{{=form.custom.label.priority}}</label>
-      <div class="controls">{{=form.custom.widget.priority}}</div>
-    </div>
-
-
-    <label class="control-label" for="task_description">{{=form.custom.label.description}}</label>
-    <div class="controls" style="width:96%;">{{=form.custom.widget.description}}</div>
-    
-</div>        
-
-<div class="span4 well">
-
 
     
     <label class="control-label" for="task_state">{{=form.custom.label.state}}</label>
     <div class="controls">{{=form.custom.widget.state}}</div>
 
+
+      <label class="control-label" for="task_priority">{{=form.custom.label.priority}}</label>
+      <div class="controls">{{=form.custom.widget.priority}}</div>
+    </div>
+
+
+    
+
+<input type="submit" value="Registrar Tarea" class="btn btn-primary center btn-large btn-block" />
+
+    
+</div>        
+
+<div class="span4 well">
+
+    <label class="control-label" for="task_description">{{=form.custom.label.description}}</label>
+    <div class="controls" style="width:96%;">{{=form.custom.widget.description}}</div>
 
     <label class="control-label" for="task_finish">{{=form.custom.label.finish}}</label>
     <div class="controls">{{=form.custom.widget.finish}}</div>
@@ -43,13 +60,10 @@
     <div class="controls">{{=form.custom.widget.nullify}}</div>    
 
     <p />
-<div>
-<input type="submit" value="Registrar Tarea" class="btn btn-primary center btn-large btn-block" />
-</div>
+
 </div>
 
 </div>
 
 {{=form.custom.end}}
 
-{{=task_list}}

@@ -12,27 +12,27 @@ def list():
         
     data = db(db.project).select()
 
-    result = TABLE(TR(
-        TH('Nombre'),
-        TH('Avance'),
-        TH('Finaliza'),
-        ),_class='table table-striped')
-
+    project_list = TABLE(TR(
+            TH('Nombre'),
+            TH('Avance'),
+            TH('Finaliza'),
+            ),_class='table table-striped')
+    
     for p in data:
-        result.append(TR(
+        project_list.append(TR(
                 TD(A(TAG.i(_class='icon-list icon-white'), ' %s' % p.name.title(), 
-                 _href=URL(c='t', f='index.html', vars=dict(p=p.slug)), 
-                 _class='btn btn-primary' ), A(TAG.i(_class='icon-edit'), 
-                                           _href=URL(c='p', f='new.html', 
-                                                     args=p.id), _class='btn')
-               ),
-            TD(DIV(DIV(_class="bar", 
-                       _style="width: %s%%;" % total_progress(p.uuid)),
-                   _class="progress")),
-            TD(p.finish or SPAN('Indefinido',_class='muted')),
-            ))
+                     _href=URL(c='t', f='index.html', vars=dict(p=p.slug)), 
+                     _class='btn btn-primary' ), A(TAG.i(_class='icon-edit'), 
+                                                   _href=URL(c='p', f='new.html', 
+                                                             args=p.id), _class='btn')
+                   ),
+                TD(DIV(DIV(_class="bar", 
+                           _style="width: %s%%;" % total_progress(p.uuid)),
+                       _class="progress")),
+                TD(p.finish or SPAN('Indefinido',_class='muted')),
+                ))
 
-    return dict(result=result)
+    return dict(project_list=project_list)
 
 
 #@auth.requires_login()
