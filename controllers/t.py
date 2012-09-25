@@ -73,7 +73,6 @@ def new():
     
     if request.vars.puuid:
         db.task.project_uuid.default = request.vars.puuid
-        db.task.project_uuid.writable = False
         db.task.project_name.default = request.vars.p
 
     db.task.author.default = db.auth_user[auth.user_id].email
