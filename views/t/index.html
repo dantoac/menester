@@ -1,4 +1,4 @@
-{{extend "layout.html"}}
+{{extend 'plantilla.html'}}
 
 <div class="progress progress-striped active">  
   
@@ -17,10 +17,10 @@
 
 <div class="btn-group pull-right" data-toggle="buttons-radio">
 
-  {{=A('Tareas Activas', callback=URL('list.load', vars=request.vars), target='task_list_container', _class='btn active primary')}}
+  {{=A('Tareas Activas', callback=URL('list.load', vars=request.vars), target='task_list_container', _class='btn active primary btn-mini')}}
   
   {{ vars = dict(dict(showstate='any'),**request.vars)}}
-  {{=A('Todas', callback=URL('list.load', vars=vars), target='task_list_container', _class='btn')}}
+  {{=A('Todas', callback=URL('list.load', vars=vars), target='task_list_container', _class='btn  btn-mini')}}
 
 </div>
 

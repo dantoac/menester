@@ -92,7 +92,7 @@ for task in data:
     <td>
 
       <a href="{{=URL(f='new.html', args=task.id, vars=request.vars)}}" 
-         class='btn btn-mini'>
+         class='btn'>
         #{{=taskid}}
       </a>
 
