@@ -29,7 +29,7 @@ def list():
                 TD(DIV(DIV(_class="bar", 
                            _style="width: %s%%;" % total_progress(p.uuid)),
                        _class="progress")),
-                TD(p.finish or SPAN('Indefinido',_class='muted')),
+                TD(p.end or SPAN('Indefinido',_class='muted')),
                 ))
 
     return dict(project_list=project_list)

@@ -15,7 +15,8 @@ deftable('project',
          Field('slug', compute=lambda n: IS_SLUG()(n['name'])[0]),
          Field('start', 'datetime', default=request.now,
                label='Fecha Inicio'),
-         Field('finish', 'datetime', label='Fecha Término'),
+         Field('end', 'datetime', label='Fecha Término'),
+         Field('finished', 'boolean'),
          format = '%(name)s'
          )
 
