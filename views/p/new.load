@@ -1,7 +1,33 @@
 <div id="new_project" style='{{="display:none;" if (not request.args) else "display:block;"}}' class="row-fluid">
-<div class="well">
-<h2>Nuevo Proyecto</h2>
-{{=form}}
-</div>
+  <div class="span12 container well">
+    {{=form.custom.begin}}
+    
+    <div class="span4">      
+      <label class="control-label" for="project_name">Project Name</label>
+      <div class="controls">{{=form.custom.widget.name}}</div>    
+    </div>
+    
+    <div class="span4">      
+      <label class="control-label" for="project_start">{{=form.custom.label.start}}</label>
+      <div class="controls">{{=form.custom.widget.start}}</div>
+    </div>
+    
+    <div class="span4">      
+      <label class="control-label" for="project_finish">{{=form.custom.label.finish}}</label>
+      <div class="controls">{{=form.custom.widget.finish}}</div>
+    </div>
+
+  </div>
+  
+  <div class="">      
+    <label class="control-label" for="project_description">{{=form.custom.label.description}}</label>
+    <div class="controls">{{=form.custom.widget.description}}</div>
+  </div>
+  
+
+  
+  
+
+{{=form.custom.end}}
 </div>
 {{=project_list}}

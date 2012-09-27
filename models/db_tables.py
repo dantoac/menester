@@ -6,12 +6,13 @@ deftable = db.define_table
 
 deftable('project',
          Field('uuid', 'string', length=64, default=uuid.uuid4(),
-               writable=False, readable=False, unique=True, 
+               writable=False, readable=False, unique=True,
                required=True),
-         Field('name', 'string', label='Nombre', required=True, 
+         Field('name', 'string', label='Nombre', required=True,
                unique=True, requires=[IS_NOT_EMPTY(),
                                       IS_NOT_IN_DB(db,'project.name')
                                       ]),
+         Field('description', 'text'),
          Field('slug', compute=lambda n: IS_SLUG()(n['name'])[0]),
          Field('start', 'datetime', default=request.now,
                label='Fecha Inicio'),
@@ -32,14 +33,14 @@ deftable('state',
 if db(db.state).isempty():
     db.state.bulk_insert([
             dict(name='Nuevo',percentage=0),
-            dict(name='Concepto',percentage=10),       
+            dict(name='Concepto',percentage=10),
             dict(name='Iniciado',percentage=25),
             dict(name='Prototipo', percentage=55),
             dict(name='Pruebas', percentage=75),
             dict(name='Finalizado', percentage=100, closed=True)
             ])
-    
-    
+
+
 
 deftable('task',
          Field('uuid','string',length=64, default=uuid.uuid4(),
@@ -50,7 +51,7 @@ deftable('task',
          Field('name', 'string', required=True, requires=IS_NOT_EMPTY()),
          Field('description', 'text'),
          Field('state', 'reference state', default=1),
-         Field('priority', 'string', 
+         Field('priority', 'string',
                requires=IS_EMPTY_OR(IS_IN_SET([1,2,3,4,5])),
                default='3',widget=SQLFORM.widgets.options.widget),
          Field('created', 'datetime', compute=lambda r:request.now),
