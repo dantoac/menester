@@ -1,6 +1,6 @@
 {{=form.custom.begin}}
 
-<div id="new_task" style='{{="display:none;" if (not request.args) else "display:block;"}}' class="row-fluid">
+<div id="task_new" style='{{="display:none;" if (not request.args) else "display:block;"}}' class="row-fluid">
   
   <div class="span8 well">
     
@@ -56,6 +56,6 @@
   
   {{=form.custom.end}}
   
-  {{=task_list}}
-  
+</div>
+  {{=task_list}}  
   
