@@ -46,7 +46,7 @@ if db(db.state).isempty():
 deftable('task',
          Field('uuid','string',length=64, default=uuid.uuid4(),
                writable=False),
-         Field('project_uuid', 'string', IS_IN_DB(db, 'project.uuid'),
+         Field('project_uuid', 'string', requires=IS_IN_DB(db, 'project.uuid'),
                writable=False),
          Field('project_name'),
          Field('name', 'string', required=True, requires=IS_NOT_EMPTY()),
@@ -65,11 +65,12 @@ deftable('task',
 
 deftable('comment_task',
          Field('uuid', 'string', length=64, default=uuid.uuid4(),
-               writable=False),
-         Field('task_uuid', 'string', IS_IN_DB(db, 'task.uuid'),
-               writable=False),
+               writable=False, readable=False),
+         Field('task_uuid', 'string', requires=IS_IN_DB(db, 'task.uuid'),
+               writable=False, readable=False),
          Field('body', 'text'),
-         Field('author','string'),
-         Field('created_on','datetime')
+         Field('author','string', writable=False, readable=False),
+         Field('created_on','datetime', default=request.now,
+               writable=False, readable=False)
          )
          

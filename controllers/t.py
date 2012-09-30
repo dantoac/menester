@@ -88,8 +88,10 @@ def new():
         db.task.project_name.default = request.vars.p
 
     db.task.author.default = db.auth_user[auth.user_id].email
+    
+    tid = request.args(0)
 
-    form = SQLFORM(db.task, request.args(0))
+    form = SQLFORM(db.task, tid)
     
     if form.process().accepted:
         if request.args:

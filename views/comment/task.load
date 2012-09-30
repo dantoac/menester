@@ -1,0 +1,23 @@
+
+{{=form.custom.begin}}
+
+<div class="span8">
+{{=form.custom.widget.body}}
+<input type="submit" value="comentar" class="btn pull-right" />
+</div>
+
+
+
+{{=form.custom.end}}
+
+
+<div class="span12">
+
+{{for comment in comments:}}
+
+<blockquote>
+{{=comment.body}} 
+<small>{{=comment.author}} <cite>{{=prettydate(comment.created_on)}}</cite></small>
+</blockquote>
+{{pass}}
+</div>
