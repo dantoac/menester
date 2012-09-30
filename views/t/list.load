@@ -91,9 +91,14 @@ for task in data:
   <tr class = "{{=priority_class if not task.nullify else 'muted well'}}">
     <td>
 
-      <a href="{{=URL(f='new.html', args=task.id, vars=request.vars)}}" 
-         class='btn'>
-        #{{=taskid}}
+    {{=A(task.id, 
+         _href=URL(f='new.html', args=task.id, 
+                   vars=dict(p=request.vars.p,
+                             puuid=request.vars.puuid)),
+         target='task_new_container',
+         _class='btn')
+       }}
+      
       </a>
 
     </td>

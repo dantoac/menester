@@ -1,5 +1,8 @@
 {{extend 'plantilla.html'}}
 
+<h1>{{=response.title}}
+<small>{{=response.subtitle.capitalize()}}</small>
+</h1>
 <div class="progress progress-striped active">  
   
   {{if not progress:}} 
@@ -24,7 +27,8 @@
 
 </div>
 
-<button id="btn_new_task" class='btn btn-large btn-inverse'  onclick='jQuery("#new_task").slideToggle();'>Nueva Tarea</button>
+<button id="btn_new_task" class='btn btn-large btn-inverse'  onclick='jQuery("#task_new").slideToggle();'>Nueva Tarea</button>
 
-{{=new_task}}
+{{=task_new}}
+
 

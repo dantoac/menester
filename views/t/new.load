@@ -55,7 +55,7 @@
   
   
   {{=form.custom.end}}
-  
 </div>
+  
   {{=task_list}}  
   

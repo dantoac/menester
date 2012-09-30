@@ -2,17 +2,22 @@
 
 @auth.requires_login()
 def index():
-    session.forget(response)
+
     project_id = project_uuid = None
+    project_slug = request.vars.p
+
+
     response.title = 'Tareas'
     response.subtitle = 'Todos los Proyectos'
     progress=''
 
     if request.vars.p:
-        project = db(db.project.slug == request.vars.p
+        project = db(db.project.slug == project_slug
                         ).select(
                             db.project.id, 
+                            db.project.name,
                             db.project.uuid,
+                            db.project.aim,
                             limitby=(0,1)
                             ).first()
                             
@@ -21,23 +26,30 @@ def index():
         if project:    
             project_uuid = project.uuid
             progress = total_progress(project_uuid)
-            response.title = 'Tareas en '+project_slug
-            response.subtitle = project_uuid
+            project_aim = project.aim
+            project_name = project.name
+
+            response.title = project_name
+            response.subtitle = project_aim
             request.vars.puuid = project_uuid
     
         else:
             response.flash = 'No existe Proyecto "'+project_slug+'"'
 
 
-    new_task = LOAD(f='new.load', args=request.args, vars=request.vars,
-                    target='new_task_container',
+    task_new = LOAD(f='new.load', args=request.args, 
+                    vars=dict(p=request.vars.p,
+                              puuid=request.vars.puuid),
+                    target='task_new_container',
                     _class='container-fluid', ajax=True, 
                     content=XML('Cargando Tareas... (Si no carga haga %s)' %
-                    A('clic aquí', _href=URL(f='new.html, vars=request.vars'))))
+                                A('clic aquí', _href=URL(f='new.html', 
+                                                         vars=request.vars))),
+                    )
       
 
 
-    return dict(progress=progress,new_task=new_task)
+    return dict(progress=progress,task_new=task_new)
 
 
 @auth.requires_login()
@@ -83,19 +95,21 @@ def new():
         if request.args:
             session.flash = 'Tarea modificada'
             if request.vars.p:
-                redirect(URL(c='t',f='index',vars={'p':request.vars.p}))
+                redirect(URL(c='t',f='index.html',vars={'p':request.vars.p}))
             else:
                 redirect(URL(c='t',f='index'))
         else:
             response.flash = 'Tarea '+str(form.vars.id)+' agregada exitosamente'
     elif form.errors:
         response.flash = 'Hubo errores al crear la Tarea. Revise formulario.'
-        response.js = 'jQuery(document).ready(function(){jQuery("#new_task").show();});'
+        response.js = 'jQuery(document).ready(function(){jQuery("#task_new").show();});'
     
         
-    task_list = LOAD(f='list.load', args=request.args, vars=request.vars,
-                    target='task_list_container', ajax=False,
-                    _class='')
+    task_list = LOAD(f='list.load', 
+                     vars=dict(p=request.vars.p,
+                               puuid=request.vars.puuid),
+                     target='task_list_container', ajax=True,
+                     )
     
     return dict(form=form, task_list=task_list)
 

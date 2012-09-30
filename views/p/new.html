@@ -1,8 +1,47 @@
 {{extend 'plantilla.html'}}
 
-<div class="well">
-<h2>Nuevo Proyecto</h2>
-{{=form}}
+{{=form.custom.begin}}
+
+<div id="new_project" style='{{="display:none;" if (not request.args) else "display:block;"}}' class="row-fluid well">
+   
+    <div class="span4">      
+      <label class="control-label" for="project_name">Project Name</label>
+      <div class="controls">{{=form.custom.widget.name}}</div>    
+
+
+    <label class="control-label" for="project_aim">{{=form.custom.label.aim}}</label>
+    <div class="controls">{{=form.custom.widget.aim}}</div>
+                                                                
+    
+
+    </div>
+    
+    <div class="span4">      
+
+
+      <label class="control-label" for="project_end">{{=form.custom.label.end}}</label>
+      <div class="controls">{{=form.custom.widget.end}}</div>
+
+      <label class="control-label" for="project_start">{{=form.custom.label.start}}</label>
+      <div class="controls">{{=form.custom.widget.start}}</div>
+
+    </div>
+                                    
+    <div class="span4">
+
+
+    <input type="submit" value="Registrar Proyecto" class="btn btn-primary center btn-large btn-block" />
+
+    <br />
+      <label class="control-label" for="project_finished">{{=form.custom.label.finished}}</label>
+      <div class="controls">{{=form.custom.widget.finished}}</div>
+           
+    </div>
+
+
+
 </div>
 
+{{=form.custom.end}}
 
+{{=project_list}}

@@ -1,33 +1,45 @@
-<div id="new_project" style='{{="display:none;" if (not request.args) else "display:block;"}}' class="row-fluid">
-  <div class="span12 container well">
-    {{=form.custom.begin}}
+{{=form.custom.begin}}  
+
+<div id="new_project" style='{{="display:none;" if (not request.args) else "display:block;"}}' class="row-fluid well">
+
+  <div class="span4">         
+
+    <label class="control-label" for="project_name">Project Name</label>
+    <div class="controls">{{=form.custom.widget.name}}</div>    
     
-    <div class="span4">      
-      <label class="control-label" for="project_name">Project Name</label>
-      <div class="controls">{{=form.custom.widget.name}}</div>    
-    </div>
     
-    <div class="span4">      
-      <label class="control-label" for="project_start">{{=form.custom.label.start}}</label>
-      <div class="controls">{{=form.custom.widget.start}}</div>
-    </div>
+    <label class="control-label" for="project_aim">{{=form.custom.label.aim}}</label>
+    <div class="controls">{{=form.custom.widget.aim}}</div>
     
-    <div class="span4">      
-      <label class="control-label" for="project_finish">{{=form.custom.label.finish}}</label>
-      <div class="controls">{{=form.custom.widget.finish}}</div>
-    </div>
+    
+    
+  </div>
+  
+  <div class="span4">      
+    
+    
+    <label class="control-label" for="project_end">{{=form.custom.label.end}}</label>
+    <div class="controls">{{=form.custom.widget.end}}</div>
+
+    <label class="control-label" for="project_start">{{=form.custom.label.start}}</label>
+    <div class="controls">{{=form.custom.widget.start}}</div>
 
   </div>
   
-  <div class="">      
-    <label class="control-label" for="project_description">{{=form.custom.label.description}}</label>
-    <div class="controls">{{=form.custom.widget.description}}</div>
+  <div class="span4">
+    
+    <input type="submit" value="Registrar Proyecto" class="btn btn-primary center btn-large btn-block" />
+    
+    <br />
+    <label class="control-label" for="project_finished">{{=form.custom.label.finished}}</label>
+    <div class="controls">{{=form.custom.widget.finished}}</div>
+
   </div>
   
 
   
-  
-
-{{=form.custom.end}}
 </div>
+
+{{=form.custom.end}}      
+
 {{=project_list}}
