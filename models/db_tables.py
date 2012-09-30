@@ -12,7 +12,7 @@ deftable('project',
                unique=True, requires=[IS_NOT_EMPTY(),
                                       IS_NOT_IN_DB(db,'project.name')
                                       ]),
-         Field('description', 'text'),
+         Field('aim', 'string', length=120),
          Field('slug', compute=lambda n: IS_SLUG()(n['name'])[0]),
          Field('start', 'datetime', default=request.now,
                label='Fecha Inicio'),
