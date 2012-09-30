@@ -63,3 +63,13 @@ deftable('task',
          )
 
 
+deftable('comment_task',
+         Field('uuid', 'string', length=64, default=uuid.uuid4(),
+               writable=False),
+         Field('task_uuid', 'string', IS_IN_DB(db, 'task.uuid'),
+               writable=False),
+         Field('body', 'text'),
+         Field('author','string'),
+         Field('created_on','datetime')
+         )
+         
