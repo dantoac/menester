@@ -1,3 +1,7 @@
+<div id="filtro"><strong>Filtrar</strong>
+  <input name="filtrando" id="filtrando" /><span id="filtrado" class="badge">0</span>
+</div>
+<hr />
 
 <table class="table table-bordered table-condensed">
   <thead>
@@ -7,77 +11,15 @@
       <th>Progreso</th>
       <th>Autoría</th>
     </tr>
-
+    
   </thead>
+  
+  {{    
+  
+  #mover esto a una función
+  for task in data:
+  
 
-{{    
-
-#mover esto a una función
-for task in data:
-
-        
-        fgcolor="none;"
-
-        if task.priority=="5":
-
-            priority_class = "error"
-        elif task.priority=="4":
-
-            priority_class = "warning"
-        elif task.priority=="3":
-
-            priority_class = "success"
-        elif task.priority=="2":
-
-            priority_class = "info"
-        elif task.priority=="1":
-
-            priority_class = ""
-        else:
-            bgcolor="transparent;"
-            priority_class = ""
-
-}} {{pass}}
-
-
-{{
-#mover esto a una función
-        if task.state == 6:
-            #finalizado
-            state_class = ""
-            progress_css_class = "progress progress-success"
-
-        elif task.state == 5:
-            #en pruebas
-            state_class = "label-important"
-            progress_css_class = "progress progress-danger"
-
-        elif task.state == 4:
-            #prototipo
-            state_class = "label-warning"
-            progress_css_class = "progress progress-warning"
-
-        elif task.state == 3:
-            #iniciado
-            state_class = "label-info"
-            progress_css_class = "progress"
-
-        elif task.state == 2:
-            #concepto
-            state_class = ""
-            progress_css_class = "progress progress-info"
-
-
-        else:
-            #nuevo
-            state_class = ""
-            progress_css_class = ""
-        
-}}
-{{pass}}  
-
-
-{{
   taskid = task.id
   taskname = task.name
   taskstate = task.state
@@ -85,39 +27,99 @@ for task in data:
   taskcreated = task.created
   taskauthor = task.author
   tasknull = task.nullify
-}}
+  tasktag = task.tag
 
-
+  fgcolor="none;"
+  
+  if task.priority=="5":
+  
+  priority_class = "error"
+  elif task.priority=="4":
+  
+  priority_class = "warning"
+  elif task.priority=="3":
+  
+  priority_class = "success"
+  elif task.priority=="2":
+  
+  priority_class = "info"
+  elif task.priority=="1":
+  
+  priority_class = ""
+  else:
+  bgcolor="transparent;"
+  priority_class = ""
+  
+  }} {{pass}}
+  
+  
+  {{
+  #mover esto a una función
+  if task.state == 6:
+  #finalizado
+  state_class = ""
+  progress_css_class = "progress progress-success"
+  
+  elif task.state == 5:
+  #en pruebas
+  state_class = "badge-important"
+  progress_css_class = "progress progress-danger"
+  
+  elif task.state == 4:
+  #prototipo
+  state_class = "badge-warning"
+  progress_css_class = "progress progress-warning"
+  
+  elif task.state == 3:
+  #iniciado
+  state_class = "badge-info"
+  progress_css_class = "progress"
+  
+  elif task.state == 2:
+  #concepto
+  state_class = ""
+  progress_css_class = "progress progress-info"
+  
+  
+  else:
+  #nuevo
+  state_class = ""
+  progress_css_class = ""
+  
+  }}
+  {{pass}}    
+  
   <tr class = "{{=priority_class if not task.nullify else 'muted well'}}">
     <td>
-
-    {{=A(task.id, 
-         _href=URL(f='new.html', args=task.id, 
-                   vars=dict(p=request.vars.p,
-                             puuid=request.vars.puuid)),
-         target='task_new_container',
-         _class='btn')
-       }}
       
-      </a>
-
+      {{=A(task.id, 
+      _href=URL(f='new.html', args=task.id, 
+      vars=dict(p=request.vars.p,
+      puuid=request.vars.puuid)),
+      target='task_new_container',
+      _class='btn')
+      }}
+      
     </td>
     
     <td>
-
+      
       <span class="task_name"  rel="popover", 
             data-original-title="{{='%s %s%%' % (task.name,
                                  task.state.percentage)}}"
             data-content="{{=task.description}}">        
         {{=taskname}}
       </span>
-
+      
       <br />
-      <span class="label {{=state_class}}">{{=taskstate.name}}</span>
+      <span class="badge {{=state_class}}">{{=taskstate.name}}</span>
       {{if tasknull:}}
-      <span class="label label-inverse">ANULADO</span>
+      <span class="badge badge-inverse">ANULADO</span>
       {{pass}}
 
+{{if tasktag:}}
+      <small>{{=','.join(tasktag)}}</small>
+{{pass}}
     </td>
     
     <td>
@@ -135,14 +137,38 @@ for task in data:
       </small>
     </td>
   </tr>
-
-
-{{pass}}
-
+  
+  
+  {{pass}}
+  
 </table>
 <script>
-  jQuery(document).ready(function(){
-  jQuery(".task_name").popover();
-  jQuery(".task_created").tooltip();
-  });
+
+function filtro(){
+    jQuery("#filtrando").keyup(function () {
+	var filter = jQuery(this).val(), count = 0;
+	
+	jQuery("tr").each(function () {
+	    if ((jQuery(this).text().search(
+		new RegExp(filter, "i")) < 0)) {
+		jQuery(this).addClass("hidden");
+	    } else {
+		jQuery(this).removeClass("hidden");
+		count++;
+	    }
+	});
+	jQuery("#filtrado").text(count);
+    });
+}
+
+
+jQuery(document).ready(function(){
+    
+    jQuery("#filtrando").focus();
+    jQuery(".task_name").popover();
+    jQuery(".task_created").tooltip();
+    filtro();
+});
+
+
 </script>

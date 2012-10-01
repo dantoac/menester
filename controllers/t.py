@@ -75,9 +75,7 @@ def list():
         query = (db.task.id > 0)
         
     data = db(query & query_task_state).select(db.task.ALL,
-        orderby=(db.task.created and ~db.task.priority)
-                                               )
-
+        orderby=(db.task.created and ~db.task.priority))
     return dict(data=data)
 
 @auth.requires_login()
