@@ -76,7 +76,7 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </a>
-        <a class="brand" href="#">web2py&trade;&nbsp;</a>
+        <a class="brand" href="{{=URL(c='p',f='index.html')}}">{{=request.application.title()}}&trade;&nbsp;</a>
         <ul id="navbar" class="nav pull-right">{{='auth' in globals() and auth.navbar(mode="dropdown") or ''}}</ul>
         <div class="nav-collapse">
           {{is_mobile=request.user_agent().is_mobile}}
