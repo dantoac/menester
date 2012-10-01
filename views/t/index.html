@@ -1,7 +1,7 @@
 {{extend 'plantilla.html'}}
 
 <h1>{{=response.title}}
-<small>{{=response.subtitle.capitalize()}}</small>
+<small>{{=response.subtitle.capitalize() if response.subtitle else ''}}</small>
 </h1>
 <div class="progress progress-striped active">  
   
