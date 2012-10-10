@@ -60,9 +60,19 @@ deftable('task',
          Field('finish', 'datetime'),
          Field('nullify', 'boolean', default=False),
          Field('author','string', writable=False),
+         Field('task_parent'),
+         Field('task_child'),
          format = '%(name)s'
          )
 
+
+db.task.task_parent.requires=IS_IN_DB(
+    db((db.task.project_uuid == request.vars.puuid) & ~(db.task.id==request.args(0))
+       ), 'task.uuid', '%(name)s')
+
+db.task.task_child.requires=IS_IN_DB(
+    db((db.task.project_uuid == request.vars.puuid) & ~(db.task.id==request.args(0))
+       ), 'task.uuid', '%(name)s')
 
 deftable('comment_task',
          Field('uuid', 'string', length=64, default=uuid.uuid4(),

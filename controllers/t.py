@@ -29,7 +29,7 @@ def index():
             project_aim = project.aim
             project_name = project.name
 
-            response.title = project_name
+            response.title += ' '+project_name
             response.subtitle = project_aim
             request.vars.puuid = project_uuid
     
