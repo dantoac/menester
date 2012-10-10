@@ -66,13 +66,17 @@ deftable('task',
          )
 
 
-db.task.task_parent.requires=IS_IN_DB(
-    db((db.task.project_uuid == request.vars.puuid) & ~(db.task.id==request.args(0))
-       ), 'task.uuid', '%(name)s')
+db.task.task_parent.requires=IS_EMPTY_OR(IS_IN_DB(
+    db((db.task.project_uuid == request.vars.puuid) 
+       & ~(db.task.id==request.args(0))
+       & (db.task.nullify==False)
+       ), 'task.uuid', '%(name)s'))
 
-db.task.task_child.requires=IS_IN_DB(
-    db((db.task.project_uuid == request.vars.puuid) & ~(db.task.id==request.args(0))
-       ), 'task.uuid', '%(name)s')
+db.task.task_child.requires=IS_EMPTY_OR(IS_IN_DB(
+    db((db.task.project_uuid == request.vars.puuid) 
+       & ~(db.task.id==request.args(0))
+       & (db.task.nullify==False)
+       ), 'task.uuid', '%(name)s'))
 
 deftable('comment_task',
          Field('uuid', 'string', length=64, default=uuid.uuid4(),

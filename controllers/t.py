@@ -89,6 +89,19 @@ def new():
     
     tid = request.args(0)
 
+    
+    db.task.task_parent.requires=IS_EMPTY_OR(IS_IN_DB(
+            db((db.task.project_uuid == request.vars.puuid) 
+               & ~(db.task.id==tid)
+               & (db.task.nullify==False)
+               ), 'task.uuid', '%(name)s'))
+    
+    db.task.task_child.requires=IS_EMPTY_OR(IS_IN_DB(
+            db((db.task.project_uuid == request.vars.puuid) 
+               & ~(db.task.id==tid)
+               & (db.task.nullify==False)
+               ), 'task.uuid', '%(name)s'))
+    
     form = SQLFORM(db.task, tid)
     
     if form.process().accepted:
