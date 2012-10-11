@@ -3,7 +3,7 @@
 <h1>{{=response.title}}
 <small>{{=response.subtitle.capitalize() if response.subtitle else ''}}</small>
 </h1>
-<div class="progress progress-striped active">  
+<div class="progress">  
   
   {{if not progress:}} 
   Seleccione un <a href="{{=URL(c='p',f='index.html')}}">Proyecto</a>

@@ -1,5 +1,5 @@
 <div id="filtro"><strong>Filtrar</strong>
-  <input name="filtrando" id="filtrando" /><span id="filtrado" class="badge">0</span>
+  <input name="filtrando" id="filtrando" /><span id="filtrado" class="badge">ø</span>
 </div>
 <hr />
 
@@ -123,8 +123,7 @@
     </td>
     
     <td>
-      <div class="{{=progress_css_class}} 
-                  {{='progress-striped active' if not task.nullify else ''}}">
+      <div class="{{=progress_css_class}}">
         <div class="bar" style="width:{{=taskstate.percentage}}%;"></div>
       </div>
     </td>
