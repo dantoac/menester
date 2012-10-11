@@ -9,7 +9,7 @@
       <th>TID</th>
       <th>Nombre</th>
       <th>Progreso</th>
-      <th>Autoría</th>
+      <th>Actualizado</th>
     </tr>
     
   </thead>
@@ -117,8 +117,19 @@
       {{pass}}
 
 {{if tasktag:}}
-      <!-- <small>{{=','.join(tasktag)}}</small> -->
-      {{=CAT([SPAN(t, _class='label') for t in tasktag])}}
+
+      {{
+      critical = ['bug','error','critical','asap']
+      }}
+
+      {{for tag in tasktag:}}
+      {{if tag.lower().strip() in critical:}}
+      <span class="label label-important">{{=tag}}</span>
+      {{else:}}
+      <span class="label">{{=tag}}</span>
+      {{pass}}
+      {{pass}}
+      
 {{pass}}
     </td>
     
@@ -172,4 +183,3 @@ jQuery(document).ready(function(){
 
 </script>
 
-{{=response.toolbar()}}
