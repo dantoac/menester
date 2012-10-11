@@ -139,11 +139,11 @@ def new():
                    )
 
         mail_msg = str(CAT(
-            URL('t','new.htms',args=form.vars.id,host=True),'\n',
+            'Enlace: ',URL('t','new.htms',args=form.vars.id,host=True),'\n',
             'Tarea: ',form.vars.name,'\n',
-            'Prioridad: %s' % form.vars.priority,'\n',
+            'Prioridad: %s/5' % form.vars.priority,'\n',
             'Tags: ', ','.join(form.vars.tag),'\n',
-            form.vars.description
+            'Descripción: ', form.vars.description
             ))
 
         if project_mail.email_contact:
