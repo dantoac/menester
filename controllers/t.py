@@ -127,32 +127,32 @@ def new():
           
 
         #notificando por email        
+        if request.post_vars.notify:
+            task_data = db(db.task.id==form.vars.id).select(
+                db.task.progress, limitby=(0,1)).first()
 
-        task_data = db(db.task.id==form.vars.id).select(
-            db.task.progress, limitby=(0,1)).first()
             
-
-        mail_subject = '[%(project_name)s #%(task_id)s] %(task_progress)s%% "%(task_name)s"' \
-            % dict(project_name=project_mail.name,
-                   task_name = form.vars.name,
-                   task_progress = task_data.progress,
-                   task_id = form.vars.id
-                   )
-
-        mail_msg = str(CAT(
-            'Enlace: ',URL('t','new.html',args=form.vars.id,host=True),'\n',
-            'Tarea: ',form.vars.name,'\n',
-            'Prioridad: %s/5' % form.vars.priority,'\n',
-            'Tags: ', ','.join(form.vars.tag),'\n',
-            'Descripción: ', form.vars.description
-            ))
-
-        if project_mail.email_contact:
-            mail.send(
-                to=project_mail.email_contact,
-                subject=mail_subject,
-                message=mail_msg
-                )
+            mail_subject = '[%(project_name)s #%(task_id)s] %(task_progress)s%% "%(task_name)s"' \
+                % dict(project_name=project_mail.name,
+                       task_name = form.vars.name,
+                       task_progress = task_data.progress,
+                       task_id = form.vars.id
+                       )
+            
+            mail_msg = str(CAT(
+                    'Enlace: ',URL('t','new.html',args=form.vars.id,host=True),'\n',
+                    'Tarea: ',form.vars.name,'\n',
+                    'Prioridad: %s/5' % form.vars.priority,'\n',
+                    'Tags: ', ','.join(form.vars.tag),'\n',
+                    'Descripción: ', form.vars.description
+                    ))
+            
+            if project_mail.email_contact:
+                mail.send(
+                    to=project_mail.email_contact,
+                    subject=mail_subject,
+                    message=mail_msg
+                    )
     
 
 

@@ -61,25 +61,31 @@
     <div class="controls">{{=form.custom.widget.finish}}</div>
     
     
+    <div class="span12">
+      <div class="span6">
+	<label class="control-label" for="task_active">Anular</label>
+	<div class="controls">{{=form.custom.widget.nullify}}</div>
+      </div>
+      
+      <div class="span6">
+	<label class="control-label" for="task_active">Notificar</label>
+	<div class="controls"><input class="boolean" id="task_notify" name="notify" value="on" checked="checked" type="checkbox" /> </div>
+      </div>
+    </div>        
     
-    <label class="control-label" for="task_responsable">{{#=form.custom.label.responsable}}</label>
-    <div class="controls">{{#=form.custom.widget.responsable}}</div>
     
+    <div class="span12">    
+      <br />
+      <input type="submit" value="Registrar Tarea" class="btn btn-primary center btn-large btn-block" />       
+    </div>    
+    {{=form.custom.end}}
     
-    <label class="control-label" for="task_active">{{=form.custom.label.nullify}}</label>
-    <div class="controls">{{=form.custom.widget.nullify}}</div>
-    
-    <p />
-    <input type="submit" value="Registrar Tarea" class="btn btn-primary center btn-large btn-block" />    
-
+  </div>  
   
-  
-
-  {{=form.custom.end}}
-
-</div>  
-  <h4>Comentar:</h4>
-  {{=LOAD(c='comment', f='task.load', vars=dict(tuuid=form.custom.dspval.uuid), ajax=True)}}
+  <div class="span10">    
+    <h4>Comentar:</h4>    
+    {{=LOAD(c='comment', f='task.load', vars=dict(tuuid=form.custom.dspval.uuid), ajax=True, _class="span12")}}
+  </div>  
 
 </div>
 

@@ -44,21 +44,31 @@
     <label class="control-label" for="task_finish">{{=form.custom.label.finish}}</label>
     <div class="controls">{{=form.custom.widget.finish}}</div>
     
-    
-    
-    <label class="control-label" for="task_responsable">{{#=form.custom.label.responsable}}</label>
-    <div class="controls">{{#=form.custom.widget.responsable}}</div>
-    
-    
-    <label class="control-label" for="task_active">{{=form.custom.label.nullify}}</label>
-    <div class="controls">{{=form.custom.widget.nullify}}</div>
-    
-    <p />
-    <input type="submit" value="Registrar Tarea" class="btn btn-primary center btn-large btn-block" />    
-  </div>
-  
-  
 
+    <div class="span12">
+      <div class="span6">
+	<label class="control-label" for="task_active">Anular</label>
+	<div class="controls">{{=form.custom.widget.nullify}}</div>
+      </div>
+      
+      <div class="span6">
+	<label class="control-label" for="task_active">Notificar</label>
+	<div class="controls"><input class="boolean" id="task_notify" name="notify" value="on" checked="checked" type="checkbox" /> </div>
+      </div>
+    </div>        
+    
+    
+    <div class="span12">    
+      <br />
+      <input type="submit" value="Registrar Tarea" class="btn btn-primary center btn-large btn-block" />       
+    </div>    
+    {{=form.custom.end}}
+    
+  </div>  
+  
+  
+  
+  
 </div>
 {{=form.custom.end}}
 {{=task_list}}  
