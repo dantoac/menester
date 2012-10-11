@@ -93,6 +93,7 @@ def new():
     if request.vars.puuid:
         db.task.project_uuid.default = request.vars.puuid
         db.task.project_name.default = request.vars.p
+        
 
     db.task.author.default = db.auth_user[auth.user_id].email
     
@@ -123,31 +124,35 @@ def new():
             db.project.name,
             limitby=(0,1)
             ).first()
-
-        if request.args:
-            session.flash = 'Tarea '+str(form.vars.id)+' modificada exitosamente'
-
-            mail_subject = '[%(project_name)s] "%(task_name)s"' \
-                % dict(project_name=project_mail.name,
-                       task_name = form.vars.name,
-
-                       )
-            
-        else:
-            response.flash = 'Tarea '+str(form.vars.id)+' agregada exitosamente'
-
-            mail_subject = '[%(project_name)s]' \
-                % dict(project_name=project_mail.name)
-            
+          
 
         #notificando por email        
+
+        task_data = db(db.task.id==form.vars.id).select(
+            db.task.progress, limitby=(0,1)).first()
+            
+
+        mail_subject = '[%(project_name)s] %(task_progress)s%% "%(task_name)s"' \
+            % dict(project_name=project_mail.name,
+                   task_name = form.vars.name,
+                   task_progress = task_data.progress
+                   )
+
+        mail_msg = str(CAT(
+            URL('t','new.htms',args=form.vars.id,host=True),'\n',
+            'Tarea: ',form.vars.name,'\n',
+            'Prioridad: %s' % form.vars.priority,'\n',
+            'Tags: ', ','.join(form.vars.tag),'\n',
+            form.vars.description
+            ))
 
         if project_mail.email_contact:
             mail.send(
                 to=project_mail.email_contact,
                 subject=mail_subject,
-                message=str(URL('t','new',args=form.vars.id,host=True))
+                message=mail_msg
                 )
+    
 
 
 

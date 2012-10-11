@@ -48,11 +48,21 @@ def new():
         p_contact = db(db.project.id==form.vars.id).select(
             db.project.email_contact, limitby=(0,1)).first().email_contact
         
+        slug = IS_SLUG()(form.vars.name)[0]
+
+        mail_msg = str(CAT(
+            URL(c='t',f='index.html', vars={'p':slug}, host=True),'\n',
+            'Proyecto: ', form.vars.name, '\n',
+            'Propósito: ', form.vars.aim, '\n',
+            'Inicia: ', form.vars.start.date(), '\n',
+            'Termina: ', form.vars.start.date(), '\n',
+            ))
+
         if p_contact:
             mail.send(
                 to=p_contact,
-                subject='Proyecto "%s" actualizados' % form.vars.name,
-                message=str(form.vars)
+                subject='Proyecto [%s]' % form.vars.name,
+                message=mail_msg
                 )
 
         if not request.ajax: redirect(URL(c='p',f='index'))

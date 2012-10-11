@@ -1,6 +1,6 @@
 {{=form.custom.begin}}
 
-<input type="hidden" name="project_uuid" value="{{=form.custom.inpval.project_uuid}}" />
+<input type="hidden" name="project_uuid" value="{{=form.custom.dspval.project_uuid}}" />
 
 <div id="task_new" style='{{="display:none;" if (not request.args) else "display:block;"}}' class="row-fluid">
   
