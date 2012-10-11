@@ -132,10 +132,11 @@ def new():
             db.task.progress, limitby=(0,1)).first()
             
 
-        mail_subject = '[%(project_name)s] %(task_progress)s%% "%(task_name)s"' \
+        mail_subject = '[%(project_name)s #%(task_id)s] %(task_progress)s%% "%(task_name)s"' \
             % dict(project_name=project_mail.name,
                    task_name = form.vars.name,
-                   task_progress = task_data.progress
+                   task_progress = task_data.progress,
+                   task_id = form.vars.id
                    )
 
         mail_msg = str(CAT(
