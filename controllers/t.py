@@ -89,7 +89,8 @@ def new():
     
     tid = request.args(0)
 
-    
+
+    # listando sólo las tareas del respectivo proyecto
     db.task.task_parent.requires=IS_EMPTY_OR(IS_IN_DB(
             db((db.task.project_uuid == request.vars.puuid) 
                & ~(db.task.id==tid)
@@ -105,14 +106,49 @@ def new():
     form = SQLFORM(db.task, tid)
     
     if form.process().accepted:
+
+        project_uuid = request.post_vars.project_uuid
+
+        project_mail = db(db.project.uuid==project_uuid).select(
+            db.project.email_contact, 
+            db.project.name,
+            limitby=(0,1)
+            ).first()
+
         if request.args:
-            session.flash = 'Tarea modificada'
-            if request.vars.p:
-                redirect(URL(c='t',f='index.html',vars={'p':request.vars.p}))
-            else:
-                redirect(URL(c='t',f='index'))
+            session.flash = 'Tarea '+str(form.vars.id)+' modificada exitosamente'
+
+            mail_subject = 'UPD:[pri:%s] "%s" (Proy:"%s")' % (form.vars.priority,
+                                                                 #form.vars.state,
+                                                                 form.vars.name,
+                                                                 project_mail.name)
+            
         else:
             response.flash = 'Tarea '+str(form.vars.id)+' agregada exitosamente'
+
+
+            mail_subject = 'NEW:[pri:%s] "%s" (Proy:"%s")' % (form.vars.priority,
+                                                                 #form.vars.state,
+                                                                 form.vars.name,
+                                                                 project_mail.name)
+
+
+        #notificando por email        
+
+        if project_mail.email_contact:
+            mail.send(
+                to=project_mail.email_contact,
+                subject=mail_subject,
+                message=str(URL('t','new',args=form.vars.id,host=True),'\n\n')
+                )
+
+
+
+        if request.vars.p:
+            redirect(URL(c='t',f='index.html',vars={'p':request.vars.p}))
+        else:
+            redirect(URL(c='t',f='index'))
+
     elif form.errors:
         response.flash = 'Hubo errores al crear la Tarea. Revise formulario.'
         response.js = 'jQuery(document).ready(function(){jQuery("#task_new").show();});'

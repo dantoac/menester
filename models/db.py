@@ -48,9 +48,9 @@ auth.define_tables(username=False, signature=False)
 
 ## configure email
 mail=auth.settings.mailer
-mail.settings.server = 'logging' or 'smtp.gmail.com:587'
-mail.settings.sender = 'you@gmail.com'
-mail.settings.login = 'username:password'
+mail.settings.server = 'smtp.webfaction.com:587'
+mail.settings.sender = 'bot@nim.io'
+mail.settings.login = 'danto_robot:1.a-2,oq'
 
 ## configure auth policy
 auth.settings.registration_requires_verification = False

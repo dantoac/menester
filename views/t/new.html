@@ -3,6 +3,8 @@
 
 {{=form.custom.begin}}
 
+<input type="hidden" id="task_project_uuid" name="project_uuid" value="{{=form.custom.inpval.project_uuid}}" />
+
 <div id="new_task" style='{{="display:none;" if (not request.args) else "display:block;"}}' class="row-fluid">
   
 

@@ -18,6 +18,7 @@ deftable('project',
                label='Fecha Inicio'),
          Field('end', 'datetime', label='Fecha Término'),
          Field('finished', 'boolean'),
+         Field('email_contact', 'list:string', requires=IS_EMAIL()),
          format = '%(name)s'
          )
 

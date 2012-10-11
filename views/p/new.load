@@ -28,6 +28,9 @@
   
   <div class="span4">
     
+    <label class="control-label" for="project_email_contact">{{=form.custom.label.email_contact}}</label>
+    <div class="controls">{{=form.custom.widget.email_contact}}</div>
+
     <input type="submit" value="Registrar Proyecto" class="btn btn-primary center btn-large btn-block" />
     
     <br />

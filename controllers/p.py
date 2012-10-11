@@ -43,6 +43,18 @@ def new():
 
     if form.process().accepted:
         response.flash = "Projecto registrado"
+        
+        #notificando por email
+        p_contact = db(db.project.id==form.vars.id).select(
+            db.project.email_contact, limitby=(0,1)).first().email_contact
+        
+        if p_contact:
+            mail.send(
+                to=p_contact,
+                subject='Proyecto "%s" actualizados' % form.vars.name,
+                message=str(form.vars)
+                )
+
         if not request.ajax: redirect(URL(c='p',f='index'))
     elif form.errors:
         response.flash = "Hubo errores. Revise mensaje en formulario"
