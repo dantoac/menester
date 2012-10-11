@@ -74,7 +74,16 @@ def list():
     else:
         query = (db.task.id > 0)
         
-    data = db(query & query_task_state).select(db.task.ALL,
+    data = db(query & query_task_state).select(
+        db.task.id,
+        db.task.name,
+        db.task.progress,
+        db.task.priority,
+        db.task.created,
+        db.task.author,
+        db.task.nullify,
+        db.task.tag,
+        db.task.description,
         orderby=(db.task.created and ~db.task.priority))
     return dict(data=data)
 
@@ -118,20 +127,18 @@ def new():
         if request.args:
             session.flash = 'Tarea '+str(form.vars.id)+' modificada exitosamente'
 
-            mail_subject = 'UPD:[pri:%s] "%s" (Proy:"%s")' % (form.vars.priority,
-                                                                 #form.vars.state,
-                                                                 form.vars.name,
-                                                                 project_mail.name)
+            mail_subject = '[%(project_name)s] "%(task_name)s"' \
+                % dict(project_name=project_mail.name,
+                       task_name = form.vars.name,
+
+                       )
             
         else:
             response.flash = 'Tarea '+str(form.vars.id)+' agregada exitosamente'
 
-
-            mail_subject = 'NEW:[pri:%s] "%s" (Proy:"%s")' % (form.vars.priority,
-                                                                 #form.vars.state,
-                                                                 form.vars.name,
-                                                                 project_mail.name)
-
+            mail_subject = '[%(project_name)s]' \
+                % dict(project_name=project_mail.name)
+            
 
         #notificando por email        
 
@@ -139,7 +146,7 @@ def new():
             mail.send(
                 to=project_mail.email_contact,
                 subject=mail_subject,
-                message=str(URL('t','new',args=form.vars.id,host=True),'\n\n')
+                message=str(URL('t','new',args=form.vars.id,host=True))
                 )
 
 

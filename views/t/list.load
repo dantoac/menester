@@ -22,7 +22,8 @@
 
   taskid = task.id
   taskname = task.name
-  taskstate = task.state
+  taskstate = 1 #task.state
+  taskprogress = task.progress
   taskpriority = task.priority
   taskcreated = task.created
   taskauthor = task.author
@@ -55,27 +56,27 @@
   
   {{
   #mover esto a una función
-  if task.state == 6:
+  if taskstate == 6:
   #finalizado
   state_class = ""
   progress_css_class = "progress progress-success"
   
-  elif task.state == 5:
+  elif taskstate == 5:
   #en pruebas
   state_class = "badge-important"
   progress_css_class = "progress progress-danger"
   
-  elif task.state == 4:
+  elif taskstate == 4:
   #prototipo
   state_class = "badge-warning"
   progress_css_class = "progress progress-warning"
   
-  elif task.state == 3:
+  elif taskstate == 3:
   #iniciado
   state_class = "badge-info"
   progress_css_class = "progress"
   
-  elif task.state == 2:
+  elif taskstate == 2:
   #concepto
   state_class = ""
   progress_css_class = "progress progress-info"
@@ -84,7 +85,7 @@
   else:
   #nuevo
   state_class = ""
-  progress_css_class = ""
+  progress_css_class = "progress"
   
   }}
   {{pass}}    
@@ -106,25 +107,24 @@
       
       <span class="task_name"  rel="popover", 
             data-original-title="{{='%s %s%%' % (task.name,
-                                 task.state.percentage)}}"
+                                 taskprogress)}}"
             data-content="{{=task.description}}">        
         {{=taskname}}
       </span>
       
-      <br />
-      <span class="badge {{=state_class}}">{{=taskstate.name}}</span>
       {{if tasknull:}}
       <span class="badge badge-inverse">ANULADO</span>
       {{pass}}
 
 {{if tasktag:}}
-      <small>{{=','.join(tasktag)}}</small>
+      <!-- <small>{{=','.join(tasktag)}}</small> -->
+      {{=CAT([SPAN(t, _class='label') for t in tasktag])}}
 {{pass}}
     </td>
     
     <td>
       <div class="{{=progress_css_class}}">
-        <div class="bar" style="width:{{=taskstate.percentage}}%;"></div>
+        <div class="bar" style="width:{{=taskprogress}}%;"></div>
       </div>
     </td>
     
@@ -171,3 +171,5 @@ jQuery(document).ready(function(){
 
 
 </script>
+
+{{=response.toolbar()}}
