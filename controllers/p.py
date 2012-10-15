@@ -51,11 +51,11 @@ def new():
         slug = IS_SLUG()(form.vars.name)[0]
 
         mail_msg = str(CAT(
-            'Enlace: ', URL(c='t',f='index.html', vars={'p':slug}, host=True),'\n',
-            'Proyecto: ', form.vars.name, '\n',
-            'Propósito: ', form.vars.aim, '\n',
-            'Inicia: ', form.vars.start.date(), '\n',
-            'Termina: ', form.vars.start.date(), '\n',
+            'PROYECTO: ', form.vars.name, '\n',
+            'OBJETIVO: ', form.vars.aim, '\n',
+            'INICIA: ', form.vars.start.date(), '\n',
+            'TERMINA: ', form.vars.start.date(), '\n',
+            'ENLACE ', URL(c='t',f='index.html', vars={'p':slug}, host=True),'\n',
             ))
 
         if p_contact:
