@@ -1,6 +1,8 @@
 {{=form.custom.begin}}  
-
-<div id="new_project" style='{{="display:none;" if (not request.args) else "display:block;"}}' class="row-fluid well">
+<br />
+<div class="span12">
+<btn onclick='jQuery("#new_project>form").slideToggle();' class='btn'><i class="icon-chevron-up"></i></btn>
+</div>
 
   <div class="span4">         
 
@@ -41,8 +43,10 @@
   
 
   
-</div>
+
 
 {{=form.custom.end}}      
 
-{{=project_list}}
+
+{{=LOAD(f='list.load', ajax=True,  target='project_list_container', _class='span12')}}
+

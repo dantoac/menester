@@ -3,8 +3,7 @@
 
 @auth.requires_login()
 def index():
-    new_project = LOAD(c='p', f='new.load', args=request.args, ajax=True, target='new_project_container')
-    return dict(new_project=new_project)
+    return dict()
 
 
 def list():
@@ -44,8 +43,10 @@ def list():
 
                 # Actualizar projecto
                 TD(A(TAG.i(_class='icon-edit icon-white'),  
-                     _href=URL(c='p', f='new.html', 
-                               args=p.id), _class='btn btn-mini btn-inverse')),
+                     _href=URL(c='p', f='new.load', args=p.id),
+                     _class='btn btn-mini btn-inverse',
+                     cid="new_project"),
+                   ),
                 
                 ))
 
@@ -87,11 +88,9 @@ def new():
                 message=mail_msg
                 )
 
-        if not request.ajax: redirect(URL(c='p',f='index'))
+        if not request.ajax: redirect(URL(c='t',f='index.html',vars={'p':project_name}))
     elif form.errors:
         response.flash = "Hubo errores. Revise mensaje en formulario"
         response.js = 'jQuery(document).ready(function(){jQuery("#new_project").show();});'
- 
-    project_list = LOAD(f='list.load', ajax=True, target='project_list_container')
 
-    return dict(form=form, project_list=project_list)
+    return dict(form=form)

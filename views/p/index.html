@@ -11,6 +11,22 @@
 </div>
 
 
-<button id="btn_new_project" class='btn btn-large btn-inverse'  onclick='jQuery("#new_project").slideToggle();'>Nuevo Proyecto</button>
+{{=A(TAG.i(_class='icon-white icon-star'),' Nuevo Proyecto', _href=URL(c='p', f='new.load'), 
+_class='btn btn-large btn-inverse',
+cid="new_project")}}
 
-{{=new_project}}
+{{=LOAD(c='p', f='new.load', args=None,
+target="new_project", _class="row"
+)}}
+
+
+
+<script>
+
+jQuery().ready(function(){
+
+jQuery("#new_project>form").hide();
+
+});
+
+</script>
