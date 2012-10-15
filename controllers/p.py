@@ -15,7 +15,8 @@ def list():
             TH(''),
             TH('NOMBRE'),
             TH('PROGRESO'),
-            TH('ENTREGA'),
+            TH('INICIO'),
+            TH('FIN'),
             TH(),
             ),_class='table table-bordered table-condensed table-striped')
 
@@ -29,7 +30,12 @@ def list():
                            _style="width: %s%%;" % total_progress(p.uuid)),
                        _class="progress progress-success")),
 
+                TD(CAT(p.start.date(),BR(),
+                       TAG.SMALL(prettydate(p.start), _class='')) \
+                       if p.start else  SPAN('Indefinido',_class='muted')),
+
                 TD(p.end.date() if p.end else  SPAN('Indefinido',_class='muted')),
+
                 TD(A(TAG.i(_class='icon-edit icon-white'),  
                      _href=URL(c='p', f='new.html', 
                                args=p.id), _class='btn btn-mini btn-inverse')),
@@ -48,6 +54,11 @@ def new():
     if form.process().accepted:
         response.flash = "Projecto registrado"
         
+        project_aim = form.vars.aim or ''
+        project_name = form.vars.name or ''
+        project_start = form.vars.start.date() if form.vars.start else ''
+        project_end = form.vars.end.date() if form.vars.end else ''
+
         #notificando por email
         p_contact = db(db.project.id==form.vars.id).select(
             db.project.email_contact, limitby=(0,1)).first().email_contact
@@ -55,17 +66,17 @@ def new():
         slug = IS_SLUG()(form.vars.name)[0]
 
         mail_msg = str(CAT(
-            'PROYECTO: ', form.vars.name, '\n',
-            'OBJETIVO: ', form.vars.aim, '\n',
-            'INICIA: ', form.vars.start.date(), '\n',
-            'TERMINA: ', form.vars.end.date(), '\n',
+            'PROYECTO: ', project_name, '\n',
+            'OBJETIVO: ', project_aim, '\n',
+            'INICIA: ', project_start, '\n',
+            'TERMINA: ', project_end, '\n',
             'ENLACE ', URL(c='t',f='index.html', vars={'p':slug}, host=True),'\n',
             ))
 
         if p_contact:
             mail.send(
                 to=p_contact,
-                subject='Proyecto [%s]' % form.vars.name,
+                subject='Proyecto [%s]' % project_name,
                 message=mail_msg
                 )
 
