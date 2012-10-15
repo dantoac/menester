@@ -4,3 +4,4 @@
 *.pyc
 *.bak
 progress.log
+models/1_emailauth.py
