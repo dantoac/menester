@@ -12,24 +12,28 @@ def list():
     data = db(db.project).select()
 
     project_list = TABLE(TR(
-            TH('Nombre'),
-            TH('Avance'),
-            TH('Finaliza'),
-            ),_class='table table-striped')
+            TH('PID'),
+            TH('NOMBRE'),
+            TH('PROGRESO'),
+            TH('ENTREGA'),
+            TH(),
+            ),_class='table table-bordered table-condensed table-striped')
 
-    for p in data:
+    for n,p in enumerate(data):
         project_list.append(TR(
-                TD(A(TAG.i(_class='icon-list icon-white'), ' %s' % p.name.title(), 
-                     _href=URL(c='t', f='index.html', vars=dict(p=p.slug)), 
-                     _class='btn btn-primary' ), A(TAG.i(_class='icon-edit'), 
-                                                   _href=URL(c='p', f='new.html', 
-                                                             args=p.id), _class='btn',
-                                                   )
-                   ),
+                TD(A('#',p.id, 
+                     _href=URL(c='p', f='new.html', 
+                               args=p.id), _class='btn btn-mini btn-inverse')),
+                TD(STRONG(p.name.title())),
                 TD(DIV(DIV(_class="bar", 
                            _style="width: %s%%;" % total_progress(p.uuid)),
-                       _class="progress")),
-                TD(p.end or SPAN('Indefinido',_class='muted')),
+                       _class="progress progress-success")),
+
+                TD(p.end.date() or SPAN('Indefinido',_class='muted')),
+
+                TD(A(TAG.i(_class='icon-list icon-white'), 
+                     _href=URL(c='t', f='index.html', vars=dict(p=p.slug)), 
+                     _class='btn btn-mini btn-primary' ), ' ',)
                 ))
 
 
