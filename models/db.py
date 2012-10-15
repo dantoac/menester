@@ -48,19 +48,11 @@ auth.define_tables(username=False, signature=False)
 
 ## configure email
 mail=auth.settings.mailer
-mail.settings.server = 'smtp.webfaction.com:587'
-mail.settings.login = 'danto_robot:1.a-2,oq'
 
-bots = ['C3PO','R2D2','Mecha','EVA','MrRoboto','T101',
-        'MazingerZ','Escaflowne','Autobot','OptimusPrime',
-        'Varitech','DeathStar','Wall-E','Jarvis','Megatron',
-        'Decepticon','Joshua','Matrix','Morpheuz','Bender',
-        'MegaMan'
-        ]
-
-from random import choice
-mail.settings.sender = '%s@nim.io' % choice(bots)
-
+# setear _EMAIL = Storage() en un modelo antes que éste
+mail.settings.server = _EMAIL.smtp or 'logging' 
+mail.settings.login = _EMAIL.login or 'user:passwd'
+mail.settings.sender = _EMAIL.sender or 'user@host.org'
 
 ## configure auth policy
 auth.settings.registration_requires_verification = False
