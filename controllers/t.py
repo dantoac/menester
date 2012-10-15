@@ -42,8 +42,8 @@ def index():
                               puuid=request.vars.puuid),
                     target='task_new_container',
                     _class='container-fluid', ajax=True, 
-                    content=XML('Cargando Tareas... (Si no carga haga %s)' %
-                                A('clic aquí', _href=URL(f='new.html', 
+                    content=XML('Cargando Tareas... (Si no carga haz %s)' %
+                                A('clic aquí', _href=URL(f='list.html', 
                                                          vars=request.vars))),
                     )
       
