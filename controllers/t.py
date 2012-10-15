@@ -111,19 +111,21 @@ def new():
 
     db.task.author.default = db.auth_user[auth.user_id].email
 
-
-    # listando sólo las tareas del respectivo proyecto
-    db.task.task_parent.requires=IS_EMPTY_OR(IS_IN_DB(
-            db((db.task.project_uuid == request.vars.puuid) 
-               & ~(db.task.id==tid)
-               & (db.task.nullify==False)
-               ), 'task.uuid', '%(name)s'))
     
-    db.task.task_child.requires=IS_EMPTY_OR(IS_IN_DB(
-            db((db.task.project_uuid == request.vars.puuid) 
-               & ~(db.task.id==tid)
-               & (db.task.nullify==False)
-               ), 'task.uuid', '%(name)s'))
+    active_task = db((db.task.project_uuid == request.vars.puuid) 
+                     & ~(db.task.id==tid)
+                     & (db.task.nullify==False)
+                     & (db.task.state != 6)
+                     )
+                     
+    # listando sólo las tareas del respectivo proyecto
+    ## parents
+    db.task.task_parent.requires=IS_EMPTY_OR(IS_IN_DB(active_task, 
+                                                      'task.uuid', '%(name)s'))
+
+    ## childs
+    db.task.task_child.requires=IS_EMPTY_OR(IS_IN_DB(active_task,
+                                                     'task.uuid', '%(name)s'))
     
     form = SQLFORM(db.task, tid)
     
