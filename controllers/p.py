@@ -29,7 +29,7 @@ def list():
                            _style="width: %s%%;" % total_progress(p.uuid)),
                        _class="progress progress-success")),
 
-                TD(p.end.date() or SPAN('Indefinido',_class='muted')),
+                TD(p.end.date() if p.end else  SPAN('Indefinido',_class='muted')),
 
                 TD(A(TAG.i(_class='icon-list icon-white'), 
                      _href=URL(c='t', f='index.html', vars=dict(p=p.slug)), 
