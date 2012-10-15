@@ -58,7 +58,7 @@ def new():
             'PROYECTO: ', form.vars.name, '\n',
             'OBJETIVO: ', form.vars.aim, '\n',
             'INICIA: ', form.vars.start.date(), '\n',
-            'TERMINA: ', form.vars.start.date(), '\n',
+            'TERMINA: ', form.vars.end.date(), '\n',
             'ENLACE ', URL(c='t',f='index.html', vars={'p':slug}, host=True),'\n',
             ))
 
