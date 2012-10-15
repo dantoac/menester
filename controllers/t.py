@@ -89,6 +89,11 @@ def list():
 
 @auth.requires_login()
 def new():
+
+    
+    tid = request.args(0)
+
+    if tid and db((db.task.id == tid) & (db.task.nullify==False)).isempty(): return
     
     if request.vars.puuid:
         db.task.project_uuid.default = request.vars.puuid
@@ -96,8 +101,6 @@ def new():
         
 
     db.task.author.default = db.auth_user[auth.user_id].email
-    
-    tid = request.args(0)
 
 
     # listando sólo las tareas del respectivo proyecto

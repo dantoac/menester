@@ -56,30 +56,30 @@
   
   {{
   #mover esto a una función
-  if taskstate == 6:
+  if taskprogress == 100:
   #finalizado
   state_class = ""
   progress_css_class = "progress progress-success"
   
-  elif taskstate == 5:
+  elif taskprogress >= '75':
   #en pruebas
   state_class = "badge-important"
-  progress_css_class = "progress progress-danger"
+  progress_css_class = "progress progress-info"
   
-  elif taskstate == 4:
+  elif taskprogress >= '50':
   #prototipo
   state_class = "badge-warning"
-  progress_css_class = "progress progress-warning"
+  progress_css_class = "progress "
   
-  elif taskstate == 3:
+  elif taskprogress >= '25':
   #iniciado
   state_class = "badge-info"
-  progress_css_class = "progress"
+  progress_css_class = "progress progress-warning"
   
-  elif taskstate == 2:
+  elif taskprogress >= '10':
   #concepto
   state_class = ""
-  progress_css_class = "progress progress-info"
+  progress_css_class = "progress progress-danger"
   
   
   else:
@@ -92,15 +92,15 @@
   
   <tr class = "{{=priority_class if not task.nullify else 'muted well'}}">
     <td>
-      
-      {{=A(task.id, 
+      {{if not tasknull:}}
+      {{=A('#',task.id, 
       _href=URL(f='new.html', args=task.id, 
       vars=dict(p=request.vars.p,
       puuid=request.vars.puuid)),
       target='task_new_container',
-      _class='btn')
+      _class='btn btn-mini btn-inverse')
       }}
-      
+      {{pass}}
     </td>
     
     <td>
