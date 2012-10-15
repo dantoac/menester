@@ -56,7 +56,7 @@
   
   {{
   #mover esto a una función
-  if taskprogress == 100:
+  if taskprogress == '100':
   #finalizado
   state_class = ""
   progress_css_class = "progress progress-success"
