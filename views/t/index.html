@@ -22,7 +22,7 @@
 
   {{=A('Tareas Activas', callback=URL('list.load', vars=request.vars), target='task_list_container', _class='btn active primary btn-mini')}}
   
-  {{ vars = dict(dict(showstate='any'),**request.vars)}}
+  {{ vars = dict(dict(state='any'),**request.vars)}}
   {{=A('Todas', callback=URL('list.load', vars=vars), target='task_list_container', _class='btn  btn-mini')}}
 
 </div>

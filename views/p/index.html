@@ -1,5 +1,16 @@
 {{extend 'plantilla.html'}}
 
+
+<div class="btn-group pull-right" data-toggle="buttons-radio">
+
+  {{=A('Proyectos Activos', callback=URL('list.load', vars=request.vars), target='project_list_container', _class='btn active primary btn-mini')}}
+  
+  {{ vars = dict(dict(state='any'),**request.vars)}}
+  {{=A('Todas', callback=URL('list.load', vars=vars), target='project_list_container', _class='btn  btn-mini')}}
+
+</div>
+
+
 <button id="btn_new_project" class='btn btn-large btn-inverse'  onclick='jQuery("#new_project").slideToggle();'>Nuevo Proyecto</button>
 
 {{=new_project}}

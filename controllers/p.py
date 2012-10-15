@@ -9,7 +9,13 @@ def index():
 
 def list():
         
-    data = db(db.project).select()
+    #query proyectos en cualquier estado
+    if request.vars.state == 'any':
+        query_project_state = (db.project.id > 0)
+    else:
+        query_project_state = ((db.project.close == None) | (db.project.close != True))
+                                   
+    data = db(query_project_state).select()
 
     project_list = TABLE(TR(
             TH(''),
@@ -36,6 +42,7 @@ def list():
 
                 TD(p.end.date() if p.end else  SPAN('Indefinido',_class='muted')),
 
+                # Actualizar projecto
                 TD(A(TAG.i(_class='icon-edit icon-white'),  
                      _href=URL(c='p', f='new.html', 
                                args=p.id), _class='btn btn-mini btn-inverse')),

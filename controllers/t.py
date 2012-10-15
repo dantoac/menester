@@ -70,7 +70,7 @@ def list():
                  ).select(db.project.uuid,limitby=(0,1)).first()
         
     #query Tareas en cualquier estado
-    if request.vars.showstate == 'any':
+    if request.vars.state == 'any':
         query_task_state = (db.task.id > 0)
     else:
         query_task_state = ((db.task.state <> 6) & 
@@ -78,12 +78,12 @@ def list():
     
     if project:
         project_uuid = project.uuid
-        query = (db.task.project_uuid == project_uuid)
+        query_project = (db.task.project_uuid == project_uuid)
         
     else:
-        query = (db.task.id > 0)
+        query_project = (db.task.id > 0)
         
-    data = db(query & query_task_state).select(
+    data = db(query_project & query_task_state).select(
         db.task.id,
         db.task.name,
         db.task.progress,

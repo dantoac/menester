@@ -17,8 +17,9 @@ ddt('project',
     Field('start', 'datetime', default=request.now,
           label='Fecha Inicio'),
     Field('end', 'datetime', label='Fecha Término'),
-    Field('finished', 'boolean'),
+    Field('close', 'boolean', default=False),
     Field('email_contact', 'list:string', requires=IS_EMAIL()),
+    Field('team', 'list:reference auth_user'),
     format = '%(name)s'
     )
 

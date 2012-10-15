@@ -34,8 +34,8 @@
     <input type="submit" value="Registrar Proyecto" class="btn btn-primary center btn-large btn-block" />
     
     <br />
-    <label class="control-label" for="project_finished">{{=form.custom.label.finished}}</label>
-    <div class="controls">{{=form.custom.widget.finished}}</div>
+    <label class="control-label" for="project_close">{{=form.custom.label.close}}</label>
+    <div class="controls">{{=form.custom.widget.close}}</div>
 
   </div>
   
