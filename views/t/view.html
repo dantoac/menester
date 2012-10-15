@@ -10,9 +10,10 @@
  
 
 
-<table class="table">
+<table class="table  table-condensed well">
 
  <tr><th>Tarea</th><td>{{=task.name}}</td></tr>
+ <tr><th>Etiquetas</th><td>{{=CAT([SPAN(tag, _class='label')+' ' for tag in task.tag])}}</td></tr>
  <tr><th>Descripción</th><td>{{=task.description or '---'}}</td></tr>
  <tr><th>Prioridad</th><td>{{=task.priority}}</td></tr>
  <tr><th>Progreso</th><td>{{=task.progress}}%</td></tr>
@@ -21,7 +22,7 @@
 
 </table>
 
-  <div class="container well">    
-    <h4>Comentar:</h4>    
+  <div class="container">    
+    <h4>Actualizar:</h4>    
     {{=LOAD(c='comment', f='task.load', vars=dict(tuuid=db.task[request.args(0)].uuid), ajax=True)}}
   </div>  
