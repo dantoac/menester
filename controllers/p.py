@@ -12,7 +12,7 @@ def list():
     data = db(db.project).select()
 
     project_list = TABLE(TR(
-            TH('PID'),
+            TH(''),
             TH('NOMBRE'),
             TH('PROGRESO'),
             TH('ENTREGA'),
@@ -21,19 +21,19 @@ def list():
 
     for n,p in enumerate(data):
         project_list.append(TR(
-                TD(A('#',p.id, 
-                     _href=URL(c='p', f='new.html', 
-                               args=p.id), _class='btn btn-mini btn-inverse')),
+                TD(A('#',p.id, #TAG.i(_class='icon-list icon-white'),  
+                     _href=URL(c='t', f='index.html', vars=dict(p=p.slug)), 
+                     _class='btn btn-mini btn-primary' )),
                 TD(STRONG(p.name.title())),
                 TD(DIV(DIV(_class="bar", 
                            _style="width: %s%%;" % total_progress(p.uuid)),
                        _class="progress progress-success")),
 
                 TD(p.end.date() if p.end else  SPAN('Indefinido',_class='muted')),
-
-                TD(A(TAG.i(_class='icon-list icon-white'), 
-                     _href=URL(c='t', f='index.html', vars=dict(p=p.slug)), 
-                     _class='btn btn-mini btn-primary' ), ' ',)
+                TD(A(TAG.i(_class='icon-edit icon-white'),  
+                     _href=URL(c='p', f='new.html', 
+                               args=p.id), _class='btn btn-mini btn-inverse')),
+                
                 ))
 
 

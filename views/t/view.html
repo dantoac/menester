@@ -1,0 +1,27 @@
+{{extend 'plantilla.html'}}
+
+<a href="{{=URL(f='index',vars=request.vars)}}" class="btn"><i class="icon icon-arrow-left"></i>Volver</a>
+
+{{if task.nullify:}}
+
+<div class="alert alert-error">Anulado</div>
+
+{{pass}}
+ 
+
+
+<table class="table">
+
+ <tr><th>Tarea</th><td>{{=task.name}}</td></tr>
+ <tr><th>Descripción</th><td>{{=task.description or '---'}}</td></tr>
+ <tr><th>Prioridad</th><td>{{=task.priority}}</td></tr>
+ <tr><th>Progreso</th><td>{{=task.progress}}%</td></tr>
+ <tr><th>Estado</th><td>{{=task.state.name}}</td></tr>
+
+
+</table>
+
+  <div class="container well">    
+    <h4>Comentar:</h4>    
+    {{=LOAD(c='comment', f='task.load', vars=dict(tuuid=db.task[request.args(0)].uuid), ajax=True)}}
+  </div>  

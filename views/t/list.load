@@ -92,15 +92,15 @@
   
   <tr class = "{{=priority_class if not task.nullify else 'muted well'}}">
     <td>
-      {{if not tasknull:}}
+
       {{=A('#',task.id, 
-      _href=URL(f='new.html', args=task.id, 
+      _href=URL(f='view.html', args=task.id, 
       vars=dict(p=request.vars.p,
       puuid=request.vars.puuid)),
       target='task_new_container',
-      _class='btn btn-mini btn-inverse')
+      _class='btn btn-mini btn-primary')
       }}
-      {{pass}}
+
     </td>
     
     <td>
@@ -146,6 +146,22 @@
         </span>
       </small>
     </td>
+
+
+    <td>
+      {{if not tasknull:}}
+      {{=A(TAG.i(_class='icon-edit icon-white'),
+      _href=URL(f='new.html', args=task.id, 
+      vars=dict(p=request.vars.p,
+      puuid=request.vars.puuid)),
+      target='task_new_container',
+      _class='btn btn-mini btn-inverse')
+      }}
+      {{pass}}
+    </td>
+    
+
+
   </tr>
   
   
