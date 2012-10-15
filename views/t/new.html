@@ -1,5 +1,9 @@
 {{extend 'plantilla.html'}}
 
+<a class="btn" href="{{=URL(f='index',vars=request.vars)}}">
+  <i class="icon icon-arrow-left"></i>
+  Tareas en {{=request.vars.p}}
+</a>
 
 {{=form.custom.begin}}
 
