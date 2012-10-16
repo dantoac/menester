@@ -1,5 +1,9 @@
-<div id="filtro"><strong>Filtrar</strong>
-  <input name="filtrando" id="filtrando" /><span id="filtrado" class="badge">ø</span>
+<div id="filtro">
+  <div class="input-prepend input-append">        
+    <span class="add-on"><i class="icon-filter"></i></span>
+    <input name="filtrando" style="width:auto;margin:0;" class="input-mini" type="text" id="filtrando" placeholder="Filtrar Tareas" />
+    <span id="filtrado" class="add-on">0</span> 
+  </div>
 </div>
 <hr />
 

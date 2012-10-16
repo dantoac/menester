@@ -27,7 +27,7 @@ def list():
 
     for n,p in enumerate(data):
         project_list.append(TR(
-                TD(A('#',p.id, #TAG.i(_class='icon-list icon-white'),  
+                TD(A(TAG.i(_class='icon-white icon-tasks'),  
                      _href=URL(c='t', f='index.html', vars=dict(p=p.slug)), 
                      _class='btn btn-mini btn-primary' )),
                 TD(STRONG(p.name.title())),
