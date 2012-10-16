@@ -154,12 +154,12 @@ def new():
                        )
             
             mail_msg = str(CAT(
-                    'Enlace: ',URL('t','view.html',args=form.vars.id,
+                    'TAREA: ',form.vars.name,'\n',
+                    'PRIORIDAD: %s/5' % form.vars.priority,'\n',
+                    'ETIQUETAS: ', ','.join(form.vars.tag) or '---\n',
+                    'DESCRIPCIÓN: ', form.vars.description or '---\n',
+                    'ENLACE: ',URL('t','view.html',args=form.vars.id,
                                    vars={'p':project_mail.name},host=True),'\n',
-                    'Tarea: ',form.vars.name,'\n',
-                    'Prioridad: %s/5' % form.vars.priority,'\n',
-                    'Tags: ', ','.join(form.vars.tag),'\n',
-                    'Descripción: ', form.vars.description
                     ))
             
             if project_mail.email_contact:
