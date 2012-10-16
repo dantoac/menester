@@ -75,9 +75,9 @@ def new():
 
         mail_msg = str(CAT(
             'PROYECTO: ', project_name, '\n',
-            'OBJETIVO: ', project_aim, or '---\n',
-            'INICIA: ', project_start, or '---\n',
-            'TERMINA: ', project_end, or '---\n',
+            'OBJETIVO: ', project_aim or '---','\n',
+            'INICIA: ', project_start or '---','\n',
+            'TERMINA: ', project_end or '---','\n',
             'ENLACE ', URL(c='t',f='index.html', vars={'p':slug}, host=True),'\n',
             ))
 
