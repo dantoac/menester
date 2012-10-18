@@ -23,6 +23,13 @@ ddt('project',
     format = '%(name)s'
     )
 
+
+ddt('project_setting',
+    Field('project_uuid'),
+    )
+
+ddt('project_relation')
+
 ddt('state',
     Field('name', 'string', required=True, unique=True,
           requires=[IS_NOT_EMPTY(), IS_NOT_IN_DB(db,'state.name')]),
@@ -60,7 +67,9 @@ ddt('task',
           requires=IS_EMPTY_OR(IS_IN_SET([1,2,3,4,5])),
           default='3',widget=SQLFORM.widgets.options.widget),
     Field('created', 'datetime', compute=lambda r:request.now),
+    Field('start', 'datetime'),
     Field('finish', 'datetime'),
+    Field('closed', 'boolean', default=False),
     Field('nullify', 'boolean', default=False),
     Field('author','string', writable=False),
     Field('task_parent'),
@@ -69,22 +78,10 @@ ddt('task',
     )
 
 
-db.task.task_parent.requires=IS_EMPTY_OR(IS_IN_DB(
-        db((db.task.project_uuid == request.vars.puuid) 
-           & ~(db.task.id==request.args(0))
-           & (db.task.nullify==False)
-           ), 'task.uuid', '%(name)s'))
-
-db.task.task_child.requires=IS_EMPTY_OR(IS_IN_DB(
-        db((db.task.project_uuid == request.vars.puuid) 
-           & ~(db.task.id==request.args(0))
-           & (db.task.nullify==False)
-           ), 'task.uuid', '%(name)s'))
-
-ddt('comment_task',
+ddt('comment',
     Field('uuid', 'string', length=64, default=uuid.uuid4(),
           writable=False, readable=False),
-    Field('task_uuid', 'string', requires=IS_IN_DB(db, 'task.uuid'),
+    Field('object_uuid', 'string',
           writable=False, readable=False),
     Field('body', 'text', required=True, 
           requires=IS_LENGTH(minsize=4)),
