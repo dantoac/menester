@@ -73,7 +73,7 @@ def list():
     if request.vars.state == 'any':
         query_task_state = (db.task.id > 0)
     else:
-        query_task_state = ((db.task.state <> 6) & 
+        query_task_state = ((db.task.progress < 100) & 
                             (db.task.nullify == False))
     
     if project:
@@ -93,13 +93,15 @@ def list():
         db.task.nullify,
         db.task.tag,
         db.task.description,
-        orderby=(db.task.created and ~db.task.priority))
+        db.task.closed,
+        orderby=db.task.closed|db.task.nullify|~db.task.priority|db.task.progress
+        )
     return dict(data=data)
 
 @auth.requires_login()
 def new():
 
-    
+    """
     db.task.task_parent.requires=IS_EMPTY_OR(IS_IN_DB(
             db((db.task.project_uuid == request.vars.puuid) 
                & ~(db.task.id==request.args(0))
@@ -111,7 +113,7 @@ def new():
                & ~(db.task.id==request.args(0))
                & (db.task.closed==False)
                ), 'task.uuid', '%(name)s'))
-
+    """
     
     tid = request.args(0)
 
@@ -128,7 +130,7 @@ def new():
     active_task = db((db.task.project_uuid == request.vars.puuid) 
                      & ~(db.task.id==tid)
                      & (db.task.nullify==False)
-                     & (db.task.state != 6)
+                     & (db.task.progress < 100) #asi por retrocompatibilidad; debería ser task.closed==False;
                      )
                      
     # listando sólo las tareas del respectivo proyecto
@@ -141,6 +143,7 @@ def new():
                                                      'task.uuid', '%(name)s'))
     
     form = SQLFORM(db.task, tid)
+
     
     if form.process().accepted:
 
