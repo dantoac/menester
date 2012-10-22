@@ -28,7 +28,9 @@ ddt('project_setting',
     Field('project_uuid'),
     )
 
-ddt('project_relation')
+ddt('project_relation',
+    Field('project')
+    )
 
 ddt('state',
     Field('name', 'string', required=True, unique=True,
@@ -81,7 +83,7 @@ ddt('task',
 ddt('comment',
     Field('uuid', 'string', length=64, default=uuid.uuid4(),
           writable=False, readable=False),
-    Field('object_uuid', 'string',
+    Field('target_uuid', 'string',
           writable=False, readable=False),
     Field('body', 'text', required=True, 
           requires=IS_LENGTH(minsize=4)),
