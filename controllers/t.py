@@ -172,7 +172,7 @@ def new():
             mail_msg = str(CAT(
                     'TAREA: ',form.vars.name,'\n',
                     'PRIORIDAD: %s/5' % form.vars.priority,'\n',
-                    'ETIQUETAS: ', ','.join(form.vars.tag) or '---', '\n',
+                    'ETIQUETAS: ', CAT(['[%s] ' % tag for tag in form.vars.tag])
                     'DESCRIPCIÓN: ', form.vars.description or '---','\n',
                     'ENLACE: ',URL('t','view.html',args=form.vars.id,
                                    vars={'p':project_mail.name},host=True),'\n',
