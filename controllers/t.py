@@ -73,8 +73,9 @@ def list():
     if request.vars.state == 'any':
         query_task_state = (db.task.id > 0)
     else:
-        query_task_state = ((db.task.progress < 100) & 
-                            (db.task.nullify == False))
+        query_task_state = ((db.task.progress != 100) & 
+                            (db.task.closed != True) &
+                            ((db.task.nullify != True)))
     
     if project:
         project_uuid = project.uuid
@@ -83,7 +84,7 @@ def list():
     else:
         query_project = (db.task.id > 0)
         
-    data = db(query_project & query_task_state).select(
+    data = db((query_project) & (query_task_state)).select(
         db.task.id,
         db.task.name,
         db.task.progress,
@@ -94,7 +95,7 @@ def list():
         db.task.tag,
         db.task.description,
         db.task.closed,
-        orderby=db.task.closed|db.task.nullify|~db.task.priority|db.task.progress
+        orderby=~db.task.priority|~db.task.progress|db.task.closed|db.task.nullify
         )
     return dict(data=data)
 
