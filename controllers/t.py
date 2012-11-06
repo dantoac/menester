@@ -18,6 +18,7 @@ def index():
                             db.project.name,
                             db.project.uuid,
                             db.project.aim,
+                            db.project.close,
                             limitby=(0,1)
                             ).first()
                             
@@ -32,6 +33,9 @@ def index():
             response.title += ' '+project_name
             response.subtitle = project_aim
             request.vars.puuid = project_uuid
+
+            if project.close:
+                response.flash = 'Atención: este Proyecto está actualmente CERRADO '
     
         else:
             response.flash = 'No existe Proyecto "'+project_slug+'"'
