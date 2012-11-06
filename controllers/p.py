@@ -66,6 +66,7 @@ def new():
         project_name = form.vars.name or ''
         project_start = form.vars.start.date() if form.vars.start else ''
         project_end = form.vars.end.date() if form.vars.end else ''
+        project_closed = form.vars.close or ''
 
         #notificando por email
         p_contact = db(db.project.id==form.vars.id).select(
@@ -78,13 +79,18 @@ def new():
             'OBJETIVO: ', project_aim or '---','\n',
             'INICIA: ', project_start or '---','\n',
             'TERMINA: ', project_end or '---','\n',
-            'ENLACE ', URL(c='t',f='index.html', vars={'p':slug}, host=True),'\n',
+            'ENLACE: ', URL(c='t',f='index.html', vars={'p':slug}, host=True),'\n',
             ))
+
+        
+        project_closed_msg = '\b'
+        if project_closed == True:
+            project_closed_msg = '(CERRADO)'
 
         if p_contact:
             mail.send(
                 to=p_contact,
-                subject='Proyecto [%s]' % project_name,
+                subject='%s Proyecto [%s]' % (project_closed_msg,project_name),
                 message=mail_msg
                 )
 
