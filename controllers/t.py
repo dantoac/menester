@@ -105,20 +105,6 @@ def list():
 
 @auth.requires_login()
 def new():
-
-    """
-    db.task.task_parent.requires=IS_EMPTY_OR(IS_IN_DB(
-            db((db.task.project_uuid == request.vars.puuid) 
-               & ~(db.task.id==request.args(0))
-               & (db.task.closed==False)
-               ), 'task.uuid', '%(name)s'))
-
-    db.task.task_child.requires=IS_EMPTY_OR(IS_IN_DB(
-            db((db.task.project_uuid == request.vars.puuid) 
-               & ~(db.task.id==request.args(0))
-               & (db.task.closed==False)
-               ), 'task.uuid', '%(name)s'))
-    """
     
     tid = request.args(0)
 
@@ -173,11 +159,11 @@ def new():
                        task_progress = task_data.progress,
                        task_id = form.vars.id
                        )
-            
+
             mail_msg = str(CAT(
                     'TAREA: ',form.vars.name,'\n',
                     'PRIORIDAD: %s/5' % form.vars.priority,'\n',
-                    'ETIQUETAS: ', CAT(['[%s] ' % tag for tag in form.vars.tag]), '\n',
+                    'ETIQUETAS: ', XML(form.vars.tag),'\n',
                     'DESCRIPCIÓN: ', form.vars.description or '---','\n',
                     'ENLACE: ',URL('t','view.html',args=form.vars.id,
                                    vars={'p':project_mail.name},host=True),'\n',
