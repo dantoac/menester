@@ -86,7 +86,7 @@ ddt('comment',
     Field('target_uuid', 'string',
           writable=False, readable=False),
     Field('body', 'text', required=True, 
-          requires=IS_LENGTH(minsize=4)),
+          requires=IS_LENGTH(minsize=4,maxsize=1024)),
     Field('author','string', writable=False, readable=False),
     Field('created_on','datetime', default=request.now,
           writable=False, readable=False)
