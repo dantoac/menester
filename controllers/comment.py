@@ -8,7 +8,33 @@ def new():
         db.comment.target_uuid.default = uuid
         db.comment.author.default = db.auth_user[auth.user_id].email
 
-    form = crud.create(db.comment)
+    form = SQLFORM(db.comment)
+
+    if form.process().accepted:
+        
+        ds = db((db.task.uuid == uuid)
+                & (db.task.project_uuid == db.project.uuid)
+                ).select(db.task.id,
+                         db.task.uuid,
+                         db.task.name,
+                         db.project.name,
+                         db.project.email_contact,
+                         limitby=(0,1)
+                         ).first()
+
+        mail.send(
+            to=ds.project.email_contact,
+            subject='Comentario en Proyecto %s' % ds.project.name.upper(),
+            message='\nTarea #%(taskid)s: %(taskname)s\nURL: %(url)s\nComentario:"%(comment)s\n"' % \
+                dict(taskid=ds.task.id,
+                     taskname=ds.task.name,
+                     url=URL(c='t',f='view.html',
+                             args=ds.task.id,
+                             vars={'uuid':ds.task.uuid},
+                             host=True),
+                     comment=form.vars.body)
+            )
+
 
     query = (db.comment.target_uuid == uuid)
 
@@ -28,3 +54,4 @@ def _delete():
         response.flash = 'Comentario eliminado'
     else:
         response.flash = 'omgwtf'
+
