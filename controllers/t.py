@@ -56,7 +56,7 @@ def index():
     return dict(progress=progress,task_new=task_new)
 
 
-
+@auth.requires_login()
 def view():
     tid =  request.args(0)
     if not tid: return

@@ -1,5 +1,6 @@
 # coding: utf8
 
+@auth.requires_login()
 def new():
     # comentar una tarea
     uuid = request.vars.uuid
@@ -19,19 +20,21 @@ def new():
                          db.task.name,
                          db.project.name,
                          db.project.email_contact,
+                         db.project.uuid,
                          limitby=(0,1)
                          ).first()
 
         mail.send(
             to=ds.project.email_contact,
             subject='Comentario en Proyecto %s' % ds.project.name.upper(),
-            message='\nTarea #%(taskid)s: %(taskname)s\nURL: %(url)s\nComentario:"%(comment)s\n"' % \
+            message='\nTarea #%(taskid)s: %(taskname)s\nURL: %(url)s\nComentario de %(author)s:\n"%(comment)s"\n' % \
                 dict(taskid=ds.task.id,
                      taskname=ds.task.name,
                      url=URL(c='t',f='view.html',
                              args=ds.task.id,
-                             vars={'uuid':ds.task.uuid},
+                             vars={'puuid':ds.project.uuid},
                              host=True),
+                     author=db.auth_user[auth.user_id].email,
                      comment=form.vars.body)
             )
 
