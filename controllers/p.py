@@ -20,26 +20,32 @@ def list():
             TH(''),
             TH('NOMBRE'),
             TH('PROGRESO'),
-            TH('INICIO'),
-            TH('FIN'),
+            TH('INICIO/FIN'),
             TH(),
             ),_class='table table-bordered table-condensed table-striped')
 
     for n,p in enumerate(data):
+
+        # contando cantidad de tareas abiertas en el proyecto
+        total_task = db((db.task.project_uuid==p.uuid)
+                        &(db.task.closed==False)).count()
+        
         project_list.append(TR(
                 TD(A(TAG.i(_class='icon-white icon-tasks'),  
                      _href=URL(c='t', f='index.html', vars=dict(p=p.slug)), 
                      _class='btn btn-mini btn-primary' )),
-                TD(STRONG(p.name.title())),
+                TD(STRONG(p.name.title()),BR(),T('Pendiente: '),SPAN(total_task, _class='badge badge-warning') if total_task else '--'),
                 TD(DIV(DIV(_class="bar", 
                            _style="width: %s%%;" % total_progress(p.uuid)),
                        _class="progress progress-success")),
 
-                TD(CAT(p.start.date(),BR(),
-                       TAG.SMALL(prettydate(p.start), _class='')) \
-                       if p.start else  SPAN('Indefinido',_class='muted')),
+                TD(CAT(SPAN(p.start.date() if p.start else SPAN('Ø'),
+                           _class='label label-info'),' ',
+                       SPAN(p.end.date() if p.end else  SPAN('Ø'),
+                           _class='label label-important')) \
+                       ),
 
-                TD(p.end.date() if p.end else  SPAN('Indefinido',_class='muted')),
+                
 
                 # Actualizar projecto
                 TD(A(TAG.i(_class='icon-edit icon-white'),  
