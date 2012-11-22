@@ -17,7 +17,6 @@ def list():
     data = db(query_project_state).select()
 
     project_list = TABLE(TR(
-            TH(''),
             TH('NOMBRE'),
             TH('PROGRESO'),
             TH('INICIO/FIN'),
@@ -31,10 +30,11 @@ def list():
                         &(db.task.closed==False)).count()
         
         project_list.append(TR(
-                TD(A(TAG.i(_class='icon-white icon-tasks'),  
+            
+                TD(A(TAG.strong(p.name.title()),  
                      _href=URL(c='t', f='index.html', vars=dict(p=p.slug)), 
-                     _class='btn btn-mini btn-primary' )),
-                TD(STRONG(p.name.title()),BR(),T('Pendiente: '),SPAN(total_task, _class='badge badge-warning') if total_task else '--'),
+                     _class='btn' ),BR(),T('Pendiente: '),
+                   SPAN(total_task, _class='badge') if total_task else '--'),
                 TD(DIV(DIV(_class="bar", 
                            _style="width: %s%%;" % total_progress(p.uuid)),
                        _class="progress progress-success")),
@@ -50,7 +50,7 @@ def list():
                 # Actualizar projecto
                 TD(A(TAG.i(_class='icon-edit icon-white'),  
                      _href=URL(c='p', f='new.load', args=p.id),
-                     _class='btn btn-mini btn-inverse',
+                     _class='btn btn-small btn-danger',
                      cid="new_project"),
                    ),
                 
