@@ -9,55 +9,51 @@
     <div class="span6">     
       <label class="control-label" for="task_name">Task Name</label>
       <div class="controls">{{=form.custom.widget.name}}</div>
-
     </div>
+    
     <div class="span6">
-      <label class="control-label" for="task_tag">Tags</label>
-      <div class="controls">
-	{{=form.custom.widget.tag}}
-      </div>
-
-
-      <label class="control-label" for="task_tag">Parent</label>
-      <div class="controls">
-        {{=form.custom.widget.task_parent}}
-      </div>
-
-      <label class="control-label" for="task_tag">Child</label>
-      <div class="controls">
-        {{=form.custom.widget.task_child}}
-      </div>
-
-
+      <label class="control-label" for="task_priority">{{=form.custom.label.priority}}</label>
+      <div class="controls">{{=form.custom.widget.priority}}</div>
+      
+      
+      <label class="control-label" for="task_progress">{{=form.custom.label.progress}}</label>
+      <div class="controls">{{=form.custom.widget.progress}}</div>
+      
     </div>
-
+    
+    <label class="control-label" for="task_tag">Tags</label>
+    <div class="controls">{{=form.custom.widget.tag}}</div>
+    
+    
     <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#task_description">
       <label class="control-label" for="task_description">{{=form.custom.label.description}}</label>
     </button>
     
-    
-
     <div id="task_description" class="controls collapse out" style="width:96%;">{{=form.custom.widget.description}}</div>
     
   </div>
   
-
-
+  
+  
   <div class="span4 well">
-
-
-    <label class="control-label" for="task_state">{{=form.custom.label.state}}</label>
-    <div class="controls">{{=form.custom.widget.state}}</div>
+    
+    <label class="control-label" for="task_tag">Parent</label>
+    <div class="controls">
+      {{=form.custom.widget.task_parent}}
+    </div>
     
     
-    <label class="control-label" for="task_priority">{{=form.custom.label.priority}}</label>
-    <div class="controls">{{=form.custom.widget.priority}}</div>
-
+    
+    <label class="control-label" for="task_tag">Child</label>
+    <div class="controls">
+      {{=form.custom.widget.task_child}}
+    </div>
+    
     
     <label class="control-label" for="task_finish">{{=form.custom.label.finish}}</label>
     <div class="controls">{{=form.custom.widget.finish}}</div>
     
-
+    
     <div class="span12">
       <div class="span6">
 	<label class="control-label" for="task_active">Anular</label>
@@ -78,8 +74,6 @@
     {{=form.custom.end}}
     
   </div>  
-  
-  
   
   
 </div>
