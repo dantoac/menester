@@ -1,5 +1,17 @@
 
-
 #task_list_container a {
     white-space:normal;
+}
+
+#comment-container {
+    clear:both;
+}
+
+.comment {
+    margin:1em auto;
+}
+.comment .comment-body {
+    outline:1px solid #ddd;
+    background-color:#fff;
+    padding:.3em;
 }

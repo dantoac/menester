@@ -11,16 +11,28 @@
 {{=form.custom.end}}
 
 
-<div class="span12">
+<div id="comment-container">
   
   {{for comment in comments:}}
+  <div class="comment">
+  <div class="comment-head text-info">
+    <strong>{{=comment.author}}</strong>, <em>{{=prettydate(comment.created_on)}}</em>
+  </div>
+  <div class="comment-body">
+    <div class="pull-right">{{=A(TAG.i(_class='icon-remove'), 
+    callback=URL('comment','_delete',args=comment.id), delete='blockquote',
+    )}}</div>
+   {{=comment.body}}  
+  </div>
+</div>  
   
-  <blockquote>
-    <div class="pull-right">
-      {{=A('[×]', callback=URL('comment','_delete',args=comment.id), delete='blockquote')}}
-    </div>
-    {{=comment.body}} 
-    <small>{{=comment.author}} <cite>{{=prettydate(comment.created_on)}}</cite></small>
-  </blockquote>
+  
+  
+  
+  
   {{pass}}
+
 </div>
+
+
+
