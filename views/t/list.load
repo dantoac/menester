@@ -7,13 +7,13 @@
 </div>
 <hr />
 
-<table class="table table-bordered table-condensed">
+<table class="table table-bordered table-condensed table-hover">
   <thead>
     <tr>
-      <th>TID</th>
-      <th>Nombre</th>
+
+      <th>Tarea</th>
       <th>Progreso</th>
-      <th>Editado</th>
+      <th></th>
     </tr>
     
   </thead>
@@ -30,6 +30,7 @@
   taskprogress = task.progress
   taskpriority = task.priority
   taskcreated = task.created
+  taskupdated = task.updated
   taskauthor = task.author
   tasknull = task.nullify
   tasktag = task.tag
@@ -90,37 +91,26 @@
   #nuevo
   state_class = ""
   progress_css_class = "progress"
+
   
   }}
   {{pass}}    
   
   <tr class = "{{=priority_class if not task.nullify else 'muted well'}}">
-    <td>
 
-      {{=A('#',task.id, 
-      _href=URL(f='view.html', args=task.id, 
-      vars=dict(p=request.vars.p,
-      puuid=request.vars.puuid)),
-      target='task_new_container',
-      _class='btn btn-mini btn-primary')
-      }}
-
-    </td>
-    
     <td>
       
-      <span class="task_name"  rel="popover", 
-            data-original-title="{{='%s %s%%' % (task.name,
-                                 taskprogress)}}"
-            data-content="{{=task.description}}">        
-        {{=taskname}}
-      </span>
+      {{=A(TAG.strong(TAG.tt('#%s' % taskid)),'   ',taskname.capitalize(),
+        _href=URL(f='view.html', args=task.id, vars=dict(p=request.vars.p, puuid=request.vars.puuid)),
+        target='task_new_container', _class='btn')}}
+      
       
       {{if tasknull:}}
       <span class="badge badge-inverse">ANULADO</span>
       {{pass}}
 
-{{if tasktag:}}
+      
+      {{if tasktag:}}
 
       {{
       critical = ['bug','error','critical','asap']
@@ -134,7 +124,9 @@
       {{pass}}
       {{pass}}
       
-{{pass}}
+      {{pass}}
+
+
     </td>
     
     <td>
@@ -144,15 +136,8 @@
     </td>
     
     <td>
-      <small>
-        <span class="task_created" rel="tooltip" title="{{=taskauthor}}">
-          {{=prettydate(taskcreated)}}
-        </span>
-      </small>
-    </td>
 
-
-    <td>
+      
       {{if not tasknull:}}
       {{=A(TAG.i(_class='icon-edit icon-white'),
       _href=URL(f='new.html', args=task.id, 
@@ -162,8 +147,9 @@
       _class='btn btn-mini btn-inverse')
       }}
       {{pass}}
+
     </td>
-    
+
 
 
   </tr>
@@ -174,32 +160,32 @@
 </table>
 <script>
 
-function filtro(){
-    jQuery("#filtrando").keyup(function () {
-	var filter = jQuery(this).val(), count = 0;
-	
-	jQuery("tbody tr").each(function () {
-	    if ((jQuery(this).text().search(
-		new RegExp(filter, "i")) < 0)) {
-		jQuery(this).addClass("hidden");
-	    } else {
-		jQuery(this).removeClass("hidden");
-		count++;
-	    }
-	});
-	jQuery("#filtrado").text(count);
-    });
-}
+  function filtro(){
+  jQuery("#filtrando").keyup(function () {
+  var filter = jQuery(this).val(), count = 0;
+  
+  jQuery("tbody tr").each(function () {
+  if ((jQuery(this).text().search(
+  new RegExp(filter, "i")) < 0)) {
+		             jQuery(this).addClass("hidden");
+	                     } else {
+		             jQuery(this).removeClass("hidden");
+		             count++;
+	                     }
+	                     });
+	                     jQuery("#filtrado").text(count);
+                             });
+                             }
 
 
-jQuery(document).ready(function(){
-    
-    jQuery("#filtrando").focus();
-    jQuery(".task_name").popover();
-    jQuery(".task_created").tooltip();
-    filtro();
-});
+                             jQuery(document).ready(function(){
+                             
+                             jQuery("#filtrando").focus();
+                             //jQuery("td").popover();
+                             jQuery(".task_created").tooltip();
+                             filtro();
+                             });
 
 
-</script>
+                             </script>
 

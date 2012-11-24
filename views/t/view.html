@@ -21,6 +21,6 @@
 </table>
 
   <div class="row well">    
-    <h4>Actualizar:</h4>    
+    <h4>Comentarios:</h4>    
     {{=LOAD(c='comment', f='new.load', vars=dict(uuid=db.task[request.args(0)].uuid), ajax=True)}}
   </div>  
