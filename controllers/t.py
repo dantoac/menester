@@ -94,6 +94,7 @@ def list():
         db.task.progress,
         db.task.priority,
         db.task.created,
+        db.task.updated,
         db.task.author,
         db.task.nullify,
         db.task.tag,
