@@ -33,8 +33,8 @@ def list():
             
                 TD(A(TAG.strong(p.name.title()),  
                      _href=URL(c='t', f='index.html', vars=dict(p=p.slug)), 
-                     _class='btn' ),BR(),T('Pendiente: '),
-                   SPAN(total_task, _class='badge') if total_task else '--'),
+                     _class='btn btn-primary' ),' ',#BR(),
+                   SPAN(TAG.i(_class='icon-tasks'),total_task, _class='') if total_task else ''),
                 TD(DIV(DIV(_class="bar", 
                            _style="width: %s%%;" % total_progress(p.uuid)),
                        _class="progress progress-success")),
