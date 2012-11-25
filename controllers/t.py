@@ -68,8 +68,7 @@ def view():
 @auth.requires_login()
 def list():
     
-    project_uuid = None
-
+    # para obtener el nombre del proyecto según slug (!)
     project = db(db.project.slug == request.vars.p
                  ).select(db.project.uuid,limitby=(0,1)).first()
         
@@ -79,8 +78,10 @@ def list():
     else:
         query_task_state = ((db.task.progress != 100) & 
                             (db.task.closed != True) &
-                            ((db.task.nullify != True)))
-    
+                            (db.task.nullify != True)                            
+                            )
+        
+    project_uuid = None
     if project:
         project_uuid = project.uuid
         query_project = (db.task.project_uuid == project_uuid)
@@ -88,6 +89,8 @@ def list():
     else:
         query_project = (db.task.id > 0)
         
+
+    #creando el dataset
     data = db((query_project) & (query_task_state)).select(
         db.task.id,
         db.task.name,
@@ -100,8 +103,12 @@ def list():
         db.task.tag,
         db.task.description,
         db.task.closed,
-        orderby=~db.task.priority|~db.task.progress|db.task.closed|db.task.nullify
+        db.comment.id.count(),
+        left=db.comment.on(db.task.uuid == db.comment.target_uuid),
+        orderby=~db.task.priority|~db.task.progress|db.task.closed|db.task.nullify,
+        groupby=db.task.id
         )
+
     return dict(data=data)
 
 @auth.requires_login()

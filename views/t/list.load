@@ -21,35 +21,35 @@
   {{    
   
   #mover esto a una función
-  for task in data:
+  for d in data:
   
 
-  taskid = task.id
-  taskname = task.name
+  taskid = d.task.id
+  taskname = d.task.name
   taskstate = 1 #task.state
-  taskprogress = task.progress
-  taskpriority = task.priority
-  taskcreated = task.created
-  taskupdated = task.updated
-  taskauthor = task.author
-  tasknull = task.nullify
-  tasktag = task.tag
-
+  taskprogress = d.task.progress
+  taskpriority = d.task.priority
+  taskcreated = d.task.created
+  taskupdated = d.task.updated
+  taskauthor = d.task.author
+  tasknullify = d.task.nullify
+  tasktag = d.task.tag
+  taskcomment = d[db.comment.id.count()]
   fgcolor="none;"
   
-  if task.priority=="5":
+  if taskpriority=="5":
   
   priority_class = "error"
-  elif task.priority=="4":
+  elif taskpriority=="4":
   
   priority_class = "warning"
-  elif task.priority=="3":
+  elif taskpriority=="3":
   
   priority_class = "success"
-  elif task.priority=="2":
+  elif taskpriority=="2":
   
   priority_class = "info"
-  elif task.priority=="1":
+  elif taskpriority=="1":
   
   priority_class = ""
   else:
@@ -92,40 +92,40 @@
   state_class = ""
   progress_css_class = "progress"
 
-  
   }}
   {{pass}}    
   
-  <tr class = "{{=priority_class if not task.nullify else 'muted well'}}">
+  <tr class = "{{=priority_class if not tasknullify else 'muted well'}}">
 
     <td>
       
       {{=A(TAG.strong(TAG.tt('#%s' % taskid)),'   ',taskname.capitalize(),
-        _href=URL(f='view.html', args=task.id, vars=dict(p=request.vars.p, puuid=request.vars.puuid)),
+        _href=URL(f='view.html', args=taskid, vars=dict(p=request.vars.p, puuid=request.vars.puuid)),
         target='task_new_container', _class='btn')}}
-      
-      
-      {{if tasknull:}}
+
+      <!-- indicador de comentarios por tarea -->
+      {{if taskcomment:}}
+      <span style="white-space:nowrap;">
+        <i class="icon-comment"></i>{{=taskcomment}}
+      </span>
+      {{pass}}
+
+      {{if tasknullify:}}
       <span class="badge badge-inverse">ANULADO</span>
       {{pass}}
 
-      
       {{if tasktag:}}
 
-      {{
-      critical = ['bug','error','critical','asap']
-      }}
+      {{critical = ['bug','error','critical','asap']}}
 
       {{for tag in tasktag:}}
       {{if tag.lower().strip() in critical:}}
       <span class="label label-important">{{=tag}}</span>
       {{else:}}
       <span class="label">{{=tag}}</span>
-      {{pass}}
-      {{pass}}
-      
-      {{pass}}
-
+      {{pass #if critical}}
+      {{pass #for}}
+      {{pass #if tasktag}}
 
     </td>
     
@@ -138,9 +138,9 @@
     <td>
 
       
-      {{if not tasknull:}}
+      {{if not tasknullify:}}
       {{=A(TAG.i(_class='icon-edit icon-white'),
-      _href=URL(f='new.html', args=task.id, 
+      _href=URL(f='new.html', args=taskid, 
       vars=dict(p=request.vars.p,
       puuid=request.vars.puuid)),
       target='task_new_container',
