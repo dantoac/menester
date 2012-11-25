@@ -39,16 +39,23 @@ def new():
             )
 
 
-    query = (db.comment.target_uuid == uuid)
+    
+    comments = LOAD(c='comment', f='list.load', vars=dict(uuid=uuid),ajax=False)
+    
 
+    return dict(form=form, comments=comments)
+
+
+def list():
+    uuid = request.vars.uuid
+    query = (db.comment.target_uuid == uuid)
     dataset = db(query).select(db.comment.body,
                                db.comment.author,
                                db.comment.created_on,
                                db.comment.id,
                                orderby=~db.comment.id)
-    
-    return dict(form=form, comments=dataset)
 
+    return dict(comments=dataset)
 
 def _delete():
     comment_id = request.args(0)

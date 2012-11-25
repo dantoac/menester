@@ -21,6 +21,16 @@
 </table>
 
   <div class="row well">    
-    <h4>Comentarios:</h4>    
-    {{=LOAD(c='comment', f='new.load', vars=dict(uuid=db.task[request.args(0)].uuid), ajax=True)}}
+    <h4>Comentarios:</h4>  
+
+    {{if task.nullify:}}
+
+    {{=LOAD(c='comment', f='list.load', vars=dict(uuid=db.task[request.args(0)].uuid))}}
+
+    {{else:}}
+  
+    {{=LOAD(c='comment', f='new.load', vars=dict(uuid=db.task[request.args(0)].uuid), 
+    ajax=True, content=T('Cargando comentarios...'))}}
+
+    {{pass}}
   </div>  
