@@ -1,0 +1,25 @@
+
+
+<div id="comment-container">
+  
+  {{for comment in comments:}}
+  <div class="comment">
+    <div class="comment-head text-info">
+      <strong>{{=comment.author}}</strong>, <em>{{=prettydate(comment.created_on)}}</em>
+    </div>
+    <div class="comment-body">
+      <div class="pull-right">{{=A(TAG.i(_class='icon-remove'), 
+        callback=URL('comment','_delete',args=comment.id), delete='.comment',
+        )}}</div>
+      {{=comment.body}}  
+    </div>
+  </div>  
+  
+  
+  
+  
+  
+  {{pass}}
+  
+</div>
+
