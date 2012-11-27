@@ -35,6 +35,8 @@
   tasknullify = d.task.nullify
   tasktag = d.task.tag
   taskcomment = d[db.comment.id.count()]
+  projectname = d.project.name
+
   fgcolor="none;"
   
   if taskpriority=="5":
@@ -98,7 +100,9 @@
   <tr class = "{{=priority_class if not tasknullify else 'muted well'}}">
 
     <td>
-      
+      {{if not request.vars.p or request.vars.p == 'None':}}
+      <span class="label label-info">{{=projectname.title()}}</span>
+      {{pass}}
       {{=A(TAG.strong(TAG.tt('#%s' % taskid)),'   ',taskname.capitalize(),
         _href=URL(f='view.html', args=taskid, vars=dict(p=request.vars.p, puuid=request.vars.puuid)),
         target='task_new_container', _class='btn')}}
