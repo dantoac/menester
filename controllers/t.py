@@ -70,7 +70,9 @@ def list():
     
     # para obtener el nombre del proyecto según slug (!)
     project = db(db.project.slug == request.vars.p
-                 ).select(db.project.uuid,limitby=(0,1)).first()
+                 ).select(db.project.uuid,
+                          db.project.name,
+                          limitby=(0,1)).first()
         
     #query Tareas en cualquier estado
     if request.vars.state == 'any':
@@ -87,7 +89,8 @@ def list():
         query_project = (db.task.project_uuid == project_uuid)
         
     else:
-        query_project = (db.task.id > 0)
+        query_project = ((db.task.id > 0) 
+                         & (db.task.project_uuid == db.project.uuid))
         
 
     #creando el dataset
@@ -103,6 +106,7 @@ def list():
         db.task.tag,
         db.task.description,
         db.task.closed,
+        db.project.name,
         db.comment.id.count(),
         left=db.comment.on(db.task.uuid == db.comment.target_uuid),
         orderby=~db.task.priority|~db.task.progress|db.task.closed|db.task.nullify,
