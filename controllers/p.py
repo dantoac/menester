@@ -21,7 +21,8 @@ def list():
             TH('PROGRESO'),
             TH('INICIO/FIN'),
             TH(),
-            ),_class='table table-bordered table-condensed table-striped')
+            ), _class='table table-bordered table-condensed table-hover')
+                
 
     for n,p in enumerate(data):
 
