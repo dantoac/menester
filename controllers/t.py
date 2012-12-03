@@ -90,11 +90,14 @@ def list():
         
     else:
         query_project = ((db.task.id > 0) 
-                         & (db.task.project_uuid == db.project.uuid))
+                         & (db.task.project_uuid == db.project.uuid)                         )
         
 
     #creando el dataset
-    data = db((query_project) & (query_task_state)).select(
+    data = db((query_project)
+              & (query_task_state) 
+              & (db.task.uuid == db.comment.target_uuid)
+              ).select(
         db.task.id,
         db.task.name,
         db.task.progress,
