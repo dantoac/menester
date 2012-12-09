@@ -86,11 +86,11 @@ def list():
     project_uuid = None
     if project:
         project_uuid = project.uuid
-        query_project = (db.task.project_uuid == project_uuid)
+        query_project = ((db.task.project_uuid == db.project.uuid) 
+                         & (db.task.project_uuid == project_uuid))
         
     else:
-        query_project = ((db.task.id > 0) 
-                         & (db.task.project_uuid == db.project.uuid)                         )
+        query_project = (db.task.project_uuid == db.project.uuid)
         
 
     #creando el dataset
@@ -107,7 +107,7 @@ def list():
         db.task.nullify,
         db.task.tag,
         db.task.description,
-        db.task.closed,
+        db.comment.id,
         db.project.name,
         db.comment.id.count(),
         left=db.comment.on(db.task.uuid == db.comment.target_uuid),
