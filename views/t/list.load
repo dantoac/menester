@@ -36,6 +36,7 @@
   tasktag = d.task.tag
   taskcomment = d[db.comment.id.count()]
   projectname = d.project.name
+  projectslug = d.project.slug
 
   fgcolor="none;"
   
@@ -101,7 +102,9 @@
 
     <td>
       {{if not request.vars.p or request.vars.p == 'None':}}
-      <span class="label label-info">{{=projectname.title()}}</span>
+      {{=A(projectname.title(), _href=URL(f='index.html',vars={'p':projectslug}),
+      _class='btn btn-mini btn-primary'
+      )}}
       {{pass}}
       {{=A(TAG.strong(TAG.tt('#%s' % taskid)),'   ',taskname.capitalize(),
         _href=URL(f='view.html', args=taskid, vars=dict(p=request.vars.p, puuid=request.vars.puuid)),
