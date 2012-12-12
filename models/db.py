@@ -83,3 +83,6 @@ use_janrain(auth,filename='private/janrain.key')
 
 ## after defining tables, uncomment below to enable auditing
 # auth.enable_record_versioning(db)
+
+auth.settings.registration_requires_approval = True
+#auth.settings.actions_disabled.append('register')
