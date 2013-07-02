@@ -1,0 +1,30 @@
+{{extend 'layout.html'}}
+
+{{=form}}
+
+
+<table class="table table-striped">
+<thead>
+  <tr>
+    <th>Monto</th>
+    <th>Fecha</th>
+    <th>Hecho</th>
+    <th></th>
+  </tr>
+</thead>
+
+<tbody>
+
+{{for d in dataset:}}
+
+<tr>
+  <td>{{=d.income.amount}}</td>
+  <td>{{=d.income.due_date}}</td>
+  <td>{{=d.income.done}}</td>
+  <td><a class="btn btn-danger" href="{{=URL(args=d.income.id,vars={'p':d.income.project_uuid})}}">Editar</a></td>
+</tr>
+
+{{pass}}
+
+</tbody>
+</table>
