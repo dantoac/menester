@@ -1,10 +1,10 @@
-# coding: utf8
+#coding: utf8
 
 import uuid
 
-ddt = db.define_table
+dt = db.define_table
 
-ddt('project',
+dt('project',
     Field('uuid', 'string', length=64, default=uuid.uuid4(),
           writable=False, readable=False, unique=True,
           required=True),
@@ -24,15 +24,15 @@ ddt('project',
     )
 
 
-ddt('project_setting',
+dt('project_setting',
     Field('project_uuid'),
     )
 
-ddt('project_relation',
+dt('project_relation',
     Field('project')
     )
 
-ddt('state',
+dt('state',
     Field('name', 'string', required=True, unique=True,
           requires=[IS_NOT_EMPTY(), IS_NOT_IN_DB(db,'state.name')]),
     Field('closed', 'boolean', default=False),
@@ -52,9 +52,8 @@ if db(db.state).isempty():
             dict(name='Finalizado', percentage=100, closed=True)
             ])
 
-    
-    
-ddt('task',
+
+dt('task',
     Field('uuid','string',length=64, default=uuid.uuid4(),
           writable=False),
     Field('project_uuid', 'string', requires=IS_IN_DB(db, 'project.uuid'),
@@ -87,7 +86,7 @@ ddt('task',
     format = '%(name)s'
     )
 
-ddt('comment',
+dt('comment',
     Field('uuid', 'string', length=64, default=uuid.uuid4(),
           writable=False, readable=False),
     Field('target_uuid', 'string',
@@ -98,4 +97,35 @@ ddt('comment',
     Field('created_on','datetime', default=request.now,
           writable=False, readable=False)
     )
+
+
+
+pago_metadata = db.Table(db,'pago_metadata',
+                         Field('amount','double'),
+                         Field('subject', 
+                               requires=IS_NOT_EMPTY()),
+                         Field('due_date','date'),
+                         Field('done','boolean'),
+                     )
+
+dt('income',    
+   Field('uuid', 'string', length=64, default=uuid.uuid4(),
+         writable=False, readable=False),
+   Field('project_uuid'),
+   pago_metadata,
+   auth.signature
+)
+    
+dt('expense',
+   Field('uuid', 'string', length=64, default=uuid.uuid4(),
+         writable=False, readable=False),
+   Field('project_uuid'),
+   pago_metadata,
+   auth.signature
+)
+
+
+db.income.project_uuid.requires=IS_EMPTY_OR(IS_IN_DB(db, 'project.uuid','%(name)s'))
+db.expense.project_uuid.requires=IS_EMPTY_OR(IS_IN_DB(db, 'project.uuid','%(name)s'))
+
 
