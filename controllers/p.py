@@ -43,7 +43,7 @@ def list():
                      _class='btn btn-mini' ),
 
                    A('Salida: $ ',#TAG.i(_class='icon-tasks'),
-                     _href=URL(c='i', f='index.html', vars=dict(p=p.uuid)), 
+                     _href=URL(c='e', f='index.html', vars=dict(p=p.uuid)), 
                      _class='btn btn-mini' ),
 
                        _class='btn-group')

@@ -1,7 +1,6 @@
 {{extend 'plantilla.html'}}
 
-<h2>Entradas {{=project_name}}</h2>
-
+<h2>Salidas {{=project_name}}</h2>
 
 {{=form}}
 
@@ -21,10 +20,10 @@
 {{for d in dataset:}}
 
 <tr>
-  <td>{{=d.income.amount}}</td>
-  <td>{{=d.income.due_date}}</td>
-  <td>{{=d.income.done}}</td>
-  <td><a class="btn btn-danger" href="{{=URL(args=d.income.id,vars={'p':d.income.project_uuid})}}">Editar</a></td>
+  <td>{{=d.expense.amount}}</td>
+  <td>{{=d.expense.due_date}}</td>
+  <td>{{=d.expense.done}}</td>
+  <td><a class="btn btn-danger" href="{{=URL(args=d.expense.id,vars={'p':d.expense.project_uuid})}}">Editar</a></td>
 </tr>
 
 {{pass}}

@@ -2,11 +2,14 @@
 
 def index():
     p = request.vars.p
-
+    project_name = ''
     if p:
+
+        project_name = 'en '+db(db.project.uuid == p).select(db.project.name, limitby=(0,1)).first()['name']
+        
         db.income.project_uuid.default = p
-        #db.income.project_uuid.writable = False
-        #db.income.project_uuid.readable = False
+        db.income.project_uuid.writable = False
+        db.income.project_uuid.readable = False
         query = (db.income.project_uuid == p) & (db.income.project_uuid == db.project.uuid)
     else:
         query = db.income.id>0
@@ -23,7 +26,7 @@ def index():
     )
     
 
-    return {'form':form,'dataset':dataset}
+    return {'form':form,'dataset':dataset, 'project_name':project_name}
 
 
 
