@@ -32,10 +32,23 @@ def list():
         
         project_list.append(TR(
             
-                TD(A(TAG.strong(p.name.title()),  
+                TD(TAG.strong(p.name.title()),
+                   DIV(
+                   A('Pendiente: {0} '.format(total_task),#TAG.i(_class='icon-tasks'),
                      _href=URL(c='t', f='index.html', vars=dict(p=p.slug)), 
-                     _class='btn btn-primary' ),' ',#BR(),
-                   SPAN(TAG.i(_class='icon-tasks'),total_task, _class='') if total_task else ''),
+                     _class='btn btn-mini' ),
+                
+                   A('Entrada: $ ',#TAG.i(_class='icon-tasks'),
+                     _href=URL(c='i', f='index.html', vars=dict(p=p.uuid)), 
+                     _class='btn btn-mini' ),
+
+                   A('Salida: $ ',#TAG.i(_class='icon-tasks'),
+                     _href=URL(c='i', f='index.html', vars=dict(p=p.uuid)), 
+                     _class='btn btn-mini' ),
+
+                       _class='btn-group')
+
+                   ),
                 TD(DIV(DIV(_class="bar", 
                            _style="width: %s%%;" % total_progress(p.uuid)),
                        _class="progress progress-success")),
