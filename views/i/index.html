@@ -4,8 +4,9 @@
 
 
 {{=form}}
-
-
+<h2>Total: 
+{{=int(sum([d.income.amount for d in dataset]))}}
+</h2>
 <table class="table table-striped">
 <thead>
   <tr>
