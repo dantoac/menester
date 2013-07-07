@@ -23,7 +23,8 @@ response.google_analytics_id = None
 
 response.menu = [
     (T('Proyectos'), False, URL('p','index'), []),
-    (T('Tareas'), False, URL('t','index'), [])
+    (T('Tareas'), False, URL('t','index'), []),
+    (T('Flujos'), False, URL('i','index'), [])
     ]
 
 #########################################################################
