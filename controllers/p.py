@@ -30,19 +30,24 @@ def list():
         total_task = db((db.task.project_uuid==p.uuid)
                         &(db.task.closed==False)).count()
         
+        project_income = db(db.income.project_uuid == p.uuid).select(db.income.amount)
+        project_expense = db(db.expense.project_uuid == p.uuid).select(db.expense.amount)
+
         project_list.append(TR(
             
+            
+
                 TD(TAG.strong(p.name.title()),
                    DIV(
                    A('Pendiente: {0} '.format(total_task),#TAG.i(_class='icon-tasks'),
                      _href=URL(c='t', f='index.html', vars=dict(p=p.slug)), 
                      _class='btn btn-mini' ),
                 
-                   A('Entrada: $ ',#TAG.i(_class='icon-tasks'),
+                       A('Entrada: {0}'.format(int(sum([d.amount for d in project_income]))),#TAG.i(_class='icon-tasks'),
                      _href=URL(c='i', f='index.html', vars=dict(p=p.uuid)), 
                      _class='btn btn-mini' ),
 
-                   A('Salida: $ ',#TAG.i(_class='icon-tasks'),
+                       A('Salida: {0}'.format(int(sum([d.amount for d in project_expense]))),#TAG.i(_class='icon-tasks'),
                      _href=URL(c='e', f='index.html', vars=dict(p=p.uuid)), 
                      _class='btn btn-mini' ),
 
