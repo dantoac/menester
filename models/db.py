@@ -55,8 +55,8 @@ mail.settings.login = _EMAIL.login or 'user:passwd'
 mail.settings.sender = _EMAIL.sender or 'user@host.org'
 
 ## configure auth policy
-auth.settings.registration_requires_verification = False
-auth.settings.registration_requires_approval = False
+auth.settings.registration_requires_verification = True
+auth.settings.registration_requires_approval = True
 auth.settings.reset_password_requires_verification = True
 
 ## if you need to use OpenID, Facebook, MySpace, Twitter, Linkedin, etc.
