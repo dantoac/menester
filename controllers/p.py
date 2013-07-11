@@ -39,7 +39,7 @@ def list():
 
                 TD(TAG.strong(p.name.title()),
                    DIV(
-                   A('Pendiente: {0} '.format(total_task),#TAG.i(_class='icon-tasks'),
+                   A('Tareas: {0} '.format(total_task),#TAG.i(_class='icon-tasks'),
                      _href=URL(c='t', f='index.html', vars=dict(p=p.slug)), 
                      _class='btn btn-mini' ),
                 
@@ -79,7 +79,7 @@ def list():
     return dict(project_list=project_list)
 
 
-#@auth.requires_login()
+@auth.requires_login()
 def new():
     #form = crud.update(db.project, request.args(0))
     form = SQLFORM(db.project, request.args(0))
@@ -119,7 +119,7 @@ def new():
                 message=mail_msg
                 )
 
-        if not request.ajax: redirect(URL(c='t',f='index.html',vars={'p':project_name}))
+        if request.ajax: redirect(URL(c='p',f='new.load',args=form.vars.id))
     elif form.errors:
         response.flash = "Hubo errores. Revise mensaje en formulario"
         response.js = 'jQuery(document).ready(function(){jQuery("#new_project").show();});'

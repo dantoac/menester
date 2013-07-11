@@ -12,6 +12,12 @@
     
     <label class="control-label" for="project_aim">{{=form.custom.label.aim}}</label>
     <div class="controls">{{=form.custom.widget.aim}}</div>
+
+        
+    <label class="control-label" for="project_price">{{=form.custom.label.price}}</label>
+    <div class="controls">
+    <input class="integer" id="project_price" name="price" type="text" value="{{=form.custom.dspval.price}}">
+    </div>
     
     
     
