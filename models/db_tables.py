@@ -20,6 +20,7 @@ dt('project',
    Field('close', 'boolean', default=False),
    Field('email_contact', 'list:string', requires=IS_EMAIL()),
    Field('team', 'list:reference auth_user'),
+   Field('price'),
    auth.signature,
    format = '%(name)s'
 )
