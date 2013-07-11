@@ -41,17 +41,29 @@ def list():
                    DIV(
                    A('Tareas: {0} '.format(total_task),#TAG.i(_class='icon-tasks'),
                      _href=URL(c='t', f='index.html', vars=dict(p=p.slug)), 
-                     _class='btn btn-mini' ),
-                
-                       A('Entrada: {0}'.format(int(sum([d.amount for d in project_income]))),#TAG.i(_class='icon-tasks'),
+                     _class='btn btn-mini ' ),
+
+                   DIV(
+                  
+                       A('Entrada: ${0}'.format(int(sum([d.amount for d in project_income]))),#TAG.i(_class='icon-tasks'),
                      _href=URL(c='i', f='index.html', vars=dict(p=p.uuid)), 
-                     _class='btn btn-mini' ),
+                     _class='btn btn-mini btn-success' ),
 
-                       A('Salida: {0}'.format(int(sum([d.amount for d in project_expense]))),#TAG.i(_class='icon-tasks'),
+                       A('Salida: ${0}'.format(int(sum([d.amount for d in project_expense]))),#TAG.i(_class='icon-tasks'),
                      _href=URL(c='e', f='index.html', vars=dict(p=p.uuid)), 
-                     _class='btn btn-mini' ),
+                     _class='btn btn-mini btn-danger' ),
 
-                       _class='btn-group')
+                          A('Precio: ${0}'.format(p.price),#TAG.i(_class='icon-tasks'),
+                     _href=URL(c='e', f='index.html', vars=dict(p=p.uuid)), 
+                     _class='btn btn-mini btn-primary' ),
+
+
+
+                       _class='btn-group pull-right'),
+
+                       _class=''),
+
+
 
                    ),
                 TD(DIV(DIV(_class="bar", 
