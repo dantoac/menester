@@ -5,42 +5,44 @@ import uuid
 dt = db.define_table
 
 dt('project',
-    Field('uuid', 'string', length=64, default=uuid.uuid4(),
-          writable=False, readable=False, unique=True,
-          required=True),
-    Field('name', 'string', label='Nombre', required=True,
-          unique=True, requires=[IS_NOT_EMPTY(),
-                                 IS_NOT_IN_DB(db,'project.name')
-                                 ]),
-    Field('aim', 'string', length=120),
-    Field('slug', compute=lambda n: IS_SLUG()(n['name'])[0]),
-    Field('start', 'datetime', default=request.now,
-          label='Fecha Inicio'),
-    Field('end', 'datetime', label='Fecha Término'),
-    Field('close', 'boolean', default=False),
-    Field('email_contact', 'list:string', requires=IS_EMAIL()),
-    Field('team', 'list:reference auth_user'),
-    format = '%(name)s'
-    )
+   Field('uuid', 'string', length=64, default=uuid.uuid4(),
+         writable=False, readable=False, unique=True,
+         required=True),
+   Field('name', 'string', label='Nombre', required=True,
+         unique=True, requires=[IS_NOT_EMPTY(),
+                                IS_NOT_IN_DB(db,'project.name')
+                            ]),
+   Field('aim', 'string', length=120),
+   Field('slug', compute=lambda n: IS_SLUG()(n['name'])[0]),
+   Field('start', 'datetime', default=request.now,
+         label='Fecha Inicio'),
+   Field('end', 'datetime', label='Fecha Término'),
+   Field('close', 'boolean', default=False),
+   Field('email_contact', 'list:string', requires=IS_EMAIL()),
+   Field('team', 'list:reference auth_user'),
+   auth.signature,
+   format = '%(name)s'
+)
 
 
 dt('project_setting',
-    Field('project_uuid'),
-    )
+   auth.signature,
+   Field('project_uuid'),
+)
 
 dt('project_relation',
-    Field('project')
-    )
+   Field('project')
+)
 
 dt('state',
-    Field('name', 'string', required=True, unique=True,
-          requires=[IS_NOT_EMPTY(), IS_NOT_IN_DB(db,'state.name')]),
-    Field('closed', 'boolean', default=False),
-    Field('percentage', 'integer', default=0,
-          requires=IS_INT_IN_RANGE(0,101),
-          ),
+   Field('name', 'string', required=True, unique=True,
+         requires=[IS_NOT_EMPTY(), IS_NOT_IN_DB(db,'state.name')]),
+   Field('closed', 'boolean', default=False),
+   Field('percentage', 'integer', default=0,
+         requires=IS_INT_IN_RANGE(0,101),
+     ),
     format = '%(percentage)s%% %(name)s'
-    )
+)
 
 if db(db.state).isempty():
     db.state.bulk_insert([

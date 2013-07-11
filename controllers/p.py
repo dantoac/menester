@@ -14,7 +14,7 @@ def list():
     else:
         query_project_state = ((db.project.close == None) | (db.project.close != True))
                                    
-    data = db(query_project_state).select(orderby=~db.project.modified_on)
+    data = db(query_project_state).select(orderby=~db.project.id)
 
     project_list = TABLE(TR(
             TH('NOMBRE'),
