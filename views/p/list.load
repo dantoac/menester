@@ -16,6 +16,14 @@
           {{=p.name}}
         </a>
 
+          
+                <span class="label label-info">
+               
+                  {{=numfmt(p.price)}}
+                 
+                </span>
+
+
         {{=A(TAG.i(_class='icon-edit'),  
                       _href=URL(c='p', f='new.load', args=p.id),
                       _class='btn btn-mini  pull-right',
@@ -23,25 +31,16 @@
 
         <div id="{{=p.uuid}}" class="hidden">
           <table class="well well-small">
-            <tr>
-              <th>
-                
-                Tareas
-               
-              </th>
-              <td>
-                <a class="btn btn-small {{='btn-info' if open_task[p.uuid] else 'btn-success'}}" 
-                   href="{{=URL(c='t', f='index.html', vars=dict(p=p.uuid))}}">
-                  {{=open_task[p.uuid] or 'Todo Hecho!'}} {{if open_task[p.uuid]:}}por hacer{{pass}}
-                </a>
-              </td>
-            </tr>
 
             <tr>
               <th>
                 Flujo
               </th>
               <td>
+
+                
+
+
                 <div class="btn-group">
                 <a class="btn btn-small btn-success" 
                    href="{{=URL(c='i', f='index.html', vars=dict(p=p.uuid))}}">
@@ -54,23 +53,39 @@
                   {{=numfmt(project_expense[p.uuid] or  '0')}}
                 </a>
                 </div>
+                
+           
+                <span class="label label-important">
+
+                  {{income = project_income[p.uuid] or 0}}
+                  {{price = p.price}}
+                  
+                  Por cobrar: {{=numfmt(int(price) - int(income))}}
+                 
+                </span>
+           
+
+
+
+     
 
               </td>
             </tr>
 
+            
 
-<tr>
-              <th>
-                Por Cobrar
+            <tr>
+              <th> 
+                Tareas
               </th>
               <td>
-                {{income = project_income[p.uuid] or 0}}
-                {{price = p.price}}
-
-                {{=numfmt(int(price) - int(income))}}
-
+                <a class="btn btn-small {{='btn-warning' if open_task[p.uuid] else 'btn-success'}}" 
+                   href="{{=URL(c='t', f='index.html', vars=dict(p=p.uuid))}}">
+                  {{=open_task[p.uuid] or 'Todo Hecho!'}} {{if open_task[p.uuid]:}}por hacer{{pass}}
+                </a>
               </td>
             </tr>
+
 
 
 
