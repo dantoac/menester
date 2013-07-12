@@ -20,7 +20,7 @@ dt('project',
    Field('close', 'boolean', default=False),
    Field('email_contact', 'list:string', requires=IS_EMAIL()),
    Field('team', 'list:reference auth_user'),
-   Field('price'),
+   Field('price','double',default=0),
    auth.signature,
    format = '%(name)s'
 )
@@ -105,10 +105,10 @@ dt('comment',
 
 pago_metadata = db.Table(db,'pago_metadata',
                          Field('amount','double'),
-                         Field('subject', 
+                         Field('reason', 
                                requires=IS_NOT_EMPTY()),
                          Field('due_date','date'),
-                         Field('done','boolean'),
+                         Field('done','boolean',default=True),
                      )
 
 dt('income',    
