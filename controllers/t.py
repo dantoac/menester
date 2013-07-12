@@ -4,7 +4,8 @@
 def index():
 
     project_id = project_uuid = None
-    project_slug = request.vars.p
+    project_slug = request.vars.name
+    project_uuid = request.vars.p
 
 
     response.title = 'Tareas'
@@ -12,7 +13,8 @@ def index():
     progress=''
 
     if request.vars.p:
-        project = db(db.project.slug == project_slug
+        project = db((db.project.uuid == project_uuid)
+                     #| (db.project.slug == project_slug)
                         ).select(
                             db.project.id, 
                             db.project.name,
@@ -22,7 +24,7 @@ def index():
                             limitby=(0,1)
                             ).first()
                             
-        project_slug = str(request.vars.p).upper()
+        project_slug = str(request.vars.name).upper()
         
         if project:    
             project_uuid = project.uuid
@@ -67,9 +69,17 @@ def view():
 
 @auth.requires_login()
 def list():
+
+    
+    project_id = project_uuid = None
+    project_slug = request.vars.name
+    project_uuid = request.vars.p
+
+
     
     # para obtener el nombre del proyecto según slug (!)
-    project = db(db.project.slug == request.vars.p
+    project = db((db.project.uuid == project_uuid)
+                 #| (db.project.slug == project_slug)
                  ).select(db.project.uuid,
                           db.project.name,
                           limitby=(0,1)).first()
@@ -83,7 +93,7 @@ def list():
                             (db.task.nullify != True)                            
                             )
         
-    project_uuid = None
+    #project_uuid = None
     if project:
         project_uuid = project.uuid
         query_project = ((db.task.project_uuid == db.project.uuid) 
