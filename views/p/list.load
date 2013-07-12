@@ -46,12 +46,12 @@
                 <a class="btn btn-small btn-success" 
                    href="{{=URL(c='i', f='index.html', vars=dict(p=p.uuid))}}">
                   <i class="icon-white icon-arrow-down"></i>
-                  ${{=project_income[p.uuid] or  '0'}}
+                  {{=numfmt(project_income[p.uuid] or  '0')}}
                 </a>
                 <a class="btn btn-small btn-danger" 
                    href="{{=URL(c='e', f='index.html', vars=dict(p=p.uuid))}}">
                   <i class="icon-white icon-arrow-up"></i>
-                  ${{=project_expense[p.uuid] or  '0'}}
+                  {{=numfmt(project_expense[p.uuid] or  '0')}}
                 </a>
                 </div>
 
@@ -67,7 +67,7 @@
                 {{income = project_income[p.uuid] or 0}}
                 {{price = p.price}}
 
-                ${{=int(price) - int(income)}}
+                {{=numfmt(int(price) - int(income))}}
 
               </td>
             </tr>
