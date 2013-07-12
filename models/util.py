@@ -25,4 +25,4 @@ def total_progress(project):
     if data[percentage_sum]:
         total_progress = data[percentage_sum] / data[task_count]
 
-    return str(total_progress)
+    return total_progress
