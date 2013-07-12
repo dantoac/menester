@@ -1,17 +1,14 @@
 {{extend 'plantilla.html'}}
 
 <h1>{{=response.title}}
-<small>{{=response.subtitle.capitalize() if response.subtitle else ''}}</small>
+  <small>{{=response.subtitle.capitalize() if response.subtitle else ''}}</small>
 </h1>
+
+
 <div class="progress">  
   
-  {{if not progress:}} 
-  Seleccione un <a href="{{=URL(c='p',f='index.html')}}">Proyecto</a>
-  {{else:}}
-  
-  
   <div class="bar" style="width:{{=progress}}%;">
-    {{=progress}}%
+    <span class="label">{{=progress or 0}}%</span>
     {{pass}}
     
   </div>
@@ -30,7 +27,7 @@
 
 </div>
 
-<button id="btn_new_task" class='btn btn-large btn-inverse'  onclick='jQuery("#task_new").slideToggle();'>Nueva Tarea</button>
+<button id="btn_new_task" class="btn btn-large btn-inverse"  onclick="jQuery('#task_new').slideToggle();">Nueva Tarea</button>
 
 {{=task_new}}
 
