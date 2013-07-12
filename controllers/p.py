@@ -14,82 +14,39 @@ def list():
     else:
         query_project_state = ((db.project.close == None) | (db.project.close != True))
                                    
-    data = db(query_project_state).select(orderby=~db.project.id)
+    dataset = db(query_project_state).select(orderby=~db.project.id)
+           
+    income_dataset = db((db.income.project_uuid == db.project.uuid)
+                        & (db.income.done == True)).select(
+                            db.project.uuid, 
+                            db.income.amount.sum(),
+                            groupby=db.project.uuid
+                        )
 
-    project_list = TABLE(TR(
-            TH('NOMBRE'),
-            TH('PROGRESO'),
-            TH('INICIO/FIN'),
-            TH(),
-            ), _class='table table-bordered table-condensed table-hover')
-                
+    expense_dataset = db((db.expense.project_uuid == db.project.uuid)
+                         & (db.expense.done==True)
+                     ).select(
+                         db.project.uuid, 
+                         db.expense.amount.sum(),
+                         groupby=db.project.uuid
+                     )
 
-    for n,p in enumerate(data):
+    project_income = Storage({i.project.uuid:i['SUM(income.amount)'] for i in income_dataset})
+    project_expense = Storage({i.project.uuid:i['SUM(expense.amount)'] for i in expense_dataset})
 
-        # contando cantidad de tareas abiertas en el proyecto
-        total_task = db((db.task.project_uuid==p.uuid)
-                        &(db.task.closed==False)).count()
+    open_task_dataset = db((db.task.project_uuid==db.project.uuid)
+                    & (db.task.closed==False)
+                ).select(db.project.uuid, 
+                         db.task.id.count(), 
+                         groupby=db.project.uuid)
         
-        project_income = db(db.income.project_uuid == p.uuid).select(db.income.amount)
-        project_expense = db(db.expense.project_uuid == p.uuid).select(db.expense.amount)
-
-        project_list.append(TR(
-            
-            
-
-                TD(TAG.strong(p.name.title()),
-                   DIV(
-                   A('Tareas: {0} '.format(total_task),#TAG.i(_class='icon-tasks'),
-                     _href=URL(c='t', f='index.html', vars=dict(p=p.slug)), 
-                     _class='btn btn-mini ' ),
-
-                   DIV(
-                  
-                       A('Entrada: ${0}'.format(int(sum([d.amount for d in project_income]))),#TAG.i(_class='icon-tasks'),
-                     _href=URL(c='i', f='index.html', vars=dict(p=p.uuid)), 
-                     _class='btn btn-mini btn-success' ),
-
-                       A('Salida: ${0}'.format(int(sum([d.amount for d in project_expense]))),#TAG.i(_class='icon-tasks'),
-                     _href=URL(c='e', f='index.html', vars=dict(p=p.uuid)), 
-                     _class='btn btn-mini btn-danger' ),
-
-                          A('Precio: ${0}'.format(p.price),#TAG.i(_class='icon-tasks'),
-                     _href=URL(c='e', f='index.html', vars=dict(p=p.uuid)), 
-                     _class='btn btn-mini btn-primary' ),
-
-
-
-                       _class='btn-group pull-right'),
-
-                       _class=''),
-
-
-
-                   ),
-                TD(DIV(DIV(_class="bar", 
-                           _style="width: %s%%;" % total_progress(p.uuid)),
-                       _class="progress progress-success")),
-
-                TD(CAT(SPAN(p.start.date() if p.start else SPAN('Ø'),
-                           _class='label label-info'),' ',
-                       SPAN(p.end.date() if p.end else  SPAN('Ø'),
-                           _class='label label-important')) \
-                       ),
-
-                
-
-                # Actualizar projecto
-                TD(A(TAG.i(_class='icon-edit icon-white'),  
-                     _href=URL(c='p', f='new.load', args=p.id),
-                     _class='btn btn-small btn-danger',
-                     cid="new_project"),
-                   ),
-                
-                ))
-
-
-    return dict(project_list=project_list)
-
+    open_task = Storage({t.project.uuid:t['COUNT(task.id)'] for t in open_task_dataset})
+   
+    return {'dataset':dataset, 
+            'project_income':project_income,
+            'project_expense':project_expense,
+            'open_task':open_task
+    }
 
 @auth.requires_login()
 def new():
