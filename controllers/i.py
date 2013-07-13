@@ -26,17 +26,18 @@ def index():
 
 
 def new():
-    
-    p = request.vars.p
+            
     project_name = ''
-    if p:
+    if request.vars.p and len(request.vars.p.strip()):
 
-        project_name = 'en '+db(db.project.uuid == p).select(db.project.name, limitby=(0,1)).first()['name']
+        project_name_dataset = db(db.project.uuid == request.vars.p).select(db.project.name, limitby=(0,1))
+        if project_name_dataset: project_name = 'en '+project_name_dataset.first()['name']
         
-        db.income.project_uuid.default = p
+        
+        db.income.project_uuid.default = request.vars.p
         db.income.project_uuid.writable = False
         db.income.project_uuid.readable = False
-        query = (db.income.project_uuid == p) & (db.income.project_uuid == db.project.uuid)
+        query = (db.income.project_uuid == request.vars.p) & (db.income.project_uuid == db.project.uuid)
     else:
         query = db.income.id>0
     form = SQLFORM(db.income,request.args(0))
