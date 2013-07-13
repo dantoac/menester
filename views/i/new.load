@@ -1,0 +1,59 @@
+<button 
+   class="btn btn-primary"
+   onclick="$('#form').slideToggle();$('#form').reset();">Nuevo Ingreso</button>
+
+
+<div id="form" class="{{if not (form.errors or request.args(0)):}}hide{{pass}} row">
+  {{=form.custom.begin}}
+
+  <div class="span5 well">
+
+  {{if not request.vars.p:}}
+    <strong>Proyecto:</strong><br />
+        {{=form.custom.widget.project_uuid}}
+    <br />
+    {{pass}}
+    <strong>Monto:</strong><br />
+        {{=form.custom.widget.amount}}
+  </div>
+  <div class="span5 well">
+    <strong>Asunto:</strong><br />
+        {{=form.custom.widget.subject}}
+    <br />
+    <strong>Fecha Límite:</strong><br />
+        {{=form.custom.widget.due_date}}
+    <strong>Realizado:</strong>
+        {{=form.custom.widget.done}}
+     {{=form.custom.submit}}
+</div>
+
+
+
+  {{=form.custom.end}}
+</div>
+<table class="table table-striped">
+<thead>
+  <tr>
+    <th>Monto</th>
+    <th>Fecha</th>
+    <th>Hecho</th>
+    <th></th>
+  </tr>
+</thead>
+
+<tbody>
+
+{{for d in dataset:}}
+
+<tr>
+  <td>{{=d.income.amount}}</td>
+  <td>{{=d.income.due_date}}</td>
+  <td>{{=d.income.done}}</td>
+  <td>{{=A('Editar', _href=URL(f='new.load',args=d.income.id,vars={'p':d.income.project_uuid}), cid=request.cid)}}</td>
+</tr>
+
+{{pass}}
+
+</tbody>
+</table>
+
