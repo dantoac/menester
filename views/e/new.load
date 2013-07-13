@@ -1,0 +1,69 @@
+<button 
+   class="btn btn-primary"
+   onclick="$('#form').slideToggle();$('#form').reset();">Nuevo Egreso</button>
+
+
+<div id="form" class="{{if not (form.errors or request.args(0)):}}hide{{pass}} row">
+  {{=form.custom.begin}}
+
+  <div class="span5 well">
+
+  {{if not request.vars.p:}}
+    <strong>Proyecto:</strong><br />
+        {{=form.custom.widget.project_uuid}}
+    <br />
+    {{pass}}
+    <strong>Monto:</strong><br />
+        {{=form.custom.widget.amount}}
+  </div>
+  <div class="span5 well">
+    <strong>Asunto:</strong><br />
+        {{=form.custom.widget.subject}}
+    <br />
+    <strong>Fecha Límite:</strong><br />
+        {{=form.custom.widget.due_date}}
+    <strong>Realizado:</strong>
+        {{=form.custom.widget.done}}
+     
+     <input class="btn btn-primary" type="submit" value="Registrar">
+
+     {{if request.args(0):}}
+     {{=A("No registrar", _class="btn btn-danger pull-right",
+     _href=URL(f='new.load',vars=request.vars), cid=request.cid)}}
+     {{pass}}
+
+</div>
+
+
+
+  {{=form.custom.end}}
+</div>
+<table class="table table-striped">
+<thead>
+  <tr>
+    <th>Monto</th>
+    <th>Fecha</th>
+    <th>Hecho</th>
+    <th></th>
+  </tr>
+</thead>
+
+<tbody>
+
+{{for d in dataset:}}
+
+<tr>
+  <td>{{=d.expense.amount}}</td>
+  <td>{{=d.expense.due_date}}</td>
+  <td>{{=d.expense.done}}</td>
+  <td>{{=A('Editar', 
+  _href=URL(f='new.load',args=d.expense.id,vars=request.vars), 
+  _class="btn btn-mini",
+  cid=request.cid)}}</td>
+</tr>
+
+{{pass}}
+
+</tbody>
+</table>
+
