@@ -1,9 +1,8 @@
 {{extend 'plantilla.html'}}
 
+<h4 class="">Entradas {{=project_name}}: {{=numfmt(sum([d['SUM(income.amount)'] for d in dataset]))}}</h4>
 
-<h4 class="">Entradas {{=project_name}}: {{#=numfmt(sum([d.income.amount for d in dataset]))}}</h4>
-
-<div style="width:960px;margin:1em auto;">
+<div class="row" style="width:960px;margin:1em auto;">
 <canvas id="chart" width="960" height="200" style="margin:auto;"></canvas>
 </div>
 <script>

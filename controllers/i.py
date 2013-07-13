@@ -1,7 +1,7 @@
 #encode: utf8
 
 def index():
-    
+    response.flash = 'Aún es necesario recargar manualmente el gráfico luego de registrar Ingresos.'
     p = request.vars.p
     project_name = ''
     if p:
@@ -10,8 +10,8 @@ def index():
     else:
         query = db.income.id>0
 
-    chart_dataset = db(query).select(db.income.amount.sum(),db.income.due_date,groupby=db.income.due_date)
-    data = [(str(i.income.due_date),i['SUM(income.amount)']) for i in chart_dataset]
+    dataset = db(query).select(db.income.amount.sum(),db.income.due_date,groupby=db.income.due_date)
+    data = [(str(i.income.due_date),i['SUM(income.amount)']) for i in dataset]
     meta_data_x = [d[0] for d in data]
     data_x = "["
     for m in meta_data_x:  data_x += '"%s",' % m
@@ -21,12 +21,12 @@ def index():
 
 
 
-    return {'chart_data':chart_data,'project_name':project_name}
+    return {'chart_data':chart_data,'project_name':project_name,'dataset':dataset}
 
 
 
 def new():
-            
+        
     project_name = ''
     if request.vars.p and len(request.vars.p.strip()):
 
@@ -43,9 +43,11 @@ def new():
     form = SQLFORM(db.income,request.args(0))
 
     if form.process().accepted:
-        response.flash = 'Ingreso registrado exitosamente'
         if request.args(0):
+            session.flash = 'Ingreso actualizado exitosamente'
             redirect(URL(f='new.load',vars=request.vars))
+        else:
+            response.flash = 'Ingreso registrado exitosamente'
     elif form.errors:
         response.flash = 'Error registrando el Ingreso. Revise el formulario'
 

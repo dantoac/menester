@@ -24,7 +24,14 @@
         {{=form.custom.widget.due_date}}
     <strong>Realizado:</strong>
         {{=form.custom.widget.done}}
-     {{=form.custom.submit}}
+     
+     <input class="btn btn-primary" type="submit" value="Registrar">
+
+     {{if request.args(0):}}
+     {{=A("No registrar", _class="btn btn-danger pull-right",
+     _href=URL(f='new.load',vars=request.vars), cid=request.cid)}}
+     {{pass}}
+
 </div>
 
 
@@ -49,7 +56,10 @@
   <td>{{=d.income.amount}}</td>
   <td>{{=d.income.due_date}}</td>
   <td>{{=d.income.done}}</td>
-  <td>{{=A('Editar', _href=URL(f='new.load',args=d.income.id,vars=request.vars), cid=request.cid)}}</td>
+  <td>{{=A('Editar', 
+  _href=URL(f='new.load',args=d.income.id,vars=request.vars), 
+  _class="btn btn-mini",
+  cid=request.cid)}}</td>
 </tr>
 
 {{pass}}
