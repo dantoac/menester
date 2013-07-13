@@ -2,11 +2,11 @@
 
 def index():
     response.flash = 'Aún es necesario recargar manualmente el gráfico luego de registrar Ingresos.'
-    p = request.vars.p
-    project_name = ''
-    if p:
-        project_name = 'en '+db(db.project.uuid == p).select(db.project.name, limitby=(0,1)).first()['name']
-        query = (db.income.project_uuid == p) & (db.income.project_uuid == db.project.uuid)
+    request.vars.p
+
+    if request.vars.p:
+
+        query = (db.income.project_uuid == request.vars.p) & (db.income.project_uuid == db.project.uuid)
     else:
         query = db.income.id>0
 
@@ -21,19 +21,17 @@ def index():
 
 
 
-    return {'chart_data':chart_data,'project_name':project_name,'dataset':dataset}
+    return {'chart_data':chart_data,
+            'dataset':dataset}
 
 
 
 def new():
         
-    project_name = ''
+    project_metadata = ''
     if request.vars.p and len(request.vars.p.strip()):
 
-        project_name_dataset = db(db.project.uuid == request.vars.p).select(db.project.name, limitby=(0,1))
-        if project_name_dataset: project_name = 'en '+project_name_dataset.first()['name']
-        
-        
+        project_metadata = db(db.project.uuid == request.vars.p).select(limitby=(0,1))     
         db.income.project_uuid.default = request.vars.p
         db.income.project_uuid.writable = False
         db.income.project_uuid.readable = False
@@ -61,7 +59,7 @@ def new():
         left=db.project.on(db.income.project_uuid == db.project.uuid)
     )
     
-    return {'form':form, 'dataset':dataset}
+    return {'form':form, 'dataset':dataset, 'project_metadata':project_metadata}
 
 
 

@@ -1,6 +1,8 @@
 <button 
    class="btn btn-primary"
-   onclick="$('#form').slideToggle();$('#form').reset();">Nuevo Ingreso</button>
+   onclick="$('#form').slideToggle();$('#form').reset();">
+  Nuevo Ingreso
+</button>
 
 
 <div id="form" class="{{if not (form.errors or request.args(0)):}}hide{{pass}} row">
@@ -8,62 +10,86 @@
 
   <div class="span5 well">
 
-  {{if not request.vars.p:}}
+    {{if not request.vars.p:}}
     <strong>Proyecto:</strong><br />
-        {{=form.custom.widget.project_uuid}}
+    {{=form.custom.widget.project_uuid}}
     <br />
     {{pass}}
     <strong>Monto:</strong><br />
-        {{=form.custom.widget.amount}}
+    {{=form.custom.widget.amount}}
   </div>
   <div class="span5 well">
     <strong>Asunto:</strong><br />
-        {{=form.custom.widget.subject}}
+    {{=form.custom.widget.subject}}
     <br />
     <strong>Fecha Límite:</strong><br />
-        {{=form.custom.widget.due_date}}
+    {{=form.custom.widget.due_date}}
     <strong>Realizado:</strong>
-        {{=form.custom.widget.done}}
-     
-     <input class="btn btn-primary" type="submit" value="Registrar">
+    {{=form.custom.widget.done}}
+    
+    <input class="btn btn-primary" type="submit" value="Registrar">
 
-     {{if request.args(0):}}
-     {{=A("No registrar", _class="btn btn-danger pull-right",
-     _href=URL(f='new.load',vars=request.vars), cid=request.cid)}}
-     {{pass}}
+    {{if request.args(0):}}
+    {{=A("No registrar", _class="btn btn-danger pull-right",
+    _href=URL(f='new.load',vars=request.vars), cid=request.cid)}}
+    {{pass}}
 
-</div>
+  </div>
 
 
 
   {{=form.custom.end}}
 </div>
-<table class="table table-striped">
-<thead>
-  <tr>
-    <th>Monto</th>
-    <th>Fecha</th>
-    <th>Hecho</th>
-    <th></th>
-  </tr>
-</thead>
 
-<tbody>
+<div>
 
-{{for d in dataset:}}
+  {{total_income=sum([d.income.amount for d in dataset])}}
 
-<tr>
-  <td>{{=d.income.amount}}</td>
-  <td>{{=d.income.due_date}}</td>
-  <td>{{=d.income.done}}</td>
-  <td>{{=A('Editar', 
-  _href=URL(f='new.load',args=d.income.id,vars=request.vars), 
-  _class="btn btn-mini",
-  cid=request.cid)}}</td>
-</tr>
+  {{if project_metadata:}}
+  <span class="badge badge-success">
 
-{{pass}}
+    {{income = total_income}}
+    {{price = project_metadata.first()['price']}}
+    
+    Por cobrar: {{=numfmt(int(price) - int(income))}}
+    
+  </span>
+  {{pass}}
+  <table class="table table-bordered table-striped">
+    <caption>
+      
+    <strong>  Ingresos 
+      {{if project_metadata:}}
+      en {{=project_metadata.first()['name']}}  
+      {{pass}}
+      : {{=numfmt(total_income)}}
+    </strong>
+    </caption>
+    <thead>
+      <tr>
+        <th>Monto</th>
+        <th>Fecha</th>
+        <th>Hecho</th>
+        <th></th>
+      </tr>
+    </thead>
 
-</tbody>
-</table>
+    <tbody>
 
+      {{for d in dataset:}}
+
+      <tr>
+        <td>{{=numfmt(d.income.amount)}}</td>
+        <td>{{=d.income.due_date}}</td>
+        <td>{{=d.income.done}}</td>
+        <td>{{=A('Editar', 
+          _href=URL(f='new.load',args=d.income.id,vars=request.vars), 
+          _class="btn btn-mini",
+          cid=request.cid)}}</td>
+      </tr>
+
+      {{pass}}
+
+    </tbody>
+  </table>
+</div>

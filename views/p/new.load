@@ -32,6 +32,11 @@
     <label class="control-label" for="project_start">{{=form.custom.label.start}}</label>
     <div class="controls">{{=form.custom.widget.start}}</div>
 
+    
+    <label class="control-label" for="project_team">{{=form.custom.label.team}}</label>
+    <div class="controls">{{=form.custom.widget.team}}</div>
+
+
   </div>
   
   <div class="span4">
