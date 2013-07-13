@@ -183,40 +183,40 @@ Histórico de <span class="label label-info">Ingresos</span> y <span class="labe
 
 
 
-                <!-- <script> -->
+                <script>
 
-                <!--   var data = [ -->
-	        <!--   { -->
-		<!--   value : {{=project_income[p.uuid] or 0}}, -->
-		<!--   color: "#0099ff" -->
-	        <!--   }, -->
-	        <!--   { -->
-		<!--   value : {{=project_expense[p.uuid] or 0}}, -->
-		<!--   color: "#faa" -->
-	        <!--   }, -->
-	        <!--   { -->
-		<!--   value : {{=p.value or 0}}, -->
-		<!--   color: "#fea" -->
-	        <!--   }, -->
+                  var data = [
+	          {
+		  value : {{=project_income[p.uuid] or 0}},
+		  color: "#0099ff"
+	          },
+	          {
+		  value : {{=project_expense[p.uuid] or 0}},
+		  color: "#faa"
+	          },/*
+	          {
+		  value : {{=p.value or 0}},
+		  color: "#fea"
+	          },*/
 
-                <!--   ] -->
+                  ]
 
-                <!--   var ctx = document.getElementById("g{{=p.id}}").getContext("2d"); -->
-                <!--   var myNewChart = new Chart(ctx).Pie(data); -->
+                  var ctx = document.getElementById("g{{=p.id}}").getContext("2d");
+                  var myNewChart = new Chart(ctx).Pie(data);
 
-                <!-- </script> -->
+                </script>
                
 
-                <!-- <div> -->
-                <!--   <canvas id="g{{=p.id}}" width="100" height="100"></canvas> -->
-                <!--   <div class="pull-left"> -->
-                <!--   <ul class="text-small"> -->
-                <!--     <li><div style="width:1em;height:1em;background:#0099ff;display:inline-block;"></div>:Ingresos</li> -->
-                <!--     <li><div style="width:1em;height:1em;background:#ffaaaa;display:inline-block;"></div>:Egresos</li> -->
-                <!--     <li><div style="width:1em;height:1em;background:#ffeeaa;display:inline-block;"></div>:Renta</li> -->
-                <!--   </ul> -->
-                <!--   </div> -->
-                <!-- </div> -->
+                <div>
+                  <canvas id="g{{=p.id}}" width="100" height="100"></canvas>
+                  <!-- <div class="pull-left"> -->
+                  <!-- <ul class="unstyled"> -->
+                  <!--   <li><div style="width:1em;height:1em;background:#0099ff;display:inline-block;"></div>:Ingresos</li> -->
+                  <!--   <li><div style="width:1em;height:1em;background:#ffaaaa;display:inline-block;"></div>:Egresos</li> -->
+                  <!--   <\!-- <li><div style="width:1em;height:1em;background:#ffeeaa;display:inline-block;"></div>:</li> -\-> -->
+                  <!-- </ul> -->
+                  <!-- </div> -->
+                </div>
         
 
       </td>
