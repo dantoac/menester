@@ -26,7 +26,18 @@ def index():
     )
     
 
-    return {'form':form,'dataset':dataset, 'project_name':project_name}
+    
+
+    chart_dataset = db(query).select(db.expense.amount.sum(),db.expense.due_date,groupby=db.expense.due_date)
+    data = [(str(i.expense.due_date),i['SUM(expense.amount)']) for i in chart_dataset]
+    meta_data_x = [d[0] for d in data]
+    data_x = "["
+    for m in meta_data_x:  data_x += '"%s",' % m
+    data_x+= "]"
+    data_y = [int(d[1]) for d in data]
+    chartdata = [data_x, data_y]
+
+    return {'form':form,'dataset':dataset, 'project_name':project_name, 'chartdata':chartdata}
 
 
 
