@@ -49,9 +49,9 @@
   <span class="badge badge-success">
 
     {{income = total_income}}
-    {{price = project_metadata.first()['price']}}
+    {{value = project_metadata.first()['value']}}
     
-    Por cobrar: {{=numfmt(int(price) - int(income))}}
+    Por cobrar: {{=numfmt(int(value) - int(income))}}
     
   </span>
   {{pass}}

@@ -49,9 +49,9 @@
   <span class="badge badge-important">
 
     {{expense = total_expense}}
-    {{price = project_metadata.first()['price']}}
+    {{value = project_metadata.first()['value']}}
     
-    Por cobrar: {{=numfmt(int(price) - int(expense))}}
+    Por cobrar: {{=numfmt(int(value) - int(expense))}}
     
   </span>
   {{pass}}

@@ -44,7 +44,7 @@
               </th>
               <td>
 
-                {{=numfmt(p.price)}}
+                {{=numfmt(p.value)}}
 
               </td>
             </tr>
@@ -132,7 +132,7 @@
 		<!--   color: "#faa" -->
 	        <!--   }, -->
 	        <!--   { -->
-		<!--   value : {{=p.price or 0}}, -->
+		<!--   value : {{=p.value or 0}}, -->
 		<!--   color: "#fea" -->
 	        <!--   }, -->
 

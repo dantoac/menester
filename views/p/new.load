@@ -14,9 +14,9 @@
     <div class="controls">{{=form.custom.widget.aim}}</div>
 
         
-    <label class="control-label" for="project_price">{{=form.custom.label.price}}</label>
+    <label class="control-label" for="project_value">{{=form.custom.label.value}}</label>
     <div class="controls">
-    <input class="integer" id="project_price" name="price" type="text" value="{{=form.custom.dspval.price}}">
+    <input class="integer" id="project_value" name="value" type="text" value="{{=form.custom.dspval.value}}">
     </div>
     
     
