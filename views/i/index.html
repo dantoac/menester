@@ -2,6 +2,8 @@
 
 <h2>Entradas {{=project_name}}</h2>
 
+{{=form}}
+
 {{
 
 query = (db.income.project_uuid==request.vars.p) if request.vars.p else (db.income.id>0)
@@ -47,8 +49,6 @@ var data = {
 var myNewChart = new Chart(ctx).Line(data);
 </script>
 
-
-{{=form}}
 <h2>Total: 
 {{=int(sum([d.income.amount for d in dataset]))}}
 </h2>

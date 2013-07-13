@@ -5,6 +5,53 @@
 {{=form}}
 
 
+{{
+
+query = (db.expense.project_uuid==request.vars.p) if request.vars.p else (db.expense.id>0)
+dd = db(query).select(db.expense.amount.sum(),db.expense.due_date,groupby=db.expense.due_date)
+data = [(str(i.expense.due_date),i['SUM(expense.amount)']) for i in dd]
+
+meta_data_x = [d[0] for d in data]
+
+data_x = "["
+for m in meta_data_x:
+
+data_x += '"%s",' % m
+
+pass
+
+data_x+= "]"
+
+data_y = [int(d[1]) for d in data]
+
+}}
+
+<canvas id="myChart" width="1000px" height="400" style="margin:auto;"></canvas>
+
+<script>
+//Get the context of the canvas element we want to select
+var ctx = document.getElementById("myChart").getContext("2d");
+
+
+var data = {
+	labels : {{=XML(data_x)}}, 
+	datasets : [
+
+		{
+			fillColor : "rgba(151,187,205,0.5)",
+			strokeColor : "rgba(151,187,205,1)",
+			pointColor : "rgba(151,187,205,1)",
+			pointStrokeColor : "#fff",
+			data : {{=data_y}}
+		}
+	]
+}
+
+var myNewChart = new Chart(ctx).Line(data);
+</script>
+
+
+
 <table class="table table-striped">
 <thead>
   <tr>
