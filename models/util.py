@@ -23,7 +23,7 @@ def total_progress(project):
     total_progress = None
 
     if data[percentage_sum]:
-        total_progress = data[percentage_sum] / data[task_count]
+        total_progress = round(data[percentage_sum] / data[task_count])
 
     return total_progress
 
@@ -79,3 +79,7 @@ def numfmt(value, places=0, curr='$', sep='.', dp='',
     build(curr)
     build(neg if sign else pos)
     return ''.join(reversed(result))
+
+
+
+
