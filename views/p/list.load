@@ -90,7 +90,7 @@
               </td>
             </tr>
 
-
+             
 
 
 
@@ -117,7 +117,36 @@
                     {{=numfmt(project_expense[p.uuid] or  '0')}}
                   </a>
                 </div>
+
+
+
+                <script>
+
+                  var data = [
+	          {
+		  value : {{=project_income[p.uuid] or 0}},
+		  color: "#D97041"
+	          },
+	          {
+		  value : {{=project_expense[p.uuid] or 0}},
+		  color: "#C7604C"
+	          },
+	          {
+		  value : {{=p.price or 0}},
+		  color: "#21323D"
+	          },
+
+                  ]
+
+                  var ctx = document.getElementById("g{{=p.id}}").getContext("2d");
+                  var myNewChart = new Chart(ctx).PolarArea(data);
+
+                </script>
                
+
+                <div>
+                  <canvas id="g{{=p.id}}" width="200" height="200"></canvas>
+                </div>
         
 
       </td>

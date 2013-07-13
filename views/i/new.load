@@ -58,12 +58,12 @@
   <table class="table table-bordered table-striped">
     <caption>
       
-    <strong>  Ingresos 
-      {{if project_metadata:}}
-      en {{=project_metadata.first()['name']}}  
-      {{pass}}
-      : {{=numfmt(total_income)}}
-    </strong>
+      <strong>  Ingresos 
+        {{if project_metadata:}}
+        en {{=project_metadata.first()['name']}}  
+        {{pass}}
+        : {{=numfmt(total_income)}}
+      </strong>
     </caption>
     <thead>
       <tr>

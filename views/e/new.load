@@ -1,7 +1,7 @@
 <button 
    class="btn btn-primary"
    onclick="$('#form').slideToggle();$('#form').reset();">
-  Nuevo Ingreso
+  Nuevo Egreso
 </button>
 
 
@@ -51,14 +51,14 @@
     {{expense = total_expense}}
     {{price = project_metadata.first()['price']}}
     
-    Por pagar: {{=numfmt(int(price) - int(expense))}}
+    Por cobrar: {{=numfmt(int(price) - int(expense))}}
     
   </span>
   {{pass}}
   <table class="table table-bordered table-striped">
     <caption>
       
-    <strong>  Egresos
+    <strong>  Egresos 
       {{if project_metadata:}}
       en {{=project_metadata.first()['name']}}  
       {{pass}}

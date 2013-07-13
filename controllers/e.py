@@ -42,12 +42,12 @@ def new():
 
     if form.process().accepted:
         if request.args(0):
-            session.flash = 'Ingreso actualizado exitosamente'
+            session.flash = 'Egreso actualizado exitosamente'
             redirect(URL(f='new.load',vars=request.vars))
         else:
-            response.flash = 'Ingreso registrado exitosamente'
+            response.flash = 'Egreso registrado exitosamente'
     elif form.errors:
-        response.flash = 'Error registrando el Ingreso. Revise el formulario'
+        response.flash = 'Error registrando el Egreso. Revise el formulario'
 
     dataset = db(query).select(
         db.expense.id,
