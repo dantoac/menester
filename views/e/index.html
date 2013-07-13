@@ -1,10 +1,9 @@
 {{extend 'plantilla.html'}}
 
-<h2>Salidas {{=project_name}}</h2>
+<h4 class="">Entradas {{=project_name}}: {{=numfmt(sum([d['SUM(expense.amount)'] for d in dataset]))}}</h4>
 
-{{=form}}
-<div style="margin:auto;width:950px;">
-<canvas id="chart" width="950" height="200" style="margin:auto;"></canvas>
+<div class="row" style="width:960px;margin:1em auto;">
+<canvas id="chart" width="960" height="200" style="margin:auto;"></canvas>
 </div>
 <script>
 //Get the context of the canvas element we want to select
@@ -12,7 +11,7 @@ var ctx = document.getElementById("chart").getContext("2d");
 
 
 var data = {
-	labels : {{=XML(chartdata[0])}}, 
+	labels : {{=XML(chart_data[0])}}, 
 	datasets : [
 
 		{
@@ -20,38 +19,12 @@ var data = {
 			strokeColor : "rgba(151,187,205,1)",
 			pointColor : "rgba(151,187,205,1)",
 			pointStrokeColor : "#fff",
-			data : {{=chartdata[1]}}
+			data : {{=chart_data[1]}}
 		}
 	]
 }
 
-var myNewChart = new Chart(ctx).Line(data);
+var myNewChart = new Chart(ctx).Bar(data);
 </script>
 
-
-
-<table class="table table-striped">
-<thead>
-  <tr>
-    <th>Monto</th>
-    <th>Fecha</th>
-    <th>Hecho</th>
-    <th></th>
-  </tr>
-</thead>
-
-<tbody>
-
-{{for d in dataset:}}
-
-<tr>
-  <td>{{=d.expense.amount}}</td>
-  <td>{{=d.expense.due_date}}</td>
-  <td>{{=d.expense.done}}</td>
-  <td><a class="btn btn-danger" href="{{=URL(args=d.expense.id,vars={'p':d.expense.project_uuid})}}">Editar</a></td>
-</tr>
-
-{{pass}}
-
-</tbody>
-</table>
+{{=LOAD(c='e',f='new.load',vars=request.vars,args=request.args)}}
