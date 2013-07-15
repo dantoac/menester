@@ -68,6 +68,7 @@
     <thead>
       <tr>
         <th>Monto</th>
+        <th>Asunto</th>
         <th>Fecha</th>
         <th>Hecho</th>
         <th></th>
@@ -80,6 +81,7 @@
 
       <tr>
         <td>{{=numfmt(d.expense.amount)}}</td>
+        <td>{{=d.expense.subject}}</td>
         <td>{{=d.expense.due_date}}</td>
         <td>{{=d.expense.done}}</td>
         <td>{{=A('Editar', 
