@@ -14,7 +14,8 @@ def CHART_income_expense_total():
     data_income = [(str(i.income.due_date),i['SUM(income.amount)']) for i in dataset_income]
     data_expense = [(str(i.expense.due_date),i['SUM(expense.amount)']) for i in dataset_expense]
 
-
+    total_incomes = sum([i['SUM(income.amount)'] for i  in dataset_income])
+    total_expenses = sum([i['SUM(expense.amount)'] for i  in dataset_expense])
 
     #meta_data_x = [d[0] for d in data_expense]
     meta_data_x = [d[0] for d in data_expense]
@@ -31,9 +32,12 @@ def CHART_income_expense_total():
     chart_data = [data_x, data_y, data_y2]
 
     html = '''
-
+    
+    
     <div class="row" style="width:960px;margin:1em auto;text-align:center;">
-Histórico de <span class="label label-info">Ingresos</span> y <span class="label label-important">Egresos</span>
+
+    
+<div class="">Total <span class="label label-info">Ingresos</span> %(incomes)s <span class="label label-important">Egresos</span> %(expenses)s</div>
   <canvas id="chart" width="960" height="200" style="margin:auto;"></canvas>
 </div>
 <script>
@@ -69,7 +73,9 @@ Histórico de <span class="label label-info">Ingresos</span> y <span class="labe
 </script>
     ''' % {'X':chart_data[0],
            'Y1':chart_data[1],
-           'Y2':chart_data[2]
+           'Y2':chart_data[2],
+           'incomes':numfmt(total_incomes),
+           'expenses':numfmt(total_expenses)
     }
 
 
