@@ -55,6 +55,7 @@ def new():
         db.income.amount,
         db.income.due_date,
         db.income.done,
+        db.income.subject,
         db.project.ALL,
         left=db.project.on(db.income.project_uuid == db.project.uuid)
     )
