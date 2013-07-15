@@ -1,13 +1,13 @@
 
 
-<div id="comment-container">
+<div id="comment-container" style="clear:both;">
   
   {{for comment in comments:}}
   <div class="comment">
     <div class="comment-head text-info">
       <strong>{{=comment.author}}</strong>, <em>{{=prettydate(comment.created_on)}}</em>
     </div>
-    <div class="comment-body">
+    <div class="comment-body" style="background:#fff;padding:1em;">
       <div class="pull-right">{{=A(TAG.i(_class='icon-remove'), 
         callback=URL('comment','_delete',args=comment.id), delete='.comment',
         )}}</div>
