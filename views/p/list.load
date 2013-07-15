@@ -1,14 +1,10 @@
 {{=CHART_income_expense_total()}}
 
 <table class="table table-condensed table-bordered">
-  <thead>
-    <tr>
-      <th>Proyecto</th>
-      <th>Finanzas</th>
-      <th>Tareas</th>           
-    </tr>
-  </thead>
+
   <tbody>
+
+    {{total_por_cobrar=0}}
 
     {{for p in dataset:}}
 
@@ -206,9 +202,23 @@
 
     </tr>
 
+
+    {{total_por_cobrar += porcobrar}}
+
     {{pass}}
     
   </tbody>
+
+  <thead>
+    <tr>
+      <th>Proyecto</th>
+      <th>Finanzas <span class="label"><i class="icon icon-white icon-time"></i>{{=numfmt(total_por_cobrar)}}</span></th>
+      <th>Tareas</th>           
+    </tr>
+  </thead>
+
+
+
 </table>
 
 
