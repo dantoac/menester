@@ -9,7 +9,7 @@ response.title = ' '.join(word.capitalize() for word in request.application.spli
 response.subtitle = T('Gestor simple de Tareas y Proyectos')
 
 ## read more at http://dev.w3.org/html5/markup/meta.name.html
-response.meta.author = 'daniel@artkind.net'
+response.meta.author = 'contacto@nim.io'
 response.meta.description = 'fast task and project manager'
 response.meta.keywords = 'tracker, web2py'
 response.meta.generator = 'Web2py Web Framework'

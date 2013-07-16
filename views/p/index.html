@@ -1,32 +1,78 @@
 {{extend 'layout.html'}}
 
 
-<div class="btn-group pull-right" data-toggle="buttons-radio">
+{{
+    dataset_income = db(db.income).select(db.income.due_date,db.income.amount.sum(),groupby=db.income.due_date,orderby=db.income.due_date)
+    dataset_expense = db(db.expense).select(db.expense.amount.sum(),db.expense.due_date,groupby=db.expense.due_date,orderby=db.expense.due_date)
 
-  {{=A('Proyectos Activos', callback=URL('list.load', vars=request.vars), target='project_list_container', _class='btn active primary btn-mini')}}
-  
-  {{ vars = dict(dict(state='any'),**request.vars)}}
-  {{=A('Todas', callback=URL('list.load', vars=vars), target='project_list_container', _class='btn  btn-mini')}}
+    data = CHART_data_sum(dataset=dataset_income, xfield='income.due_date',ykeys='y')
+    data.extend(CHART_data_sum(dataset=dataset_expense,xfield='expense.due_date',ykeys='z'))
+
+}}
+
+
+
+    <div style="text-align:center;">
+    <span class="label label-info">
+    <i class="icon icon-white icon-arrow-down"></i> 
+    {{=numfmt(sum([i['SUM(income.amount)'] for i in dataset_income]))}}</span>
+    
+    <span class="label label-important">
+    <i class="icon icon-white icon-arrow-up"></i>
+    {{=numfmt(sum([i['SUM(expense.amount)'] for i in dataset_expense]))}}</span>
+
+    <span class="label por-cobrar"><i class="icon icon-white icon-time"></i> </span>
+    </div>
+    <div id="total-income-expense-chart" style="height: 250px;"></div>
+    
+
+    <div class="btn-group pull-right" data-toggle="buttons-radio">
+
+{{=A('Proyectos Activos', callback=URL('list.load', vars=request.vars), target='project_list_container', _class='btn active primary btn-mini')}}
+
+{{ vars = dict(dict(state='any'),**request.vars)}}
+{{=A('Todas', callback=URL('list.load', vars=vars), target='project_list_container', _class='btn  btn-mini')}}
 
 </div>
 
 
+
 {{=A(TAG.i(_class='icon-white icon-star'),' Nuevo Proyecto', _href=URL(c='p', f='new.load'), 
-_class='btn btn-large btn-inverse',
-cid="new_project")}}
+     _class='btn btn-large btn-inverse',
+     cid="new_project")}}
+
 
 {{=LOAD(c='p', f='new.load', args=None,
-target="new_project", _class="row"
-)}}
+        target="new_project", _class="row"
+       )}}
 
-
-
-<script>
+    <script>
 
 jQuery().ready(function(){
 
-jQuery("#new_project>form").hide();
+    jQuery("#new_project>form").hide();
 
 });
+
+
+new Morris.Line({
+    
+    element: 'total-income-expense-chart',
+    
+    data:  {{=XML(response.json(data))}},
+    
+    xkey: 'x',
+    
+    ykeys: ['y0','z0'],
+    
+    labels: ['Ingresos','Egresos'],
+    
+    lineColors: ['#007bcc','#d64b46']
+});
+
+
+
+
+
 
 </script>

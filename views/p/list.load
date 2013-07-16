@@ -1,4 +1,3 @@
-{{=CHART_income_expense_total()}}
 
 <table class="table table-condensed table-bordered">
 
@@ -138,41 +137,41 @@
 
 
 
-                <script>
+                <!-- <script> -->
 
-                  var data = [
-	          {
-		  value : {{=project_income[p.uuid] or 0}},
-		  color: "#0099ff"
-	          },
-	          {
-		  value : {{=project_expense[p.uuid] or 0}},
-		  color: "#faa"
-	          },/*
-	          {
-		  value : {{=p.value or 0}},
-		  color: "#fea"
-	          },*/
+                <!--   var data = [ -->
+	        <!--   { -->
+		<!--   value : {{=project_income[p.uuid] or 0}}, -->
+		<!--   color: "#0099ff" -->
+	        <!--   }, -->
+	        <!--   { -->
+		<!--   value : {{=project_expense[p.uuid] or 0}}, -->
+		<!--   color: "#faa" -->
+	        <!--   },/* -->
+	        <!--   { -->
+		<!--   value : {{=p.value or 0}}, -->
+		<!--   color: "#fea" -->
+	        <!--   },*/ -->
 
-                  ]
+                <!--   ] -->
 
-                  var ctx = document.getElementById("g{{=p.id}}").getContext("2d");
-                  var myNewChart = new Chart(ctx).Pie(data);
+                <!--   var ctx = document.getElementById("g{{=p.id}}").getContext("2d"); -->
+                <!--   var myNewChart = new Chart(ctx).Pie(data); -->
 
-                </script>
+                <!-- </script> -->
                
                 
 
-                <div class="{{=p.uuid}} hidden" style="clear:both;">
-                  <canvas id="g{{=p.id}}" width="100" height="100"></canvas>
-                  <!-- <div class="pull-left"> -->
-                  <!-- <ul class="unstyled"> -->
-                  <!--   <li><div style="width:1em;height:1em;background:#0099ff;display:inline-block;"></div>:Ingresos</li> -->
-                  <!--   <li><div style="width:1em;height:1em;background:#ffaaaa;display:inline-block;"></div>:Egresos</li> -->
-                  <!--   <\!-- <li><div style="width:1em;height:1em;background:#ffeeaa;display:inline-block;"></div>:</li> -\-> -->
-                  <!-- </ul> -->
-                  <!-- </div> -->
-                </div>
+                <!-- <div class="{{=p.uuid}} hidden" style="clear:both;"> -->
+                <!--   <canvas id="g{{=p.id}}" width="100" height="100"></canvas> -->
+                <!--   <\!-- <div class="pull-left"> -\-> -->
+                <!--   <\!-- <ul class="unstyled"> -\-> -->
+                <!--   <\!--   <li><div style="width:1em;height:1em;background:#0099ff;display:inline-block;"></div>:Ingresos</li> -\-> -->
+                <!--   <\!--   <li><div style="width:1em;height:1em;background:#ffaaaa;display:inline-block;"></div>:Egresos</li> -\-> -->
+                <!--   <\!--   <\\!-- <li><div style="width:1em;height:1em;background:#ffeeaa;display:inline-block;"></div>:</li> -\\-> -\-> -->
+                <!--   <\!-- </ul> -\-> -->
+                <!--   <\!-- </div> -\-> -->
+                <!-- </div> -->
         
 
       </td>
@@ -212,7 +211,7 @@
   <thead>
     <tr>
       <th>Proyecto</th>
-      <th>Finanzas <span class="label"><i class="icon icon-white icon-time"></i>{{=numfmt(total_por_cobrar)}}</span></th>
+      <th>Finanzas</th>
       <th>Tareas</th>           
     </tr>
   </thead>
@@ -222,3 +221,11 @@
 </table>
 
 
+<script>
+
+
+$(document).ready(function(){
+
+$(".por-cobrar").append("{{=numfmt(total_por_cobrar)}}");
+});
+</script>

@@ -1,7 +1,98 @@
 # coding: utf8
 
-def CHART_income_expense_total():
-    
+
+def CHART_data_sum(dataset,xfield,ykeys):
+    '''
+    data: [
+    { y: '2009', a: 100, b: 90},
+    { y: '2007', a: 75,  b: 65 },
+    { y: '2013.', a: 50,  b: 40 },
+    { y: '2006', a: 75,  b: 65 },
+    { y: '2010', a: 50,  b: 40 },
+    { y: '2011', a: 75,  b: 65 },
+    { y: '2012', a: 100, b: 90 }
+    ]
+    '''
+   
+
+    #data = [{'y%s' % n: str(d[field]) for n,field in enumerate(dataset.colnames)} for d in dataset]
+
+    colnames = dataset.colnames
+    colnames.remove(xfield)
+
+    data = []
+    for d in dataset:
+        col = {}
+        for n,k in enumerate(dataset.colnames):
+            col['%s%s' % (ykeys,n)] = str(d[k])
+            col['x'] = d[xfield] or '2012'
+        data.append(col)
+            
+    return data
+
+
+
+def __CHART_data_sum(datasets,ykeys):
+    '''
+    data: [
+    { y: '2009', a: 100, b: 90},
+    { y: '2007', a: 75,  b: 65 },
+    { y: '2013.', a: 50,  b: 40 },
+    { y: '2006', a: 75,  b: 65 },
+    { y: '2010', a: 50,  b: 40 },
+    { y: '2011', a: 75,  b: 65 },
+    { y: '2012', a: 100, b: 90 }
+    ]
+    '''
+   
+    from datetime import datetime, date
+
+
+    #data = [{'y%s' % n: str(d[field]) for n,field in enumerate(dataset.colnames)} for d in dataset]
+
+    data = []
+    for n,dataset in enumerate(datasets):
+
+        
+
+
+        colnames = dataset.colnames
+        
+        #if xfield in colnames: colnames.remove(xfield)
+
+        for d in dataset:
+
+            
+            for colname in dataset.colnames:
+                
+                if isinstance(d[colname],(date,datetime)):
+                    xkey = colname 
+                    colnames.remove(xkey)
+                else:
+                    xkey=None
+                
+            
+            col = {}
+
+            for k in colnames:
+                col['%s%s' % (ykeys,n)] = str(d[k])
+                try:
+                    col['x'] = d[xkey]
+                except:
+                    col['x'] = '2012'
+
+            data.append(col)
+            
+    return data
+
+
+
+
+
+def _CHART_income_expense_total():
+    '''jqcharts'''
+
+
     dataset_income = db(db.income).select(db.income.amount.sum(),db.income.due_date,groupby=db.income.due_date)
     dataset_expense = db(db.expense).select(db.expense.amount.sum(),db.expense.due_date,groupby=db.expense.due_date)
 
