@@ -25,7 +25,7 @@ def CHART_data_sum(dataset,xfield,ykeys):
         col = {}
         for n,k in enumerate(dataset.colnames):
             col['%s%s' % (ykeys,n)] = str(d[k])
-            col['x'] = d[xfield] or '2012'
+            col['x'] = d[xfield] or '2013'
         data.append(col)
             
     return data
