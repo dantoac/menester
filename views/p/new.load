@@ -1,12 +1,11 @@
 
 {{=A(TAG.i(_class="icon icon-arrow-left"),' Volver', _href=URL(c='p',f='list.load'), cid=request.cid, _class="btn")}}
 
+<br />
+<div class="row">
+
 
 {{=form.custom.begin}}  
-<br />
-<div class="span12">
-  <btn onclick='jQuery("#new_project>form").slideToggle();' class='btn'><i class="icon-chevron-up"></i></btn>
-</div>
 
 <div class="span4">         
 
@@ -62,5 +61,6 @@
 
 {{=form.custom.end}}      
 
+</div>
 
 

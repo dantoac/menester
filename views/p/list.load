@@ -1,7 +1,10 @@
 
+<div id="project-form">
 {{=A(TAG.i(_class='icon-star'),' Nuevo Proyecto', _href=URL(c='p', f='new.load'), 
     _class='btn pull-left',
     cid=request.cid)}}
+</div>
+
 
 
 <table class="table table-condensed table-bordered">
@@ -245,6 +248,6 @@
 
 $(document).ready(function(){
 
-$(".por-cobrar").append("{{=numfmt(total_por_cobrar)}}");
+$(".por-cobrar").html("<i class='icon icon-white icon-time'></i> {{=numfmt(total_por_cobrar)}}");
 });
 </script>
