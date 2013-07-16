@@ -39,20 +39,20 @@
 {{=A('Proyectos Activos', callback=URL('list.load', vars=request.vars), target='project_list_container', _class='btn active primary btn-mini')}}
 
 {{ vars = dict(dict(state='any'),**request.vars)}}
-{{=A('Todas', callback=URL('list.load', vars=vars), target='project_list_container', _class='btn  btn-mini')}}
+{{=A('Todas', callback=URL('list.load', vars=vars), target='project_list_container', _class='btn pull-rigth btn-mini')}}
+
 
 </div>
 
 
-
-{{=A(TAG.i(_class='icon-star'),' Nuevo Proyecto', _href=URL(c='p', f='new.load'), 
-     _class='btn',
-     cid="new_project")}}
+<div id="project_list_container"></div>
 
 
-{{=LOAD(c='p', f='new.load', args=None,
-        target="new_project", _class="row"
-       )}}
+
+
+{{=LOAD(c='p', f='list.load', args=None,
+target="new_project", _class="row"
+)}}
 
     <script>
 

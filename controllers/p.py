@@ -88,7 +88,8 @@ def new():
                 message=mail_msg
                 )
 
-        if request.ajax: redirect(URL(c='p',f='new.load',args=form.vars.id))
+        if request.ajax: 
+            redirect(URL(c='p',f='list.load'))
     elif form.errors:
         response.flash = "Hubo errores. Revise mensaje en formulario"
         response.js = 'jQuery(document).ready(function(){jQuery("#new_project").show();});'

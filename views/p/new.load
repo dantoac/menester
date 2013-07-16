@@ -1,63 +1,65 @@
+<a href="{{=URL(c='p',f='index.html')}}" class="btn"><i class="icon icon-arrow-left"></i>Volver</a>
+
+
 {{=form.custom.begin}}  
 <br />
 <div class="span12">
-<btn onclick='jQuery("#new_project>form").slideToggle();' class='btn'><i class="icon-chevron-up"></i></btn>
+  <btn onclick='jQuery("#new_project>form").slideToggle();' class='btn'><i class="icon-chevron-up"></i></btn>
 </div>
 
-  <div class="span4">         
+<div class="span4">         
 
-    <label class="control-label" for="project_name">Project Name</label>
-    <div class="controls">{{=form.custom.widget.name}}</div>    
-    
-    
-    <label class="control-label" for="project_aim">{{=form.custom.label.aim}}</label>
-    <div class="controls">{{=form.custom.widget.aim}}</div>
+  <label class="control-label" for="project_name">Project Name</label>
+  <div class="controls">{{=form.custom.widget.name}}</div>    
+  
+  
+  <label class="control-label" for="project_aim">{{=form.custom.label.aim}}</label>
+  <div class="controls">{{=form.custom.widget.aim}}</div>
 
-        
-    <label class="control-label" for="project_value">{{=form.custom.label.value}}</label>
-    <div class="controls">
+  
+  <label class="control-label" for="project_value">{{=form.custom.label.value}}</label>
+  <div class="controls">
     <input class="integer" id="project_value" name="value" type="text" value="{{=form.custom.dspval.value}}">
-    </div>
-    
-    
-    
   </div>
   
-  <div class="span4">      
-    
-    
-    <label class="control-label" for="project_end">{{=form.custom.label.end}}</label>
-    <div class="controls">{{=form.custom.widget.end}}</div>
-
-    <label class="control-label" for="project_start">{{=form.custom.label.start}}</label>
-    <div class="controls">{{=form.custom.widget.start}}</div>
-
-    
-    <label class="control-label" for="project_team">{{=form.custom.label.team}}</label>
-    <div class="controls">{{=form.custom.widget.team}}</div>
-
-
-  </div>
   
-  <div class="span4">
-    
-    <label class="control-label" for="project_email_contact">{{=form.custom.label.email_contact}}</label>
-    <div class="controls">{{=form.custom.widget.email_contact}}</div>
-
-    <input type="submit" value="Registrar Proyecto" class="btn btn-primary center btn-large btn-block" />
-    
-    <br />
-    <label class="control-label" for="project_close">{{=form.custom.label.close}}</label>
-    <div class="controls">{{=form.custom.widget.close}}</div>
-
-  </div>
   
+</div>
+
+<div class="span4">      
+  
+  
+  <label class="control-label" for="project_end">{{=form.custom.label.end}}</label>
+  <div class="controls">{{=form.custom.widget.end}}</div>
+
+  <label class="control-label" for="project_start">{{=form.custom.label.start}}</label>
+  <div class="controls">{{=form.custom.widget.start}}</div>
 
   
+  <label class="control-label" for="project_team">{{=form.custom.label.team}}</label>
+  <div class="controls">{{=form.custom.widget.team}}</div>
+
+
+</div>
+
+<div class="span4">
+  
+  <label class="control-label" for="project_email_contact">{{=form.custom.label.email_contact}}</label>
+  <div class="controls">{{=form.custom.widget.email_contact}}</div>
+
+  <input type="submit" value="Registrar Proyecto" class="btn btn-primary center btn-large btn-block" />
+  
+  <br />
+  <label class="control-label" for="project_close">{{=form.custom.label.close}}</label>
+  <div class="controls">{{=form.custom.widget.close}}</div>
+
+</div>
+
+
+
 
 
 {{=form.custom.end}}      
 
 
-{{=LOAD(f='list.load', ajax=False,  target='project_list_container', _class='span12')}}
 
