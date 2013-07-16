@@ -114,10 +114,18 @@
         
                 <div class="btn-group pull-left">
 
-                  <a class="btn {{if porcobrar > 0:}} btn-primary {{pass}}"
+                  <a class="btn 
+                            {{if project_income[p.uuid] and porcobrar > 0:}} 
+                            btn-primary 
+
+                            {{elif project_income[p.uuid] and porcobrar==0:}}
+
+                            btn-success
+                            
+                            {{pass}}"
                      href="{{=URL(c='i', f='index.html', vars=dict(p=p.uuid))}}">
 
-                    <i class="{{if porcobrar == 0:}}icon-check{{else:}} icon-white icon-arrow-down{{pass}}"></i>
+                    <i class="{{if project_income[p.uuid] and porcobrar == 0:}}icon-check{{elif project_income[p.uuid]:}} icon-white icon-arrow-down{{pass}}"></i>
                     {{=numfmt(project_income[p.uuid] or  '0')}}
 
                   </a>
