@@ -1,4 +1,5 @@
-<a href="{{=URL(c='p',f='index.html')}}" class="btn"><i class="icon icon-arrow-left"></i>Volver</a>
+
+{{=A(TAG.i(_class="icon icon-arrow-left"),' Volver', _href=URL(c='p',f='list.load'), cid=request.cid, _class="btn")}}
 
 
 {{=form.custom.begin}}  
