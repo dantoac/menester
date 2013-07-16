@@ -13,16 +13,24 @@
 
 
     <div style="text-align:center;">
+
     <span class="label label-info">
-    <i class="icon icon-white icon-arrow-down"></i> 
-    {{=numfmt(sum([i['SUM(income.amount)'] for i in dataset_income]))}}</span>
+      <i class="icon icon-white icon-arrow-down"></i> 
+      {{=numfmt(sum([i['SUM(income.amount)'] for i in dataset_income]))}}
+    </span>
     
     <span class="label label-important">
-    <i class="icon icon-white icon-arrow-up"></i>
-    {{=numfmt(sum([i['SUM(expense.amount)'] for i in dataset_expense]))}}</span>
+      <i class="icon icon-white icon-arrow-up"></i>
+      {{=numfmt(sum([i['SUM(expense.amount)'] for i in dataset_expense]))}}
+    </span>
+    
+    <span class="label por-cobrar">
+      <i class="icon icon-white icon-time"></i> 
+    </span>
+    
 
-    <span class="label por-cobrar"><i class="icon icon-white icon-time"></i> </span>
     </div>
+    
     <div id="total-income-expense-chart" style="height: 250px;"></div>
     
 
@@ -37,8 +45,8 @@
 
 
 
-{{=A(TAG.i(_class='icon-white icon-star'),' Nuevo Proyecto', _href=URL(c='p', f='new.load'), 
-     _class='btn btn-large btn-inverse',
+{{=A(TAG.i(_class='icon-star'),' Nuevo Proyecto', _href=URL(c='p', f='new.load'), 
+     _class='btn',
      cid="new_project")}}
 
 

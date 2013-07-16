@@ -10,9 +10,9 @@
 
     <tr>
       <td>
-        <a class="btn" onclick="$('div.{{=p.uuid}}').slideToggle();">        
-          <i class="icon icon-chevron-down"></i>
-          <strong>{{=p.name}}</strong>
+        <a class="btn btn-inverse" onclick="$('div.{{=p.uuid}}').slideToggle();">        
+          <i class="icon icon-white icon-chevron-down"></i>
+          {{=p.name}}
         </a>
 
 
@@ -114,10 +114,10 @@
         
                 <div class="btn-group pull-left">
 
-                  <a class="btn {{if porcobrar == 0:}} btn-success {{else:}} btn-primary {{pass}}"
+                  <a class="btn {{if porcobrar > 0:}} btn-primary {{pass}}"
                      href="{{=URL(c='i', f='index.html', vars=dict(p=p.uuid))}}">
 
-                    <i class="icon-white {{if porcobrar == 0:}}icon-check{{else:}}icon-arrow-down{{pass}}"></i>
+                    <i class="{{if porcobrar == 0:}}icon-check{{else:}} icon-white icon-arrow-down{{pass}}"></i>
                     {{=numfmt(project_income[p.uuid] or  '0')}}
 
                   </a>
