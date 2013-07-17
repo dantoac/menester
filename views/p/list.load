@@ -20,7 +20,7 @@
       <td>
         <a class="btn" onclick="$('div.{{=p.uuid}}').slideToggle();">        
           <i class="icon icon-chevron-down"></i>
-          {{=p.name}}
+          <strong>{{=p.name}}</strong>
         </a>
 
 
