@@ -46,7 +46,7 @@ new Morris.Bar({
   {{pass}}
 
   <div class="alert alert-info">      
-      <strong>  Total Egresos 
+      <strong>  Total Ingresos 
         {{if project_metadata:}}
         en {{=project_metadata.first()['name']}}  
         {{pass}}
