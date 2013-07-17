@@ -27,7 +27,7 @@
         {{=A(TAG.i(_class='icon-edit'),  
         _href=URL(c='p', f='new.load', args=p.id),
         _class='btn btn-mini  pull-right',
-        cid="new_project")}}
+        cid=request.cid)}}
 
         <div class="{{=p.uuid}} hidden">
           <table class="well well-small">
