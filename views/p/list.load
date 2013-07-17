@@ -1,7 +1,7 @@
 
 <div id="project-form">
-{{=A(TAG.i(_class='icon-star'),' Nuevo Proyecto', _href=URL(c='p', f='new.load'), 
-    _class='btn pull-left',
+{{=A(TAG.i(_class='icon-white icon-star'),' Nuevo Proyecto', _href=URL(c='p', f='new.load'), 
+    _class='btn btn-inverse',
     cid=request.cid)}}
 </div>
 
@@ -18,8 +18,8 @@
 
     <tr>
       <td>
-        <a class="btn btn-inverse" onclick="$('div.{{=p.uuid}}').slideToggle();">        
-          <i class="icon icon-white icon-chevron-down"></i>
+        <a class="btn" onclick="$('div.{{=p.uuid}}').slideToggle();">        
+          <i class="icon icon-chevron-down"></i>
           {{=p.name}}
         </a>
 

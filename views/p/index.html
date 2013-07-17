@@ -36,22 +36,18 @@
 
     <div class="btn-group pull-right" data-toggle="buttons-radio">
 
-{{=A('Proyectos Activos', callback=URL('list.load', vars=request.vars), target='project_list_container', _class='btn active primary btn-mini')}}
+{{=A('Mostrar Activos', callback=URL('list.load', vars=request.vars), target='project_list_container', _class='btn active primary btn-mini')}}
 
 {{ vars = dict(dict(state='any'),**request.vars)}}
-{{=A('Todas', callback=URL('list.load', vars=vars), target='project_list_container', _class='btn pull-rigth btn-mini')}}
+{{=A('Mostrar Todos', callback=URL('list.load', vars=vars), target='project_list_container', _class='btn pull-rigth btn-mini')}}
 
 
 </div>
 
 
-<div id="project_list_container"></div>
-
-
-
 
 {{=LOAD(c='p', f='list.load', args=None,
-target="new_project", _class="row"
+target="project_list_container", _class="row"
 )}}
 
     <script>
