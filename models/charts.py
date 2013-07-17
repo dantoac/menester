@@ -3,6 +3,8 @@
 
 def CHART_data_sum(dataset,xfield,ykeys):
     '''
+    MORRIS.JS 
+    
     data: [
     { y: '2009', a: 100, b: 90},
     { y: '2007', a: 75,  b: 65 },

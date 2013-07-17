@@ -1,97 +1,59 @@
-<button 
-   class="btn btn-primary"
-   onclick="$('#form').slideToggle();$('#form').reset();">
-  Nuevo Ingreso
-</button>
+
+<div id="chart-income"></div>
+
+<script>
 
 
-<div id="form" class="{{if not (form.errors or request.args(0)):}}hide{{pass}} row">
-  {{=form.custom.begin}}
+{{
 
-  <div class="span5 well">
+data = CHART_data_sum(dataset=dataset, xfield='income.due_date',ykeys='y')
 
-    {{if not request.vars.p:}}
-    <strong>Proyecto:</strong><br />
-    {{=form.custom.widget.project_uuid}}
-    <br />
-    {{pass}}
-    <strong>Monto:</strong><br />
-    {{=form.custom.widget.amount}}
-  </div>
-  <div class="span5 well">
-    <strong>Asunto:</strong><br />
-    {{=form.custom.widget.subject}}
-    <br />
-    <strong>Fecha Límite:</strong><br />
-    {{=form.custom.widget.due_date}}
-    <strong>Realizado:</strong>
-    {{=form.custom.widget.done}}
+}}
+
+new Morris.Bar({
     
-    <input class="btn btn-primary" type="submit" value="Registrar">
+    element: 'chart-income',
+    
+    data:  {{=XML(response.json(data))}},
+    
+    xkey: 'x',
+    
+    ykeys: ['y0','z0'],
+    
+    labels: ['Ingresos','Egresos'],
+    
+    lineColors: ['#007bcc','#d64b46']
+});
 
-    {{if request.args(0):}}
-    {{=A("No registrar", _class="btn btn-danger pull-right",
-    _href=URL(f='new.load',vars=request.vars), cid=request.cid)}}
-    {{pass}}
-
-  </div>
 
 
+</script>
 
-  {{=form.custom.end}}
-</div>
 
-<div>
-
-  {{total_income=sum([d.income.amount for d in dataset])}}
+  {{total_income=sum([d['SUM(income.amount)'] for d in dataset])}}
 
   {{if project_metadata:}}
-  <span class="badge badge-success">
+  
+  <div class="alert alert-danger">
 
     {{income = total_income}}
     {{value = project_metadata.first()['value']}}
     
+    <strong>
     Por cobrar: {{=numfmt(int(value) - int(income))}}
-    
-  </span>
+    </strong>
+  </div>
   {{pass}}
-  <table class="table table-bordered table-striped">
-    <caption>
-      
-      <strong>  Ingresos 
+
+  <div class="alert alert-info">      
+      <strong>  Total Egresos 
         {{if project_metadata:}}
         en {{=project_metadata.first()['name']}}  
         {{pass}}
         : {{=numfmt(total_income)}}
       </strong>
-    </caption>
-    <thead>
-      <tr>
-        <th>Monto</th>
-        <th>Asunto</th>
-        <th>Fecha</th>
-        <th>Hecho</th>
-        <th></th>
-      </tr>
-    </thead>
 
-    <tbody>
+  </div>
 
-      {{for d in dataset:}}
 
-      <tr>
-        <td>{{=numfmt(d.income.amount)}}</td>
-        <td>{{=d.income.subject}}</td>
-        <td>{{=d.income.due_date}}</td>
-        <td>{{=d.income.done}}</td>
-        <td>{{=A('Editar', 
-          _href=URL(f='new.load',args=d.income.id,vars=request.vars), 
-          _class="btn btn-mini",
-          cid=request.cid)}}</td>
-      </tr>
-
-      {{pass}}
-
-    </tbody>
-  </table>
-</div>
+{{=form}}
