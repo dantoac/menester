@@ -1,6 +1,94 @@
 # coding: utf8
 
 
+def flux(project_uuid=None):
+    '''
+    Gráficos de incomes y expenses 
+    usando Morris.js: http://www.oesmith.co.uk/morris.js/
+
+    Permite gráficos de barra, línea y área por cada
+    proyecto en específico y todos en general.
+    '''
+    
+    # si pasamos el uuid de un proyecto, construye query para filtrar
+    #sólo incomes y expenses de éste.
+    if project_uuid:
+        query_income = db.income.project_uuid == project_uuid
+        query_expense = db.expense.project_uuid == project_uuid
+
+    else:
+        query_income = db.income
+        query_expense = db.expense
+
+    # datasets según query creadas anteriormente.
+    #Obtiene las sumas totales agrupadas por AÑO-MES
+
+    #incomes
+    i_dataset = db(query_income).select(
+        db.income.due_date, 
+        db.income.amount.sum(), 
+        groupby=(db.income.due_date.year(), db.income.due_date.month()),
+        cacheable=True
+    )
+    
+    #expenses
+    e_dataset = db(query_expense).select(
+        db.expense.due_date, 
+        db.expense.amount.sum(), 
+        groupby=(db.expense.due_date.year(),db.expense.due_date.month()),
+        cacheable=True
+    )
+    
+    # crea objeto útil pero parcializado para usar en morris.
+    #Uno para incomes
+    report_i = [{'y':'{0}-{1}'.format(income.income.due_date.year,
+                                      income.income.due_date.month), 
+                 'a':income['SUM(income.amount)'], 
+             } for income in i_dataset]
+
+    #Otro para expenses
+    report_e = [{'y':'{0}-{1}'.format(expense.expense.due_date.year,
+                                      expense.expense.due_date.month), 
+                 'b':expense['SUM(expense.amount)']} for expense in e_dataset]
+
+    
+    #"FIRME PERO FEO" BEGINS HERE!
+    if len(report_i) >= len(report_e):
+        most_registry = report_i[:]
+        less_registry = report_e[:]
+    else:
+        most_registry = report_e[:]
+        less_registry = report_i[:]
+
+    
+    
+    # crea el objeto final para generar el gráfico.
+    #TODO: resolver por qué quedan items repetidos (no perjudican 
+    #gráfico final)
+    
+    for mr in most_registry:
+        for ls in less_registry:
+            if ls['y'] == mr['y']: #in mr.values():
+                mr.update(ls)
+                ls.update(mr)
+            else:
+                if not most_registry.count(ls):
+                    most_registry.append(ls)
+                #if not most_registry.count(mr):
+                #    most_registry.append(mr)
+               
+    
+    # elimina hashes repetidos en la lista
+    #http://stackoverflow.com/questions/9427163/remove-duplicate-dict-in-list-in-python
+    most_registry = [dict(t) for t in set([tuple(d.items()) for d in most_registry])]
+    
+    # ordena por fecha
+    report_data = sorted(most_registry, key=lambda registry: registry['y'])
+
+    return response.json(report_data)
+
+
+
 def CHART_data_sum(dataset,xfield,ykeys):
     '''
     MORRIS.JS 

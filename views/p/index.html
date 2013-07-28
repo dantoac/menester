@@ -1,16 +1,13 @@
 {{extend 'layout.html'}}
 
 
+
 {{
     dataset_income = db(db.income).select(db.income.due_date,db.income.amount.sum(),groupby=db.income.due_date,orderby=db.income.due_date)
     dataset_expense = db(db.expense).select(db.expense.amount.sum(),db.expense.due_date,groupby=db.expense.due_date,orderby=db.expense.due_date)
 
-    data = CHART_data_sum(dataset=dataset_income, xfield='income.due_date',ykeys='y')
-    data.extend(CHART_data_sum(dataset=dataset_expense,xfield='expense.due_date',ykeys='z'))
 
 }}
-
-
 
     <div style="text-align:center;">
 
@@ -59,24 +56,20 @@ jQuery().ready(function(){
 });
 
 
-new Morris.Line({
+new Morris.Bar({
     
     element: 'total-income-expense-chart',
     
-    data:  {{=XML(response.json(data))}},
+    data:  {{=XML(flux())}},
     
-    xkey: 'x',
+    xkey: 'y',
     
-    ykeys: ['y0','z0'],
+    ykeys: ['a','b'],
     
     labels: ['Ingresos','Egresos'],
     
     lineColors: ['#007bcc','#d64b46']
 });
-
-
-
-
 
 
 </script>

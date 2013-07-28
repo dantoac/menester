@@ -1,34 +1,27 @@
+{{if request.vars.p:}}
 
 <div id="chart-income"></div>
 
 <script>
 
-
-{{
-
-data = CHART_data_sum(dataset=dataset, xfield='income.due_date',ykeys='y')
-
-}}
-
-new Morris.Bar({
+new Morris.Area({
     
     element: 'chart-income',
     
-    data:  {{=XML(response.json(data))}},
+    data:  {{=XML(flux(project_uuid=request.vars.p))}},
     
-    xkey: 'x',
+    xkey: 'y',
     
-    ykeys: ['y0','z0'],
+    ykeys: ['a','b'],
     
     labels: ['Ingresos','Egresos'],
     
     lineColors: ['#007bcc','#d64b46']
 });
 
-
-
 </script>
 
+{{pass}}
 
   {{total_income=sum([d['SUM(income.amount)'] for d in dataset])}}
 

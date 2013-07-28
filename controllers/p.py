@@ -15,6 +15,7 @@ def list():
         query_project_state = ((db.project.close == None) | (db.project.close != True))
                                    
     dataset = db(query_project_state).select(orderby=~db.project.modified_on)
+
            
     income_dataset = db((db.income.project_uuid == db.project.uuid)
                         & (db.income.done == True)).select(
