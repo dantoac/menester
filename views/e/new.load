@@ -3,7 +3,7 @@
 
 <script>
 
-new Morris.Area({
+new Morris.Bar({
     
     element: 'chart-expense',
     
