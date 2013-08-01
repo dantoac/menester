@@ -4,7 +4,7 @@
 
 <script>
 
-new Morris.Bar({
+new Morris.Area({
     
     element: 'chart-income',
     
