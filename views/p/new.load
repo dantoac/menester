@@ -21,6 +21,12 @@
   <div class="controls">
     <input class="integer" id="project_value" name="value" type="text" value="{{=form.custom.dspval.value}}">
   </div>
+
+    
+  <label class="control-label" for="project_estimated_cost">{{=form.custom.label.estimated_cost}}</label>
+  <div class="controls">
+    <input class="integer" id="project_estimated_cost" name="estimated_cost" type="text" value="{{=form.custom.dspval.estimated_cost}}">
+  </div>
   
   
   

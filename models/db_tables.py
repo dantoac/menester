@@ -21,7 +21,7 @@ dt('project',
    Field('email_contact', 'list:string', requires=IS_EMAIL()),
    Field('team', 'list:reference auth_user'),
    Field('value','double',default=0),
-   Field('cost','double',default=0 ),
+   Field('estimated_cost','double',default=0,label='Costo Estimado' ),
    auth.signature,
    format = '%(name)s'
 )

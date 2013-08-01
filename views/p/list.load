@@ -55,6 +55,21 @@
               </td>
             </tr>
 
+
+            
+            <tr>
+              <th> 
+                Costo Estimado
+              </th>
+              <td>
+
+                {{=numfmt(p.estimated_cost or 0)}}
+
+              </td>
+            </tr>
+
+
+
             
             <tr>
               <th> 
