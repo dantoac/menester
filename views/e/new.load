@@ -1,4 +1,4 @@
-{{if request.vars.p:}}
+
 <div id="chart-expense"></div>
 
 <script>
@@ -21,7 +21,7 @@ new Morris.Area({
 
 
 </script>
-{{pass}}
+
 
   {{total_expense=sum([d['SUM(expense.amount)'] for d in dataset])}}
 

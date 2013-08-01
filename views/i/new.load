@@ -1,5 +1,3 @@
-{{if request.vars.p:}}
-
 <div id="chart-income"></div>
 
 <script>
@@ -20,8 +18,6 @@ new Morris.Area({
 });
 
 </script>
-
-{{pass}}
 
   {{total_income=sum([d['SUM(income.amount)'] for d in dataset])}}
 
