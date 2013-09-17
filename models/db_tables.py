@@ -144,7 +144,7 @@ db.income.project_uuid.requires=IS_EMPTY_OR(IS_IN_DB(db, 'project.uuid','%(name)
 db.expense.project_uuid.requires=IS_EMPTY_OR(IS_IN_DB(db, 'project.uuid','%(name)s'))
 
 
-if db.income_type.isempty():
+if db(db.income_type).isempty():
     db.income_type.bulk_insert([
         {'name':'Cliente Producto'},
         {'name':'Cliente Servicio'},
@@ -153,7 +153,7 @@ if db.income_type.isempty():
 
 
 
-if db.expense_type.isempty():
+if db(db.expense_type).isempty():
     db.expense_type.bulk_insert([
         {'name':'Bencina'},
         {'name':'Pasaje'},
