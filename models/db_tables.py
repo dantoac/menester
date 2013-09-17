@@ -106,8 +106,7 @@ dt('comment',
 
 pago_metadata = db.Table(db,'pago_metadata',
                          Field('amount','double'),
-                         Field('subject', 
-                               requires=IS_NOT_EMPTY()),
+                         Field('subject'),
                          Field('due_date','date'),
                          Field('done','boolean',default=True),
                      )
@@ -116,6 +115,7 @@ dt('income',
    Field('uuid', 'string', length=64, default=uuid.uuid4(),
          writable=False, readable=False),
    Field('project_uuid'),
+   Field('type','reference income_type'),
    pago_metadata,
    auth.signature
 )
@@ -124,12 +124,43 @@ dt('expense',
    Field('uuid', 'string', length=64, default=uuid.uuid4(),
          writable=False, readable=False),
    Field('project_uuid'),
+   Field('type','reference expense_type'),
    pago_metadata,
    auth.signature
 )
 
 
+dt('income_type',
+   Field('name'),
+   format = '%(name)s'
+   )
+
+dt('expense_type',
+   Field('name'),
+   format = '%(name)s'
+   )
+
 db.income.project_uuid.requires=IS_EMPTY_OR(IS_IN_DB(db, 'project.uuid','%(name)s'))
 db.expense.project_uuid.requires=IS_EMPTY_OR(IS_IN_DB(db, 'project.uuid','%(name)s'))
+
+
+if db.income_type.isempty():
+    db.income_type.bulk_insert([
+        {'name':'Cliente Producto'},
+        {'name':'Cliente Servicio'},
+        {'name':'Otro...'},
+    ])
+
+
+
+if db.expense_type.isempty():
+    db.expense_type.bulk_insert([
+        {'name':'Bencina'},
+        {'name':'Pasaje'},
+        {'name':'Comida'},
+        {'name':'Reunión'},
+        {'name':'Gastos Generales'},
+        {'name':'Otro...'},
+    ])
 
 
