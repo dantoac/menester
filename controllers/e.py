@@ -62,7 +62,7 @@ def new():
     """
 
     form = SQLFORM.grid(query,
-                        orderby=db.expense.due_date,
+                        orderby=~db.expense.due_date,
                         fields = select_fields,
                         details=False,
                         field_id = db.expense.id
