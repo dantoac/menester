@@ -1,6 +1,5 @@
 # coding: utf8
 
-
 def flux(project_uuid=None):
     '''
     Gráficos de incomes y expenses 
@@ -9,6 +8,8 @@ def flux(project_uuid=None):
     Permite gráficos de barra, línea y área por cada
     proyecto en específico y todos en general.
     '''
+
+    from datetime import datetime
     
     # si pasamos el uuid de un proyecto, construye query para filtrar
     #sólo incomes y expenses de éste.
@@ -41,14 +42,12 @@ def flux(project_uuid=None):
     
     # crea objeto útil pero parcializado para usar en morris.
     #Uno para incomes
-    report_i = [{'y':'{0}-{1}'.format(income.income.due_date.year,
-                                      income.income.due_date.month), 
+    report_i = [{'y': datetime.strftime(income.income.due_date,'%Y-%m'), 
                  'a':income['SUM(income.amount)'], 
              } for income in i_dataset]
 
     #Otro para expenses
-    report_e = [{'y':'{0}-{1}'.format(expense.expense.due_date.year,
-                                      expense.expense.due_date.month), 
+    report_e = [{'y':datetime.strftime(expense.expense.due_date,'%Y-%m'), 
                  'b':expense['SUM(expense.amount)']} for expense in e_dataset]
 
     
