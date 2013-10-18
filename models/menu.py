@@ -25,8 +25,9 @@ response.menu = [
     (T('Proyectos'), False, URL('p','index'), []),
     (T('Tareas'), False, URL('t','index'), []),
     (T('Flujo Caja'), None, None, [
-         (T('Entradas'), False, URL('i','index'), []),
-        (T('Salidas'), False, URL('e','index'), [])
+        (T('Entradas'), False, URL('i','index'), []),
+        (T('Salidas'), False, URL('e','index'), []),
+        (T('Proyectadas'), False, URL('due','index'), [])
     ]),
     ]
 
