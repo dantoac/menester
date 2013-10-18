@@ -3,3 +3,7 @@
 
 def index():
     return {}
+
+
+def list():
+    return locals()

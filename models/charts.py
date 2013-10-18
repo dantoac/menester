@@ -49,7 +49,7 @@ def flux(project_uuid=None, future=None):
     # crea objeto útil pero parcializado para usar en morris.
     #Uno para incomes
     report_i = [{'y': datetime.strftime(income.income.due_date,'%Y-%m'), 
-                 'a':income['SUM(income.amount)'], 
+                 'a':income['SUM(income.amount)'],
              } for income in i_dataset]
 
     #Otro para expenses
@@ -85,10 +85,21 @@ def flux(project_uuid=None, future=None):
     
     # elimina hashes repetidos en la lista
     #http://stackoverflow.com/questions/9427163/remove-duplicate-dict-in-list-in-python
-    most_registry = [dict(t) for t in set([tuple(d.items()) for d in most_registry])]
-    
+
+    registry = []
+     
+    most_registry = [Storage(t) for t in set([tuple(d.items()) for d in most_registry])]
+
+    for reg in most_registry[:]:
+        
+        registry.append({'a':reg['a'] or 0,
+                         'b':reg['b'] or 0,
+                         'c':int(reg['a'] or 0) - int(reg['b'] or 0),
+                         'y':reg['y']
+                     })
+
     # ordena por fecha
-    report_data = sorted(most_registry, key=lambda registry: registry['y'])
+    report_data = sorted(registry, key=lambda registry: registry['y'])
 
     return response.json(report_data)
 
