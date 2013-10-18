@@ -105,9 +105,9 @@ dt('comment',
 
 
 pago_metadata = db.Table(db,'pago_metadata',
-                         Field('amount','double'),
+                         Field('amount','double',requires=IS_NOT_EMPTY()),
                          Field('subject'),
-                         Field('due_date','date'),
+                         Field('due_date','date',requires=IS_NOT_EMPTY()),
                          Field('done','boolean',default=True),
                      )
 

@@ -18,14 +18,14 @@ def flux(project_uuid=None):
         query_expense = db.expense.project_uuid == project_uuid
 
     else:
-        query_income = db.income
-        query_expense = db.expense
+        query_income = db.income.id>0
+        query_expense = db.expense.id>0
 
     # datasets según query creadas anteriormente.
     #Obtiene las sumas totales agrupadas por AÑO-MES
 
     #incomes
-    i_dataset = db(query_income).select(
+    i_dataset = db((query_income) & (db.income.done == True)).select(
         db.income.due_date, 
         db.income.amount.sum(), 
         groupby=(db.income.due_date.year(), db.income.due_date.month()),
@@ -33,7 +33,7 @@ def flux(project_uuid=None):
     )
     
     #expenses
-    e_dataset = db(query_expense).select(
+    e_dataset = db((query_expense) & (db.expense.done == True)).select(
         db.expense.due_date, 
         db.expense.amount.sum(), 
         groupby=(db.expense.due_date.year(),db.expense.due_date.month()),
