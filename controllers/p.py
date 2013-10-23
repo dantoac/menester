@@ -5,7 +5,7 @@
 def index():
     return dict()
 
-
+@auth.requires_login()
 def list():
         
     #query proyectos en cualquier estado
