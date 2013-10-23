@@ -1,6 +1,6 @@
 # coding: utf8
 
-def flux(project_uuid=None, future=None):
+def flux(project_uuid=None, done=True):
     '''
     Gráficos de incomes y expenses 
     usando Morris.js: http://www.oesmith.co.uk/morris.js/
@@ -21,17 +21,14 @@ def flux(project_uuid=None, future=None):
         query_income = db.income.id>0
         query_expense = db.expense.id>0
 
-
-    if future:
-        qi,qe = query_income,query_expense
-        query_income = (qi) & (db.income.done == False)
-        query_expense = (qe) & (db.expense.done == False)
-
+    income_query = (query_income) & (db.income.done == done)
+    expense_query = (query_expense) & (db.expense.done == done)
+    
     # datasets según query creadas anteriormente.
     #Obtiene las sumas totales agrupadas por AÑO-MES
 
     #incomes
-    i_dataset = db((query_income)).select(
+    i_dataset = db((income_query)).select(
         db.income.due_date, 
         db.income.amount.sum(), 
         groupby=(db.income.due_date.year(), db.income.due_date.month()),
@@ -39,7 +36,7 @@ def flux(project_uuid=None, future=None):
     )
     
     #expenses
-    e_dataset = db((query_expense)).select(
+    e_dataset = db((expense_query)).select(
         db.expense.due_date, 
         db.expense.amount.sum(), 
         groupby=(db.expense.due_date.year(),db.expense.due_date.month()),
