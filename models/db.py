@@ -85,7 +85,7 @@ use_janrain(auth,filename='private/janrain.key')
 # auth.enable_record_versioning(db)
 
 auth.settings.registration_requires_approval = True
-#auth.settings.actions_disabled.append('register')
+auth.settings.actions_disabled.append('register')
 
 
 from gluon.storage import Storage
