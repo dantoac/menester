@@ -1,82 +1,87 @@
+<style>
+
+#task-meta input[type=text] {width:auto;}
+
+</style>
+
+
 {{=form.custom.begin}}
 
 <input type="hidden" name="project_uuid" value="{{=form.custom.dspval.project_uuid}}" />
 
-<div id="task_new" style='{{="display:none;" if (not request.args) else "display:block;"}}' class="row-fluid">
+<div class="span8" style="background:aliceblue;">
   
-  <div class="span8 well">
-    
-    <div class="span6">     
-      <label class="control-label" for="task_name">Task Name</label>
-      <div class="controls">{{=form.custom.widget.name}}</div>
-    </div>
-    
-    <div class="span6">
-      <label class="control-label" for="task_priority">{{=form.custom.label.priority}}</label>
-      <div class="controls">{{=form.custom.widget.priority}}</div>
-      
-      
-      <label class="control-label" for="task_progress">{{=form.custom.label.progress}}</label>
-      <div class="controls">{{=form.custom.widget.progress}}</div>
-      
-    </div>
-    
-    <label class="control-label" for="task_tag">Tags</label>
-    <div class="controls">{{=form.custom.widget.tag}}</div>
+  <div class="span4">     
+    <label class="control-label" for="task_name">Task Name</label>
+    <div class="controls">{{=form.custom.widget.name}}</div>
+  </div>
+  
+  <div class="span2">
+    <label class="control-label" for="task_priority">{{=form.custom.label.priority}}</label>
+    <div class="controls">{{=form.custom.widget.priority}}</div>
     
     
-    <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#task_description">
-      <label class="control-label" for="task_description">{{=form.custom.label.description}}</label>
-    </button>
-    
-    <div id="task_description" class="controls collapse out" style="width:96%;">{{=form.custom.widget.description}}</div>
+    <label class="control-label" for="task_progress">{{=form.custom.label.progress}}</label>
+    <div class="controls">{{=form.custom.widget.progress}}</div>
     
   </div>
   
+  <div class="span4">
+  <label class="control-label" for="task_tag_grow_input">Tags</label>
+  <div class="controls">{{=form.custom.widget.tag}}</div>
+  </div>
   
+  <div class="span8">
+  <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#task_description">
+    <label class="control-label" for="task_description">{{=form.custom.label.description}}</label>
+  </button>
+ 
+  <div id="task_description" class="controls collapse out" style="width:96%;">{{=form.custom.widget.description}}</div>
+  </div>
+
+</div>
+
+
+
+<div class="span3" id="task-meta" style="background:aliceblue;">
   
-  <div class="span4 well">
-    
+  <div class="span2">
     <label class="control-label" for="task_tag">Parent</label>
     <div class="controls">
       {{=form.custom.widget.task_parent}}
     </div>
-    
-    
-    
+  </div>
+  
+  <div class="span2">
     <label class="control-label" for="task_tag">Child</label>
     <div class="controls">
       {{=form.custom.widget.task_child}}
     </div>
-    
-    
+  </div>
+
+  <div class="span2">
     <label class="control-label" for="task_finish">{{=form.custom.label.finish}}</label>
     <div class="controls">{{=form.custom.widget.finish}}</div>
-    
-    
-    <div class="span12">
-      <div class="span6">
-	<label class="control-label" for="task_active">Anular</label>
-	<div class="controls">{{=form.custom.widget.nullify}}</div>
-      </div>
-      
-      <div class="span6">
-	<label class="control-label" for="task_active">Notificar</label>
-	<div class="controls"><input class="boolean" id="task_notify" name="notify" value="on" checked="checked" type="checkbox" /> </div>
-      </div>
-    </div>        
-    
-    
-    <div class="span12">    
-      <br />
-      <input type="submit" value="Registrar Tarea" class="btn btn-primary center btn-large btn-block" />       
-    </div>    
-    {{=form.custom.end}}
-    
-  </div>  
+  </div>
   
+  <div class="span2">
+    <label class="control-label" for="task_active">Anular</label>
+    <div class="controls">{{=form.custom.widget.nullify}}</div>
+  </div>
+  
+  <div class="span2">
+    <label class="control-label" for="task_active">Notificar</label>
+    <div class="controls"><input class="boolean" id="task_notify" name="notify" value="on" checked="checked" type="checkbox" /> </div>
+  </div>
+
+  
+  <div class="">    
+    <br />
+    <input type="submit" value="Registrar Tarea" class="btn btn-primary center btn-large btn-block" />       
+  </div>    
+
   
 </div>
 {{=form.custom.end}}
-{{=task_list}}  
+
 

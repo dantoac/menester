@@ -41,21 +41,8 @@ def index():
     
         else:
             response.flash = 'No existe Proyecto "'+project_slug+'"'
-
-
-    task_new = LOAD(f='new.load', args=request.args, 
-                    vars=dict(p=request.vars.p,
-                              puuid=request.vars.puuid),
-                    target='task_new_container',
-                    _class='container-fluid', ajax=True, 
-                    content=XML('Cargando Tareas... (Si no carga haz %s)' %
-                                A('clic aquí', _href=URL(f='list.html', 
-                                                         vars=request.vars))),
-                    )
-      
-
-
-    return dict(progress=progress,task_new=task_new)
+     
+    return dict(progress=progress)
 
 
 @auth.requires_login()
@@ -202,22 +189,22 @@ def new():
     
 
 
+        js_hideform = 'jQuery(document).ready(function(){jQuery("#task_new_container").slideUp();});'
 
         if request.vars.p:
-            redirect(URL(c='t',f='index.html',vars={'p':request.vars.p}))
+            response.js = 'web2py_component("%s", "task_list_container"); %s' \
+                          % (URL(c='t',f='list.load',vars={'p':request.vars.p}),
+                             js_hideform)
+            #redirect()
         else:
-            redirect(URL(c='t',f='index'))
-
+            #redirect(URL(c='t',f='index'))
+            response.js = 'web2py_component("%s", "task_list_container");' % URL(c='t',f='list.load')
+        
     elif form.errors:
         response.flash = 'Hubo errores al crear la Tarea. Revise formulario.'
-        response.js = 'jQuery(document).ready(function(){jQuery("#task_new").show();});'
-    
-        
-    task_list = LOAD(f='list.load', 
-                     vars=dict(p=request.vars.p,
-                               puuid=request.vars.puuid),
-                     target='task_list_container', ajax=True,
-                     )
-    
-    return dict(form=form, task_list=task_list)
+        response.js = 'jQuery(document).ready(function(){jQuery("#task_new_container").show();});'
+
+
+
+    return dict(form=form)
 

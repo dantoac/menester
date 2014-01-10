@@ -14,16 +14,30 @@
 
   {{ vars = dict(dict(state='active'),**request.vars)}}
 
-  {{=A('Tareas Activas', callback=URL(f='list.load', vars=vars), target='task_list_container', _class='btn active primary btn-mini')}}
+  {{=A('Tareas Activas', _href=URL(f='list.load', vars=vars), cid='task_list_container', _class='btn active primary btn-mini')}}
   
   {{ vars = dict(dict(state='any'),**request.vars)}}
 
-  {{=A('Todas', callback=URL('list.load', vars=vars), target='task_list_container', _class='btn  btn-mini')}}
+  {{=A('Todas', _href=URL('list.load', vars=vars), cid='task_list_container', _class='btn  btn-mini')}}
 
 </div>
 
-<button id="btn_new_task" class="btn btn-large btn-inverse"  onclick="jQuery('#task_new').slideToggle();">Nueva Tarea</button>
-
-{{=task_new}}
+<button id="btn_new_task" class="btn btn-large btn-inverse"  onclick="jQuery('#task_new_container').slideToggle();">Nueva Tarea</button>
 
 
+{{=LOAD(f='new.load', args=request.args, 
+                    vars=dict(p=request.vars.p,
+                              puuid=request.vars.puuid),
+                    target='task_new_container',
+                    _class='container-fluid', ajax=True, 
+                    _style='display:none;' if (not request.args) else 'display:block;',
+                    content=XML('Cargando Tareas... (Si no carga haz %s)' %
+                                A('clic aquí', _href=URL(f='list.html', 
+                                                         vars=request.vars))),
+                    )
+}}
+
+
+  
+{{=LOAD(f='list.load', vars=dict(p=request.vars.p, puuid=request.vars.puuid),
+target='task_list_container', ajax=True)}}
