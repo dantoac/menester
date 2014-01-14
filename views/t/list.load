@@ -102,18 +102,19 @@
 
     <td>
       {{if not request.vars.p or request.vars.p == 'None':}}
-      {{=A(projectname.title(), _href=URL(f='index.html',vars={'p':projectslug}),
+      {{=A(projectname.title(), _href=URL(f='index.html',vars={'p':d.project.uuid}),
       _class='btn btn-mini btn-primary'
       )}}
       {{pass}}
+
       {{=A(TAG.strong(TAG.tt('#%s' % taskid)),'   ',taskname.capitalize(),
-        _href=URL(f='view.html', args=taskid, vars=dict(p=request.vars.p, puuid=request.vars.puuid)),
+        _href=URL(f='view.html', args=taskid, vars={'p':d.project.uuid}),
         target='task_new_container', _class='btn')}}
 
       <!-- indicador de comentarios por tarea -->
       {{if taskcomment:}}
       <span style="white-space:nowrap;">
-        <i class="icon-comment"></i>{{=taskcomment}}
+        {{=taskcomment}} <i class="icon-comment"></i>
       </span>
       {{pass}}
 

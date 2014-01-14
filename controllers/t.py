@@ -105,6 +105,7 @@ def list():
         db.task.tag,
         db.task.description,
         db.project.name,
+        db.project.uuid,
         db.project.slug,
         db.comment.id.count(),
         left=db.comment.on(db.task.uuid == db.comment.target_uuid),

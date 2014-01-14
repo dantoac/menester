@@ -26,8 +26,7 @@
 
 
 {{=LOAD(f='new.load', args=request.args, 
-                    vars=dict(p=request.vars.p,
-                              puuid=request.vars.puuid),
+                    vars=dict(p=request.vars.p),
                     target='task_new_container',
                     _class='container-fluid', ajax=True, 
                     _style='display:none;' if (not request.args) else 'display:block;',
@@ -39,5 +38,5 @@
 
 
   
-{{=LOAD(f='list.load', vars=dict(p=request.vars.p, puuid=request.vars.puuid),
+{{=LOAD(f='list.load', vars=dict(p=request.vars.p),
 target='task_list_container', ajax=True)}}
