@@ -120,17 +120,15 @@ def new():
     
     tid = request.args(0)
 
+    if request.ajax: response.js = '$("#task_new_container").slideDown();'
+
     if tid and db((db.task.id == tid) & (db.task.nullify==False)).isempty(): return
-    
-    if request.vars.puuid:
-        db.task.project_uuid.default = request.vars.puuid
-        db.task.project_name.default = request.vars.p
-        
+       
 
     db.task.author.default = db.auth_user[auth.user_id].email
 
     
-    active_task = db((db.task.project_uuid == request.vars.puuid) 
+    active_task = db((db.task.project_uuid == request.vars.p) 
                      & ~(db.task.id==tid)
                      & (db.task.nullify==False)
                      & (db.task.progress < 100) #asi por retrocompatibilidad; debería ser task.closed==False;
@@ -147,12 +145,13 @@ def new():
     
     form = SQLFORM(db.task, tid)
 
+    form.vars.project_uuid = request.vars.p
     
     if form.process().accepted:
 
-        project_uuid = request.post_vars.project_uuid
+        print(form.vars.project_uuid)
 
-        project_mail = db(db.project.uuid==project_uuid).select(
+        project_mail = db(db.project.uuid==form.vars.project_uuid).select(
             db.project.email_contact, 
             db.project.name,
             limitby=(0,1)
@@ -196,9 +195,8 @@ def new():
             response.js = 'web2py_component("%s", "task_list_container"); %s' \
                           % (URL(c='t',f='list.load',vars={'p':request.vars.p}),
                              js_hideform)
-            #redirect()
+
         else:
-            #redirect(URL(c='t',f='index'))
             response.js = 'web2py_component("%s", "task_list_container");' % URL(c='t',f='list.load')
         
     elif form.errors:

@@ -7,7 +7,7 @@
 
 {{=form.custom.begin}}
 
-<input type="hidden" name="project_uuid" value="{{=form.custom.dspval.project_uuid}}" />
+<input type="hidden" name="project_uuid" id="task_project_uuid" value="{{=request.vars.p}}" />
 
 <div class="span8" style="background:aliceblue;">
   

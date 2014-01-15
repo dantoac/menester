@@ -22,19 +22,12 @@
 
 </div>
 
-<button id="btn_new_task" class="btn btn-large btn-inverse"  onclick="jQuery('#task_new_container').slideToggle();">Nueva Tarea</button>
+{{=A('Nueva Tarea', _id="btn_new_task", _class="btn btn-large btn-inverse",
+_href=URL(c='t',f='new.load', vars={'p':request.vars.p}),
+cid='task_new_container')}}
 
 
-{{=LOAD(f='new.load', args=request.args, 
-                    vars=dict(p=request.vars.p),
-                    target='task_new_container',
-                    _class='container-fluid', ajax=True, 
-                    _style='display:none;' if (not request.args) else 'display:block;',
-                    content=XML('Cargando Tareas... (Si no carga haz %s)' %
-                                A('clic aquí', _href=URL(f='list.html', 
-                                                         vars=request.vars))),
-                    )
-}}
+<div id="task_new_container" class="container-fluid"></div>
 
 
   

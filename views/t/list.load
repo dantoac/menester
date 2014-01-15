@@ -148,9 +148,9 @@
       
       {{if not tasknullify:}}
       {{=A(TAG.i(_class='icon-edit icon-white'),
-      _href=URL(f='new.html', args=taskid, 
+      _href=URL(f='new.load', args=taskid, 
       vars=dict(p=request.vars.p)),
-      target='task_new_container',
+      cid='task_new_container',
       _class='btn btn-mini btn-inverse')
       }}
       {{pass}}
