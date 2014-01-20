@@ -1,0 +1,9 @@
+
+<div class="progress">  
+  
+  <div class="bar" style="width:{{=progress}}%;">
+    <span class="label">{{=progress or 0}}%</span>
+        
+  </div>
+</div>
+

@@ -1,5 +1,12 @@
 # coding: utf8
 
+
+def progress():
+    project_uuid = request.vars.p
+    progress = total_progress(project_uuid)
+    return {'progress':progress}
+
+
 @auth.requires_login()
 def index():
 
@@ -28,7 +35,7 @@ def index():
         
         if project:    
             project_uuid = project.uuid
-            progress = total_progress(project_uuid)
+            
             project_aim = project.aim
             project_name = project.name
 
@@ -42,7 +49,7 @@ def index():
         else:
             response.flash = 'No existe Proyecto "'+project_slug+'"'
      
-    return dict(progress=progress)
+    return {}
 
 
 @auth.requires_login()
@@ -192,8 +199,10 @@ def new():
         js_hideform = 'jQuery(document).ready(function(){jQuery("#task_new_container").slideUp();});'
 
         if request.vars.p:
-            response.js = 'web2py_component("%s", "task_list_container"); %s' \
-                          % (URL(c='t',f='list.load',vars={'p':request.vars.p}),
+            response.js = 'web2py_component("%s", "task_progress"); \
+                           web2py_component("%s", "task_list_container"); %s' \
+                          % (URL(c='t',f='progress.load',vars={'p':request.vars.p}),
+                             URL(c='t',f='list.load',vars={'p':request.vars.p}),
                              js_hideform)
 
         else:
