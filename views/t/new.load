@@ -43,7 +43,7 @@
 
 
 
-<div class="span3" id="task-meta" style="background:aliceblue;">
+<div class="span4" id="task-meta" style="background:aliceblue;">
   
   <div class="span2">
     <label class="control-label" for="task_tag">Parent</label>
