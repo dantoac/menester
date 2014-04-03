@@ -15,10 +15,13 @@
 
 </div>
 
+{{if request.get_vars.p:}}
+
 {{=A('Nueva Tarea', _id="btn_new_task", _class="btn btn-large btn-inverse",
 _href=URL(c='t',f='new.load', vars={'p':request.vars.p}),
 cid='task_new_container')}}
 
+{{pass}}
 
 <div id="task_new_container" class="row"></div>
 
