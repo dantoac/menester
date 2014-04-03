@@ -2,6 +2,10 @@
 
 
 def progress():
+    '''
+    Esta función esta disponible como API para mostrar al Cliente el
+    porcentaje de avance en el proyecto.
+    '''
     project_uuid = request.vars.p
     progress = total_progress(project_uuid)
     return {'progress':progress}
