@@ -7,7 +7,7 @@ def progress():
     return {'progress':progress}
 
 
-@auth.requires_membership('admin')
+@auth.requires_membership('cdo' or 'admin')
 def index():
 
     project_id = project_uuid = None
@@ -52,7 +52,7 @@ def index():
     return {}
 
 
-@auth.requires_membership('admin')
+@auth.requires_membership('cdo' or 'admin')
 def view():
     tid =  request.args(0)
     if not tid: return
@@ -61,7 +61,7 @@ def view():
 
 
 
-@auth.requires_membership('admin')
+@auth.requires_membership('cdo' or 'admin')
 def list():
 
     
@@ -122,7 +122,7 @@ def list():
 
     return dict(data=data)
 
-@auth.requires_membership('admin')
+@auth.requires_membership('cdo' or 'admin')
 def new():
     
     tid = request.args(0)
