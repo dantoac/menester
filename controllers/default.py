@@ -9,7 +9,7 @@
 ## - call exposes all registered services (none by default)
 #########################################################################
 
-@auth.requires_login()
+@auth.requires_membership('admin')
 def index():
     redirect(URL(c='p',f='index', user_signature=True))
 

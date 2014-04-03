@@ -1,6 +1,6 @@
 #encode: utf8
 
-@auth.requires_login()
+@auth.requires_membership('admin')
 def index():
     
     request.vars.p
@@ -31,7 +31,7 @@ def index():
 
 
 
-@auth.requires_login()
+@auth.requires_membership('admin')
 def new():
         
     project_metadata = ''

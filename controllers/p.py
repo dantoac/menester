@@ -1,11 +1,11 @@
 # coding: utf8
 # This is the controller for "Projects".
 
-@auth.requires_login()
+@auth.requires_membership('admin')
 def index():
     return dict()
 
-@auth.requires_login()
+@auth.requires_membership('admin')
 def aoeu():
             
     dataset = db.project
@@ -78,7 +78,7 @@ def aoeu():
     return {'projects': grid}
 
 
-@auth.requires_login()
+@auth.requires_membership('admin')
 def list():
         
     #query proyectos en cualquier estado
@@ -122,7 +122,7 @@ def list():
             'open_task':open_task
     }
 
-@auth.requires_login()
+@auth.requires_membership('admin')
 def new():
     #form = crud.update(db.project, request.args(0))
     form = SQLFORM(db.project, request.args(0))

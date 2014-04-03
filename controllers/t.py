@@ -7,7 +7,7 @@ def progress():
     return {'progress':progress}
 
 
-@auth.requires_login()
+@auth.requires_membership('admin')
 def index():
 
     project_id = project_uuid = None
@@ -52,7 +52,7 @@ def index():
     return {}
 
 
-@auth.requires_login()
+@auth.requires_membership('admin')
 def view():
     tid =  request.args(0)
     if not tid: return
@@ -61,7 +61,7 @@ def view():
 
 
 
-@auth.requires_login()
+@auth.requires_membership('admin')
 def list():
 
     
@@ -122,7 +122,7 @@ def list():
 
     return dict(data=data)
 
-@auth.requires_login()
+@auth.requires_membership('admin')
 def new():
     
     tid = request.args(0)
@@ -135,7 +135,7 @@ def new():
     db.task.author.default = db.auth_user[auth.user_id].email
 
     
-    active_task = db((db.task.project_uuid == request.vars.p) 
+    active_task = ((db.task.project_uuid == request.vars.p) 
                      & ~(db.task.id==tid)
                      & (db.task.nullify==False)
                      & (db.task.progress < 100) #asi por retrocompatibilidad; debería ser task.closed==False;
@@ -143,11 +143,11 @@ def new():
                      
     # listando sólo las tareas del respectivo proyecto
     ## parents
-    db.task.task_parent.requires=IS_EMPTY_OR(IS_IN_DB(active_task, 
+    db.task.task_parent.requires=IS_EMPTY_OR(IS_IN_DB(db(active_task), 
                                                       'task.uuid', '%(name)s'))
 
     ## childs
-    db.task.task_child.requires=IS_EMPTY_OR(IS_IN_DB(active_task,
+    db.task.task_child.requires=IS_EMPTY_OR(IS_IN_DB(db(active_task),
                                                      'task.uuid', '%(name)s'))
     
     form = SQLFORM(db.task, tid)
