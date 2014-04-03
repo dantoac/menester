@@ -46,6 +46,7 @@ def new():
     return dict(form=form, comments=comments)
 
 
+@auth.requires_login()
 def list():
     uuid = request.vars.uuid
     query = (db.comment.target_uuid == uuid)
@@ -57,6 +58,7 @@ def list():
 
     return dict(comments=dataset)
 
+@auth.requires_login()
 def _delete():
     comment_id = request.args(0)
     delete = db(db.comment.id == comment_id).delete()
