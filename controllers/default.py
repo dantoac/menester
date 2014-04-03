@@ -9,10 +9,14 @@
 ## - call exposes all registered services (none by default)
 #########################################################################
 
-@auth.requires_membership('admin')
-def index():
-    redirect(URL(c='p',f='index', user_signature=True))
 
+def index():
+    if auth.has_membership('admin'):
+        redirect(URL(c='p',f='index', user_signature=True))
+    elif auth.has_membership('cdo'):
+        redirect(URL(c='t',f='index', user_signature=True))
+    else:
+        redirect(URL(c='default',f='user', args = 'login'))
 def user():
     """
     exposes:
