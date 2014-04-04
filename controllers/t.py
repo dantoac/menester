@@ -66,10 +66,8 @@ def index():
 
 @auth.requires(auth.has_membership('cdo') or auth.has_membership('admin'))
 def view():
-    tid =  request.args(0)
-    if not tid: return
-    task = db.task[tid]
-    if task: return dict(task=task)
+    task = db.task(request.args(0)) or redirect(URL(c='t', f='index.html'))
+    return dict(task=task)
 
 
 
@@ -122,12 +120,13 @@ def list():
         db.task.author,
         db.task.nullify,
         db.task.tag,
+        db.task.finish,
         db.task.description,
         db.project.name,
         db.project.uuid,
         db.project.slug,
-        db.comment.id.count(),
-        left=db.comment.on(db.task.uuid == db.comment.target_uuid),
+        #db.comment.id.count(),
+        #left=db.comment.on(db.task.uuid == db.comment.target_uuid),
         orderby=~db.task.priority|~db.task.progress|db.task.closed|db.task.nullify,
         groupby=db.task.id
         )

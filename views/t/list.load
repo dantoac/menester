@@ -25,6 +25,8 @@
     taskid = d.task.id
     taskname = d.task.name
     taskstate = 1 #task.state
+    taskdescription = d.task.description
+    taskfinish = d.task.finish
     taskprogress = d.task.progress
     taskpriority = d.task.priority
     taskcreated = d.task.created
@@ -32,7 +34,7 @@
     taskauthor = d.task.author
     tasknullify = d.task.nullify
       tasktag = d.task.tag
-      taskcomment = d[db.comment.id.count()]
+
       projectname = d.project.name
       projectslug = d.project.slug
       projectuuid = d.project.uuid
@@ -96,7 +98,9 @@
   }}
   {{pass}}    
   
-  <tr name="{{=taskid}}" class = "{{=priority_class if not tasknullify else 'muted well'}}">
+  <tr name="{{=taskid}}" class = "{{=priority_class if not tasknullify else 'muted well'}}"
+      onclick="$('#task-{{=taskid}}-info').slideToggle();"
+      >
 
     <td>
 
@@ -112,21 +116,10 @@
 
       #{{=taskid}}
       </strong> 
-      
-      {{=taskname.capitalize()}} 
-      
-      {{#=A(taskname.capitalize(),
-      #_href=URL(f='view.html', args=taskid, vars={'p':d.project.uuid}),
-      #target='task_new_container', _class='btn')
-      }}
 
+      <a>{{=taskname.capitalize()}}</a>
+      
       <!-- indicador de comentarios por tarea -->
-      {{if taskcomment:}}
-	<span style="white-space:nowrap;">
-          {{=taskcomment}} <i class="icon-comment"></i>
-	</span>
-      {{pass}}
-
       {{if tasknullify:}}
 	<span class="badge badge-inverse">ANULADO</span>
       {{pass}}
@@ -156,6 +149,20 @@
 	
       {{pass}}
 
+
+      
+      <div class="clearfix" id="task-{{=taskid}}-info" style="display:none; border:1px inset #fff; border-radius:12px; margin-top:3px; padding:0 1em; font:1em helvetica;">
+	  
+	
+	<dl>
+	  <dt>Detalle</dt><dd>{{=XML(taskdescription)}}</dd>
+	  <dt>Expiración:</dt><dd>{{='%s (%s)' % (taskfinish.date(), prettydate(taskfinish)) if taskfinish else 'Ayer'}}</dd>
+	  <dt>Actualizado</dt><dd><span title="{{=d.task.updated}}">{{=prettydate(d.task.updated)}}</span></dd>
+	</dl>
+
+
+      </div>
+      
 
 
     </td>
