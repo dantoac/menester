@@ -151,15 +151,17 @@
 
 
       
-      <div class="clearfix" id="task-{{=taskid}}-info" style="display:none; border:1px inset #fff; border-radius:12px; margin-top:3px; padding:0 1em; font:1em helvetica;">
-	  
+      <div class="clearfix" id="task-{{=taskid}}-info" style="display:none; border:1px inset #fff; margin-top:3px; padding:1px; font:1em helvetica;">
 	
-	<dl>
-	  <dt>Detalle</dt><dd>{{=XML(taskdescription)}}</dd>
-	  <dt>Expiración:</dt><dd>{{='%s (%s)' % (taskfinish.date(), prettydate(taskfinish)) if taskfinish else 'Ayer'}}</dd>
-	  <dt>Actualizado</dt><dd><span title="{{=d.task.updated}}">{{=prettydate(d.task.updated)}}</span></dd>
-	</dl>
+	<div class="well well-small">
+	{{=MARKMIN(taskdescription)}}
+	</div>
+	
+	<span class="pull-left"><strong>Expira:</strong><span title="{{=d.task.finish}}">{{=prettydate(d.task.finish)}}</span></span>
+	<span class="pull-right"><strong>Actualizado:</strong><span title="{{=d.task.updated}}">{{=prettydate(d.task.updated)}}</span></span>
 
+	
+	
 
       </div>
       
