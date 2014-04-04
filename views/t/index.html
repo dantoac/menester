@@ -23,9 +23,9 @@ cid='task_new_container')}}
 
 {{pass}}
 
-<div id="task_new_container" class="row"></div>
+<div id="task_new_container" name="task_new_container" class="row"></div>
 
 
   
-{{=LOAD(f='list.load', vars=dict(p=request.vars.p),
+{{=LOAD(r=request, f='list.load',  args=request.args, vars=dict(p=request.vars.p),
 target='task_list_container', ajax=True)}}
