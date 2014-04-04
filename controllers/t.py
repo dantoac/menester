@@ -6,9 +6,17 @@ def progress():
     Esta función esta disponible como API para mostrar al Cliente el
     porcentaje de avance en el proyecto.
     '''
-    project_uuid = request.vars.p
-    progress = total_progress(project_uuid)
-    return {'progress':progress}
+
+    project = db.project(uuid=request.vars.p)
+    
+    if not project: raise HTTP(404)
+    
+    progress = total_progress(project.uuid)
+    
+    return response.json({
+        'progress':progress, 
+        'name': project.name,
+    })
 
 
 @auth.requires(auth.has_membership('cdo') or auth.has_membership('admin'))
@@ -19,8 +27,6 @@ def index():
     project_uuid = request.vars.p
 
 
-    response.title = 'Tareas'
-    response.subtitle = 'Todos los Proyectos'
     progress=''
 
     if request.vars.p:
