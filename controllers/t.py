@@ -1,13 +1,13 @@
 # coding: utf8
 
-
+@cache.action(time_expire=300, cache_model=cache.ram, session=True, vars=True, public=True)
 def progress():
     '''
     Esta función esta disponible como API para mostrar al Cliente el
     porcentaje de avance en el proyecto.
     '''
 
-    project = db.project(uuid=request.vars.p)
+    project = db(db.project.uuid == request.vars.p).select().first()
     
     #if not project: raise HTTP(404)
     
