@@ -13,6 +13,8 @@ def progress():
     
     progress = total_progress(project.uuid if project else None)
     
+    response.headers['Access-Control-Allow-Origin'] = '*'
+
     return {
         'progress':progress, 
         'name': project.name if project else None,
