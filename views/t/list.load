@@ -10,9 +10,8 @@
 <table class="table table-bordered table-condensed table-hover">
   <thead>
     <tr>
-
-      <th>Tarea</th>
       <th>Progreso</th>
+      <th>Tarea</th>
       <th></th>
     </tr>
     
@@ -37,7 +36,8 @@
   taskcomment = d[db.comment.id.count()]
   projectname = d.project.name
   projectslug = d.project.slug
-
+  projectuuid = d.project.uuid
+  
   fgcolor="none;"
   
   if taskpriority=="5":
@@ -100,6 +100,14 @@
   
   <tr class = "{{=priority_class if not tasknullify else 'muted well'}}">
 
+    
+    <td>
+      <div class="{{=progress_css_class}}">
+        <div class="bar" style="width:{{=taskprogress}}%;"></div>
+      </div>
+    </td>
+
+
     <td>
       {{if not request.vars.p or request.vars.p == 'None':}}
       {{=A(projectname.title(), _href=URL(f='index.html',vars={'p':d.project.uuid}),
@@ -107,9 +115,15 @@
       )}}
       {{pass}}
 
-      {{=A(TAG.strong(TAG.tt('#%s' % taskid)),'   ',taskname.capitalize(),
-        _href=URL(f='view.html', args=taskid, vars={'p':d.project.uuid}),
-        target='task_new_container', _class='btn')}}
+      {{=taskname.capitalize()}} 
+
+      <span class="pull-right">
+	#{{=taskid}}
+      </span>
+      {{#=A(taskname.capitalize(),
+        #_href=URL(f='view.html', args=taskid, vars={'p':d.project.uuid}),
+        #target='task_new_container', _class='btn')
+      }}
 
       <!-- indicador de comentarios por tarea -->
       {{if taskcomment:}}
@@ -136,20 +150,14 @@
       {{pass #if tasktag}}
 
     </td>
-    
-    <td>
-      <div class="{{=progress_css_class}}">
-        <div class="bar" style="width:{{=taskprogress}}%;"></div>
-      </div>
-    </td>
-    
+        
     <td>
 
       
       {{if not tasknullify:}}
       {{=A(TAG.i(_class='icon-edit icon-white'),
       _href=URL(f='new.load', args=taskid, 
-      vars=dict(p=request.vars.p)),
+      vars=dict(p=projectuuid)),
       cid='task_new_container',
       _class='btn btn-mini btn-inverse')
       }}

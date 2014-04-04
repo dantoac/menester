@@ -9,14 +9,14 @@ def progress():
 
     project = db.project(uuid=request.vars.p)
     
-    if not project: raise HTTP(404)
+    #if not project: raise HTTP(404)
     
-    progress = total_progress(project.uuid)
+    progress = total_progress(project.uuid if project else None)
     
-    return response.json({
+    return {
         'progress':progress, 
-        'name': project.name,
-    })
+        'name': project.name if project else None,
+    }
 
 
 @auth.requires(auth.has_membership('cdo') or auth.has_membership('admin'))
