@@ -1,6 +1,6 @@
 # coding: utf8
 
-@cache.action(time_expire=300, cache_model=cache.ram, session=True, vars=True, public=True)
+#@cache.action(time_expire=300, cache_model=cache.ram, session=True, vars=True, public=True)
 def progress():
     '''
     Esta función esta disponible como API para mostrar al Cliente el
@@ -167,8 +167,6 @@ def new():
     
     if form.process().accepted:
 
-        print(form.vars.project_uuid)
-
         project_mail = db(db.project.uuid==form.vars.project_uuid).select(
             db.project.email_contact, 
             db.project.name,
@@ -209,15 +207,15 @@ def new():
 
         js_hideform = 'jQuery(document).ready(function(){jQuery("#task_new_container").slideUp();});'
 
-        if request.vars.p:
-            response.js = 'web2py_component("%s", "task_progress"); \
+        #if request.vars.p:
+        response.js = 'web2py_component("%s", "task_progress"); \
                            web2py_component("%s", "task_list_container"); %s' \
                           % (URL(c='t',f='progress.load',vars={'p':request.vars.p}),
                              URL(c='t',f='list.load',vars={'p':request.vars.p}),
                              js_hideform)
 
-        else:
-            response.js = 'web2py_component("%s", "task_list_container");' % URL(c='t',f='list.load')
+        #else:
+        #    response.js = 'web2py_component("%s", "task_list_container");' % URL(c='t',f='list.load')
         
     elif form.errors:
         response.flash = 'Hubo errores al crear la Tarea. Revise formulario.'

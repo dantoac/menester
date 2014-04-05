@@ -2,16 +2,23 @@
 def total_progress(project):
     """
     Calcula el porcentaje de progreso total de tareas de un
-    proyecto dado por el parámetro integer: 'project', sin
+    proyecto dado por el uuid string: 'project', sin
     considerar las tareas anuladas (task.nullify=True)
     Retorna el número del porcentaje como string.
     """
 
     session.forget(response)
 
-    query = ((db.task.project_uuid == project) &
-             (db.task.nullify == False)
-             )
+    if project:
+        query = ((db.task.project_uuid == project) &
+                 (db.task.nullify == False)
+        )
+    else:
+        query = ((db.task.id>0) &
+                 (db.task.project_uuid == db.project.uuid) &
+                 (db.project.close == False) &
+                 (db.task.nullify == False)
+        )
 
     task_count =  db.task.id.count()
     percentage_sum = db.task.progress.sum()
@@ -20,10 +27,12 @@ def total_progress(project):
                             cacheable = True,
                             ).first()
    
+    print(query)
+    print(data)
     total_progress = None
 
     if data[percentage_sum]:
-        total_progress = round(data[percentage_sum] / data[task_count])
+        total_progress = round(float(data[percentage_sum]) / float(data[task_count]),1)
 
     return total_progress
 
