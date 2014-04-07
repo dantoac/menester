@@ -193,9 +193,10 @@ def new():
                                vars={'p':project_data.uuid},host=True),'\n',
                 
                 'AVANCE: %s%%\n' % task_data.progress,
-                'PRIORIDAD: %s/5' % form.vars.priority,'\n',
-                'ETIQUETAS: ', XML(form.vars.tag),'\n',
-                'DESCRIPCIÓN: \n%s' % form.vars.description or '---','\n',
+                'TERMINA: %s (%s)\n' % (form.vars.finish or '---', prettydate(form.vars.finish) or 'n/a'),
+                'PRIORIDAD: %s/5\n' % form.vars.priority,
+                'ETIQUETAS: %s\n' % ','.join(form.vars.tag) if form.vars.tag else '',
+                'DESCRIPCIÓN: \n%s\n' % form.vars.description or '---',
             ))
             
             if project_data.email_contact:

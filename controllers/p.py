@@ -143,7 +143,7 @@ def new():
         mail_msg = str(CAT(
             'OBJETIVO: %s\n' % project_aim or '---',
             'INICIA: %s\n' % project_start or '---',
-            'TERMINA: %s\n' % project_end or '---',
+            'TERMINA: {0} ({1})\n'.format(project_end or '---', prettydate(project_end) or '---'),
             'TAREAS: %s' % URL(c='t',f='index.html', vars={'p':request.post_vars.uuid}, host=True),
             ))
 
