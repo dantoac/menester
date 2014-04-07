@@ -27,7 +27,7 @@ def total_progress(project):
                             cacheable = True,
                             ).first()
    
-    total_progress = None
+    total_progress = 0
 
     if data[percentage_sum]:
         total_progress = round(float(data[percentage_sum]) / float(data[task_count]),1)
