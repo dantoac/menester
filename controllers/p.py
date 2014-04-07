@@ -141,21 +141,22 @@ def new():
         #notificando por email
         
         mail_msg = str(CAT(
-            'OBJETIVO: %s\n' % project_aim or '---',
-            'INICIA: %s\n' % project_start or '---',
-            'TERMINA: {0} ({1})\n'.format(project_end or '---', prettydate(project_end) or '---'),
-            'TAREAS: %s' % URL(c='t',f='index.html', vars={'p':request.post_vars.uuid}, host=True),
+            'Objetivo: %s\n' % project_aim or '---',
+            'Finaliza: {0} ({1})\n'.format(project_end or '---', prettydate(project_end) or '---'),
+            'Tareas: %s\n' % URL(c='t',f='index.html', vars={'p':request.post_vars.uuid}, host=True),
             ))
 
         
         project_closed_msg = '\b' #retrocede el cursor
         if project_closed == True:
-            project_closed_msg = '[CERRADO]'
+            project_closed_msg = '<CERRADO>'
 
         if form.vars.email_contact:
             mail.send(
                 to=form.vars.email_contact,
-                subject='%s Proyecto [%s]' % (project_closed_msg,project_name),
+                subject='[MENESTER] %s [%s%%] %s' % (project_name, 
+                                                      total_progress(request.post_vars.uuid),
+                                                      project_closed_msg),
                 message=mail_msg
                 )
 

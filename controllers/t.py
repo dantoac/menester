@@ -178,25 +178,29 @@ def new():
 
         #notificando por email        
         if request.post_vars.notify:
-            task_data = db(db.task.id==form.vars.id).select(
-                db.task.progress, limitby=(0,1)).first()
-
             
-            mail_subject = '[%(project_name)s]: %(task_name)s' \
-                % dict(project_name=project_data.name,
+            
+            task_progress = '[%s%%]' % form.vars.progress if int(form.vars.progress) < 100 else '[LOGRADO]'
+
+            tags = form.vars.tag
+            
+            if not isinstance(form.vars.tag, basestring):
+                tags = ', '.join(form.vars.tag)                
+
+            mail_subject = '[MENESTER] #%(task_id)s: %(task_name)s %(task_progress)s' \
+                % dict(task_id = form.vars.id,
                        task_name = form.vars.name,
-                       
-                       )
+                       task_progress = task_progress
+                   )
 
             mail_msg = str(CAT(
-                'ENLACE: ',URL('t','index.html',anchor=form.vars.id,
-                               vars={'p':project_data.uuid},host=True),'\n',
-                
-                'AVANCE: %s%%\n' % task_data.progress,
-                'TERMINA: %s (%s)\n' % (form.vars.finish or '---', prettydate(form.vars.finish) or 'n/a'),
-                'PRIORIDAD: %s/5\n' % form.vars.priority,
-                'ETIQUETAS: %s\n' % ','.join(form.vars.tag) if form.vars.tag else '',
-                'DESCRIPCIÓN: \n%s\n' % form.vars.description or '---',
+                'Proyecto: %s (%s%%)\n' % (project_data.name, total_progress(project_data.uuid)),
+                'Enlace: %s\n' % URL('t','index.html',anchor=form.vars.id,vars={'p':project_data.uuid},host=True),
+                'Avance: %s%%\n' % form.vars.progress,
+                'Termina: %s (%s)\n' % (form.vars.finish or '---', prettydate(form.vars.finish) or 'n/a'),
+                'Prioridad: %s/5\n' % form.vars.priority,
+                'Etiquetas: %s\n' % tags,
+                '\nDescripción: \n%s\n' % form.vars.description or '---',
             ))
             
             if project_data.email_contact:
