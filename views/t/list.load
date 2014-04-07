@@ -117,7 +117,7 @@
       #{{=taskid}}
       </strong> 
 
-      <a>{{=taskname.capitalize()}}</a>
+      {{=taskname.capitalize()}}
       
       <!-- indicador de comentarios por tarea -->
       {{if tasknullify:}}

@@ -1,6 +1,6 @@
 # coding: utf8
 
-#@cache.action(time_expire=300, cache_model=cache.ram, session=True, vars=True, public=True)
+@cache.action(time_expire=300, cache_model=cache.ram, session=True, vars=True, public=True)
 def progress():
     '''
     Esta función esta disponible como API para mostrar al Cliente el
@@ -167,11 +167,13 @@ def new():
     
     if form.process().accepted:
 
-        project_mail = db(db.project.uuid==form.vars.project_uuid).select(
-            db.project.email_contact, 
-            db.project.name,
-            limitby=(0,1)
-            ).first()
+        project_data = db((db.project.uuid==form.vars.project_uuid)
+                      ).select(
+                          db.project.email_contact, 
+                          db.project.name,
+                          db.project.uuid,
+                          limitby=(0,1)
+                      ).first()
           
 
         #notificando por email        
@@ -180,25 +182,25 @@ def new():
                 db.task.progress, limitby=(0,1)).first()
 
             
-            mail_subject = '[%(project_name)s #%(task_id)s] %(task_progress)s%% "%(task_name)s"' \
-                % dict(project_name=project_mail.name,
+            mail_subject = '[%(project_name)s]: %(task_name)s' \
+                % dict(project_name=project_data.name,
                        task_name = form.vars.name,
-                       task_progress = task_data.progress,
-                       task_id = form.vars.id
+                       
                        )
 
             mail_msg = str(CAT(
-                    'TAREA: ',form.vars.name,'\n',
-                    'PRIORIDAD: %s/5' % form.vars.priority,'\n',
-                    'ETIQUETAS: ', XML(form.vars.tag),'\n',
-                    'DESCRIPCIÓN: ', form.vars.description or '---','\n',
-                    'ENLACE: ',URL('t','view.html',args=form.vars.id,
-                                   vars={'p':project_mail.name},host=True),'\n',
-                    ))
+                'ENLACE: ',URL('t','index.html',anchor=form.vars.id,
+                               vars={'p':project_data.uuid},host=True),'\n',
+                
+                'AVANCE: %s%%\n' % task_data.progress,
+                'PRIORIDAD: %s/5' % form.vars.priority,'\n',
+                'ETIQUETAS: ', XML(form.vars.tag),'\n',
+                'DESCRIPCIÓN: \n%s' % form.vars.description or '---','\n',
+            ))
             
-            if project_mail.email_contact:
+            if project_data.email_contact:
                 mail.send(
-                    to=project_mail.email_contact,
+                    to=project_data.email_contact,
                     subject=mail_subject,
                     message=mail_msg
                     )

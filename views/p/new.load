@@ -9,6 +9,8 @@
 
 <div class="span4">         
 
+  <input name="uuid" type="hidden" value="{{=form.custom.dspval.uuid}}" />
+
   <label class="control-label" for="project_name">Project Name</label>
   <div class="controls">{{=form.custom.widget.name}}</div>    
   
