@@ -27,8 +27,6 @@ def total_progress(project):
                             cacheable = True,
                             ).first()
    
-    print(query)
-    print(data)
     total_progress = None
 
     if data[percentage_sum]:

@@ -125,6 +125,8 @@ def list():
 @auth.requires_membership('admin')
 def new():
     #form = crud.update(db.project, request.args(0))
+
+    db.project.uuid.readable = True
     form = SQLFORM(db.project, request.args(0))
 
     if form.process().accepted:
@@ -137,27 +139,22 @@ def new():
         project_closed = form.vars.close or ''
 
         #notificando por email
-        p_contact = db(db.project.id==form.vars.id).select(
-            db.project.email_contact, limitby=(0,1)).first().email_contact
         
-        slug = IS_SLUG()(form.vars.name)[0]
-
         mail_msg = str(CAT(
-            'PROYECTO: ', project_name, '\n',
-            'OBJETIVO: ', project_aim or '---','\n',
-            'INICIA: ', project_start or '---','\n',
-            'TERMINA: ', project_end or '---','\n',
-            'ENLACE: ', URL(c='t',f='index.html', vars={'p':slug}, host=True),'\n',
+            'OBJETIVO: %s\n' % project_aim or '---',
+            'INICIA: %s\n' % project_start or '---',
+            'TERMINA: {0} ({1})\n'.format(project_end or '---', prettydate(project_end) or '---'),
+            'TAREAS: %s' % URL(c='t',f='index.html', vars={'p':request.post_vars.uuid}, host=True),
             ))
 
         
-        project_closed_msg = '\b'
+        project_closed_msg = '\b' #retrocede el cursor
         if project_closed == True:
-            project_closed_msg = '(CERRADO)'
+            project_closed_msg = '[CERRADO]'
 
-        if p_contact:
+        if form.vars.email_contact:
             mail.send(
-                to=p_contact,
+                to=form.vars.email_contact,
                 subject='%s Proyecto [%s]' % (project_closed_msg,project_name),
                 message=mail_msg
                 )
