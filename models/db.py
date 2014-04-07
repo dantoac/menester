@@ -50,7 +50,7 @@ auth.define_tables(username=False, signature=False)
 mail=auth.settings.mailer
 
 # setear _EMAIL = Storage() en un modelo antes que éste
-mail.settings.server = 'logging' or _EMAIL.smtp
+mail.settings.server = _EMAIL.smtp or 'logging'
 mail.settings.login = _EMAIL.login or 'user:passwd'
 mail.settings.sender = _EMAIL.sender or 'user@host.org'
 
