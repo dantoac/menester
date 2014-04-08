@@ -1,6 +1,33 @@
 # coding: utf8
 # This is the controller for "Projects".
 
+
+
+@cache.action(time_expire=300, cache_model=cache.ram, session=True, vars=True, public=True)
+def progress():
+    '''
+    Esta función esta disponible como API para mostrar al Cliente el
+    porcentaje de avance en el proyecto.
+    '''
+
+    project = db(db.project.uuid == request.vars.p).select().first()
+    
+    #if not project: raise HTTP(404)
+    
+    progress = total_progress(project.uuid if project else None)
+
+    open_tasks = _open_task(request.vars.p)
+    
+    response.headers['Access-Control-Allow-Origin'] = '*'
+
+    return {
+        'progress':progress, 
+        'name': project.name if project else None,
+        'open_task_count': open_tasks
+    }
+
+
+
 @auth.requires_membership('admin')
 def index():
     return dict()
