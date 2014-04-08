@@ -12,12 +12,15 @@ def progress():
     #if not project: raise HTTP(404)
     
     progress = total_progress(project.uuid if project else None)
+
+    open_tasks = _open_task(request.vars.p)
     
     response.headers['Access-Control-Allow-Origin'] = '*'
 
     return {
         'progress':progress, 
         'name': project.name if project else None,
+        'open_tasks': open_tasks
     }
 
 

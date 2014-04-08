@@ -218,16 +218,16 @@
       
       <td>
 
-        <a class="btn btn-small {{='btn-warning' if open_task[p.uuid] else ''}}" 
+        <a class="btn btn-small {{='btn-warning' if _open_task(p.uuid) else ''}}" 
            href="{{=URL(c='t', f='index.html', vars=dict(p=p.uuid))}}">
           
-          {{if open_task[p.uuid]:}}
+          {{if _open_task(p.uuid):}}
           <i class="icon icon-tasks"></i>
           {{else:}}
           <i class="icon icon-check"></i>
           {{pass}}
           
-          {{=open_task[p.uuid] or ''}}
+          {{=_open_task(p.uuid) or ''}}
         </a>
 
         <div class="progress">

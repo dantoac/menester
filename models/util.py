@@ -1,3 +1,17 @@
+#encode: utf8
+
+
+def _open_task(project_uuid):
+    dataset = db((project_uuid == db.project.uuid)
+                 & (db.project.uuid == db.task.project_uuid)
+                 & (db.task.closed == False)
+             ).select(#db.project.uuid, 
+                      db.task.id.count(), 
+                      #groupby=db.project.uuid
+             ).first()[db.task.id.count()]
+    
+    return dataset
+
 
 def total_progress(project):
     """

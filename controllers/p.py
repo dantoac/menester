@@ -107,19 +107,10 @@ def list():
 
     project_income = Storage({i.project.uuid:i['SUM(income.amount)'] for i in income_dataset})
     project_expense = Storage({i.project.uuid:i['SUM(expense.amount)'] for i in expense_dataset})
-
-    open_task_dataset = db((db.task.project_uuid==db.project.uuid)
-                    & (db.task.closed==False)
-                ).select(db.project.uuid, 
-                         db.task.id.count(), 
-                         groupby=db.project.uuid)
-        
-    open_task = Storage({t.project.uuid:t['COUNT(task.id)'] for t in open_task_dataset})
    
     return {'dataset':dataset, 
             'project_income':project_income,
             'project_expense':project_expense,
-            'open_task':open_task
     }
 
 @auth.requires_membership('admin')
