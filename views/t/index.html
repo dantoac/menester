@@ -1,7 +1,7 @@
 {{extend 'layout.html'}}
 
 
-{{=LOAD(c='t',f='progress.load', vars={'p':request.vars.p}, ajax=True, target='task_progress')}}
+{{=LOAD(c='p',f='progress.load', vars={'p':request.vars.p}, ajax=True, target='task_progress')}}
 
 <div class="btn-group pull-right" data-toggle="buttons-radio">
 
