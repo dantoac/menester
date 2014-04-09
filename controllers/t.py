@@ -7,7 +7,6 @@ def index():
     project_slug = request.vars.name
     project_uuid = request.vars.p
 
-
     progress=''
 
     if request.vars.p:
@@ -166,19 +165,18 @@ def new():
             if not isinstance(form.vars.tag, basestring):
                 tags = ', '.join(form.vars.tag)                
 
-            mail_subject = '[MENESTER] #%(task_id)s: %(task_name)s %(task_progress)s' \
+            mail_subject = '[MENESTER] #%(task_id)s: %(task_name)s' \
                 % dict(task_id = form.vars.id,
                        task_name = form.vars.name,
-                       task_progress = task_progress
                    )
 
             mail_msg = str(CAT(
-                'Proyecto: %s (%s%%)\n' % (project_data.name, total_progress(project_data.uuid)),
-                'Enlace: %s\n' % URL('t','index.html',anchor=form.vars.id,vars={'p':project_data.uuid},host=True),
-                'Avance: %s%%\n' % form.vars.progress,
+                '\nProgreso: %s\n' % task_progress,
                 'Termina: %s (%s)\n' % (form.vars.finish or '---', prettydate(form.vars.finish) or 'n/a'),
                 'Prioridad: %s/5\n' % form.vars.priority,
                 'Etiquetas: %s\n' % tags,
+                'Enlace: %s\n' % URL('t','index.html',anchor=form.vars.id,vars={'p':project_data.uuid},host=True),
+                'Proyecto: %s (%s%%)\n' % (project_data.name, total_progress(project_data.uuid)),
                 '\nDescripción: \n%s\n' % form.vars.description or '---',
             ))
             
