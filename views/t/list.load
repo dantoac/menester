@@ -1,5 +1,5 @@
 
-{{=LOAD(c='p',f='progress.load', vars={'p':request.vars.p}, ajax=True, target='task_progress', _style='clear:both; margin:15px auto;')}}
+{{=LOAD(c='p',f='progress.load', vars={'p':request.vars.p}, ajax=True, target='project_achievement', _style='clear:both; margin:15px auto;')}}
 
 <div id="filtro">
   <div class="input-prepend input-append">        

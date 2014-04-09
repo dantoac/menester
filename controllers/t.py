@@ -192,9 +192,9 @@ def new():
         js_hideform = 'jQuery(document).ready(function(){jQuery("#task_new_container").slideUp();});'
 
         #if request.vars.p:
-        response.js = 'web2py_component("%s", "task_progress"); \
+        response.js = 'web2py_component("%s", "project_achievement"); \
                            web2py_component("%s", "task_list_container"); %s' \
-                          % (URL(c='t',f='progress.load',vars={'p':request.vars.p}),
+                          % (URL(c='p',f='progress.load',vars={'p':request.vars.p}),
                              URL(c='t',f='list.load',vars={'p':request.vars.p}),
                              js_hideform)
 
