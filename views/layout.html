@@ -97,6 +97,8 @@
     </div><!--/top navbar -->
 
     <div class="container">
+
+      {{block header}}
       <!-- Masthead ================================================== -->
       <header class="mastheader row" id="header">
 	{{if response.title:}}
@@ -112,7 +114,7 @@
         </div>
 	{{pass}}
       </header>
-
+      {{end}}
       <section id="main" class="main row">
         {{if left_sidebar_enabled:}}
         <div class="span3 left-sidebar">
