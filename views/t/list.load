@@ -140,14 +140,14 @@
 
       <div style="font:x-small sans-serif">
 	
-	{{if d.task.parent_task:}}
-	  Necesita: {{=XML('<a href="#{0}">#{0}</a>'.format(_get_task(d.task.parent_task).id))}}
+	{{if d.task.task_parent:}}
+	  Necesita: {{=XML('<a href="#{0}">#{0}</a>'.format(_get_task(d.task.task_parent).id))}}
 	{{pass}}
 
 
 		
-	{{if d.task.child_task:}}
-	  Permite: {{=XML('<a href="#{0}">#{0}</a>'.format(_get_task(d.task.child_task).id))}}
+	{{if d.task.task_child:}}
+	  Permite: {{=XML('<a href="#{0}">#{0}</a>'.format(_get_task(d.task.task_child).id))}}
 	{{pass}}
 
 	
