@@ -126,8 +126,7 @@ def new():
                                                       'task.uuid', '%(name)s'))
 
     ## childs
-    db.task.task_child.requires=IS_EMPTY_OR(IS_IN_DB(db(active_task),
-                                                     'task.uuid', '%(name)s'))
+    #db.task.task_child.requires=IS_EMPTY_OR(IS_IN_DB(db(active_task), 'task.uuid', '%(name)s'))
     
     form = SQLFORM(db.task, tid)
 

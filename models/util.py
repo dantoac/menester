@@ -15,14 +15,21 @@ def _open_task(project_uuid):
 
 def _get_task_info(task_uuid):
     '''
-    Para obtener info de una tarea usando sólo su uuid
+    Obtiene datos de una tarea usando sólo su uuid
     '''
     dataset = db(db.task.uuid == task_uuid).select().first()
     return Storage(dataset)
 
 
-#def _get_task_info_parent
+def _get_task_child(task_uuid):
+    '''
+    Obtiene los datos de la tarea desde los que se hace referencia 
+    a "task_uuid"
+    '''
 
+    dataset = db(db.task.task_parent == task_uuid).select()
+    childs = [child for child in dataset]
+    return childs
 
 def total_progress(project):
     """

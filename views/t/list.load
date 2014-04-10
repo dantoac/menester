@@ -12,6 +12,7 @@
   <thead>
     <tr>
       <th>Tarea</th>
+      <th></th>
       <th style="width:100px;"></th>
     </tr>
     
@@ -21,8 +22,7 @@
   
   #mover esto a una función
   for d in data:
-    
-
+   
     taskid = d.task.id
     taskname = d.task.name
     taskstate = 1 #task.state
@@ -116,7 +116,7 @@
       #{{=taskid}}
       </strong> 
 
-      <a  name="{{=taskid}}" onclick="$('#task-{{=taskid}}-info').slideToggle();">
+      <a style="font:1em sans-serif;" name="{{=taskid}}" onclick="$('#task-{{=taskid}}-info').slideToggle();">
 	{{=taskname.capitalize()}}
       </a>
       <!-- indicador de comentarios por tarea -->
@@ -138,38 +138,45 @@
       {{pass #if tasktag}}
 
 
-      <div style="font:x-small sans-serif">
-	
+      <!-- Dependecias entre tareas -->
+
+
+      <div class="pull-right" style="font:x-small sans-serif">
+	<div>
 	{{if d.task.task_parent:}}
-	  Necesita: {{=XML('<a href="#{0}">#{0}</a>'.format(_get_task_info(d.task.task_parent).id))}}
+	  {{task_parent = _get_task_info(d.task.task_parent)}}
+
+	  Necesita: 
+
+	  {{if not task_parent.closed:}}
+	  <strong><a href="#{{=task_parent.id}}">#{{=task_parent.id}}</a> </strong>
+	  {{else:}}
+	  <strong><del><a href="#{{=task_parent.id}}">#{{=task_parent.id}}</a></del></strong>
+	  {{pass}}
+	  
+
 	{{pass}}
 
-
-		
-	{{if False: #d.task.task_child:}}
-	  Permite: {{=XML('<a href="#{0}">#{0}</a>'.format(_get_task_info(d.task.task_child).id))}}
+	</div>
+	<div>
+	{{if _get_task_child(d.task.uuid):}}
+	  Permite:
+	{{for task_child in _get_task_child(d.task.uuid):}}
+	  {{if task_child.closed:}}
+	    <del>
+	      <strong><a href="#{{=task_child.id}}">#{{=task_child.id}}</a></strong>
+	    </del>
+	    {{else:}}
+	    <strong><a href="#{{=task_child.id}}">#{{=task_child.id}}</a></strong>
+	    {{pass}}
 	{{pass}}
-
-	
+	{{pass}}
 
        </div>
+      </div>
 
+       <!-- //Dependecias entre tareas -->
 
-
-      {{if not tasknullify:}}
-	
-	{{=A(SPAN(_class='icon icon-white icon-edit'), _href=URL(f='new.load', args=taskid, 
-	vars=dict(p=projectuuid),
-	),
-	cid='task_new_container',
-	_class='btn btn-mini btn-inverse pull-right',
-	_name=taskid)
-	}}
-	
-      {{pass}}
-
-
-      
       <div class="clearfix" id="task-{{=taskid}}-info" style="display:none; border:1px inset #fff; margin-top:3px; padding:1px; font:1em helvetica;">
 	
 	<div class="well well-small">
@@ -187,6 +194,27 @@
 
 
     </td>
+
+
+    
+       <td>
+
+      {{if not tasknullify:}}
+	
+	{{=A(SPAN(_class='icon icon-white icon-edit'), _href=URL(f='new.load', args=taskid, 
+	vars=dict(p=projectuuid),
+	),
+	cid='task_new_container',
+	_class='btn btn-mini btn-inverse pull-right',
+	_name=taskid)
+	}}
+	
+      {{pass}}
+
+      </td>
+      
+
+
     <td>
       
       <div class="{{=progress_css_class}}">
