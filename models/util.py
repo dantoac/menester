@@ -13,6 +13,11 @@ def _open_task(project_uuid):
     return dataset
 
 
+def _get_task(task_uuid):
+    dataset = db(db.task.uuid == task_uuid).select().first()
+    return Storage(dataset)
+
+
 def total_progress(project):
     """
     Calcula el porcentaje de progreso total de tareas de un
@@ -100,7 +105,5 @@ def numfmt(value, places=0, curr='$', sep='.', dp='',
     build(curr)
     build(neg if sign else pos)
     return ''.join(reversed(result))
-
-
 
 
