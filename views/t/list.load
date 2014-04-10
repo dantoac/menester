@@ -99,9 +99,7 @@
   }}
   {{pass}}    
   
-  <tr name="{{=taskid}}" class = "{{=priority_class if not tasknullify else 'muted well'}}"
-      onclick="$('#task-{{=taskid}}-info').slideToggle();"
-      >
+  <tr class = "{{=priority_class if not tasknullify else 'muted well'}}">
 
     <td>
 
@@ -118,8 +116,9 @@
       #{{=taskid}}
       </strong> 
 
-      {{=taskname.capitalize()}}
-      
+      <a  name="{{=taskid}}" onclick="$('#task-{{=taskid}}-info').slideToggle();">
+	{{=taskname.capitalize()}}
+      </a>
       <!-- indicador de comentarios por tarea -->
       {{if tasknullify:}}
 	<span class="badge badge-inverse">ANULADO</span>
@@ -137,6 +136,25 @@
 	  {{pass #if critical}}
 	{{pass #for}}
       {{pass #if tasktag}}
+
+
+      <div style="font:x-small sans-serif">
+	
+	{{if d.task.parent_task:}}
+	  Necesita: {{=XML('<a href="#{0}">#{0}</a>'.format(_get_task(d.task.parent_task).id))}}
+	{{pass}}
+
+
+		
+	{{if d.task.child_task:}}
+	  Permite: {{=XML('<a href="#{0}">#{0}</a>'.format(_get_task(d.task.child_task).id))}}
+	{{pass}}
+
+	
+
+       </div>
+
+
 
       {{if not tasknullify:}}
 	

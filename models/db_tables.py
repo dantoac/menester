@@ -85,8 +85,8 @@ dt('task',
           compute=(lambda c: True if c['progress']=='100' or c['nullify']==True else False)),
     Field('nullify', 'boolean', default=False),
     Field('author','string', writable=False),
-    Field('task_parent'),
-    Field('task_child'),
+    Field('parent_task', label="Necesita"),
+    Field('child_task', label="Permite"),
     format = '%(name)s'
     )
 

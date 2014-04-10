@@ -89,17 +89,7 @@ def list():
     data = db((query_project)
               & (query_task_state) 
               ).select(
-        db.task.id,
-        db.task.name,
-        db.task.progress,
-        db.task.priority,
-        db.task.created,
-        db.task.updated,
-        db.task.author,
-        db.task.nullify,
-        db.task.tag,
-        db.task.finish,
-        db.task.description,
+        db.task.ALL,
         db.project.name,
         db.project.uuid,
         db.project.slug,
