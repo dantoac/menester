@@ -86,7 +86,7 @@ dt('task',
     Field('nullify', 'boolean', default=False),
     Field('author','string', writable=False),
     Field('task_parent', label="Necesita"),
-    Field('task_child', label="Permite"),
+#    Field('task_child', label="Permite"),
     format = '%(name)s'
     )
 
