@@ -1,9 +1,10 @@
 <style>
 
-#task-meta input[type=text] {width:auto;}
+ #task-meta input[type=text] {width:auto;}
 
 </style>
 
+<button class="btn-mini right btn-inverse clearfix" onclick="$(this).parent().slideUp();"><i class="icon icon-white icon-arrow-up"></i></button>
 
 {{=form.custom.begin}}
 
@@ -18,25 +19,25 @@
   
   <div class="span2">
     <label class="control-label" for="task_priority">{{=form.custom.label.priority}}</label>
-    <div class="controls">{{=form.custom.widget.priority}}</div>
-    
-    
-    <label class="control-label" for="task_progress">{{=form.custom.label.progress}}</label>
-    <div class="controls">{{=form.custom.widget.progress}}</div>
-    
+      <div class="controls">{{=form.custom.widget.priority}}</div>
+	
+	
+	<label class="control-label" for="task_progress">{{=form.custom.label.progress}}</label>
+	  <div class="controls">{{=form.custom.widget.progress}}</div>
+	    
   </div>
   
   <div class="span4">
-  <label class="control-label" for="task_tag_grow_input">Tags</label>
-  <div class="controls">{{=form.custom.widget.tag}}</div>
+    <label class="control-label" for="task_tag_grow_input">Tags</label>
+    <div class="controls">{{=form.custom.widget.tag}}</div>
   </div>
   
   <div class="span8">
-  <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#task_description">
-    <label class="control-label" for="task_description">{{=form.custom.label.description}}</label>
-  </button>
- 
-  <div id="task_description" class="controls collapse out" style="width:96%;">{{=form.custom.widget.description}}</div>
+    <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#task_description">
+      <label class="control-label" for="task_description">{{=form.custom.label.description}}</label>
+    </button>
+    
+    <div id="task_description" class="controls collapse out" style="width:96%;">{{=form.custom.widget.description}}</div>
   </div>
 
 </div>
@@ -61,7 +62,7 @@
 
   <div class="span2">
     <label class="control-label" for="task_finish">{{=form.custom.label.finish}}</label>
-    <div class="controls">{{=form.custom.widget.finish}}</div>
+      <div class="controls">{{=form.custom.widget.finish}}</div>
   </div>
   
   <div class="span2">
@@ -82,6 +83,6 @@
 
   
 </div>
-{{=form.custom.end}}
 
+{{=form.custom.end}}
 
