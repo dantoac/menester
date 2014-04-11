@@ -4,7 +4,12 @@
 
 </style>
 
-<button class="btn-mini right btn-inverse clearfix" onclick="$(this).parent().slideUp();"><i class="icon icon-white icon-arrow-up"></i></button>
+
+<div class="span8">
+  <button class="btn-mini btn-inverse clearfix" onclick="$(this).parent().parent().slideUp();"><i class="icon icon-white icon-arrow-up"></i></button>
+</div>
+
+
 
 {{=form.custom.begin}}
 
