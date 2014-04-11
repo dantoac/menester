@@ -13,7 +13,6 @@
     <tr>
       <th>Tarea</th>
       <th></th>
-      <th style="width:100px;"></th>
     </tr>
     
   </thead>
@@ -103,14 +102,7 @@
 
     <td>
 
-      
-      {{if not request.vars.p or request.vars.p == 'None':}}
-	{{=A(projectname.title(), _href=URL(f='index.html',vars={'p':d.project.uuid}),
-	_class='btn btn-small'
-	)}}
-      {{pass}}
-
-
+  
       <strong>
 
       #{{=taskid}}
@@ -119,10 +111,28 @@
       <a style="font:1em sans-serif;" name="{{=taskid}}" onclick="$('#task-{{=taskid}}-info').slideToggle();">
 	{{=taskname.capitalize()}}
       </a>
-      <!-- indicador de comentarios por tarea -->
+
+                  
+      <div class="pull-right">
+
+	 <div class="pull-left">
+      {{if not request.vars.p or request.vars.p == 'None':}}
+	{{=A(projectname.title(), _href=URL(f='index.html',vars={'p':d.project.uuid}),
+	_class='btn btn-mini'
+	)}}
+      {{pass}}
+	 </div>
+
+	<div style="width:100px;margin:3px 0 5px 1em;" class="pull-right {{=progress_css_class}}">
+	  <div class="bar" style="width:{{=taskprogress}}%;"></div>
+	</div>
+      </div>
+
+
       {{if tasknullify:}}
 	<span class="badge badge-inverse">ANULADO</span>
       {{pass}}
+
 
       {{if tasktag:}}
 
@@ -136,73 +146,80 @@
 	  {{pass #if critical}}
 	{{pass #for}}
       {{pass #if tasktag}}
-
+    
 
       <!-- Dependecias entre tareas -->
 
+      <div>
+	<div class="" style="font:x-small sans-serif">
+	  <div>
+	    {{if d.task.task_parent:}}
+	      {{task_parent = _get_task_info(d.task.task_parent)}}
 
-      <div class="pull-right" style="font:x-small sans-serif">
-	<div>
-	{{if d.task.task_parent:}}
-	  {{task_parent = _get_task_info(d.task.task_parent)}}
+	      Necesita: 
 
-	  Necesita: 
+	      {{if not task_parent.closed:}}
+		<strong><a href="#{{=task_parent.id}}">#{{=task_parent.id}}</a> </strong>
+	      {{else:}}
+		<strong><del><a href="#{{=task_parent.id}}">#{{=task_parent.id}}</a></del></strong>
+	      {{pass}}
+	      
 
-	  {{if not task_parent.closed:}}
-	  <strong><a href="#{{=task_parent.id}}">#{{=task_parent.id}}</a> </strong>
-	  {{else:}}
-	  <strong><del><a href="#{{=task_parent.id}}">#{{=task_parent.id}}</a></del></strong>
-	  {{pass}}
-	  
-
-	{{pass}}
-
-	</div>
-	<div>
-	{{if _get_task_child(d.task.uuid):}}
-	  Permite:
-	{{for task_child in _get_task_child(d.task.uuid):}}
-	  {{if task_child.closed:}}
-	    <del>
-	      <strong><a href="#{{=task_child.id}}">#{{=task_child.id}}</a></strong>
-	    </del>
-	    {{else:}}
-	    <strong><a href="#{{=task_child.id}}">#{{=task_child.id}}</a></strong>
 	    {{pass}}
-	{{pass}}
-	{{pass}}
 
-       </div>
+	  </div>
+	  <div>
+	    {{if _get_task_child(d.task.uuid):}}
+	      Permite:
+	      {{for task_child in _get_task_child(d.task.uuid):}}
+		{{if task_child.closed:}}
+		  <del>
+		    <strong><a href="#{{=task_child.id}}">#{{=task_child.id}}</a></strong>
+		  </del>
+		{{else:}}
+		  <strong><a href="#{{=task_child.id}}">#{{=task_child.id}}</a></strong>
+		{{pass}}
+	      {{pass}}
+	    {{pass}}
+
+	  </div>
+	</div>
       </div>
+
 
        <!-- //Dependecias entre tareas -->
 
-      <div class="clearfix" id="task-{{=taskid}}-info" style="display:none; border:1px inset #fff; margin-top:3px; padding:1px; font:1em helvetica;">
+      <div class="clearfix" id="task-{{=taskid}}-info" style="display:none; clear:both;outline:1px inset #fff; margin-top:3px; padding:1px;">
 	
 	<div class="well well-small">
 	{{=MARKMIN(taskdescription)}}
 	</div>
 	
-	<span class="pull-left"><strong>Expira:</strong><span title="{{=d.task.finish}}">{{=prettydate(d.task.finish)}}</span></span>
-	<span class="pull-right"><strong>Actualizado:</strong><span title="{{=d.task.updated}}">{{=prettydate(d.task.updated)}}</span></span>
 
+	<div>
+	  <span class="pull-left"><strong>Expira:</strong><span title="{{=d.task.finish}}">{{=prettydate(d.task.finish)}}</span></span>
+	  <span class="pull-right"><strong>Actualizado:</strong><span title="{{=d.task.updated}}">{{=prettydate(d.task.updated)}}</span></span>
+	</div>
 	
 	
 
       </div>
-      
+
 
 
     </td>
 
 
     
-       <td>
+    <td>
+
+	 
 
       {{if not tasknullify:}}
 	
-	{{=A(SPAN(_class='icon icon-white icon-edit'), _href=URL(f='new.load', args=taskid, 
-	vars=dict(p=projectuuid),
+	{{=A(SPAN(_class='icon icon-white icon-edit'), 
+	_href=URL(f='new.load', args=taskid, vars=dict(p=projectuuid),
+	anchor = 'task_new_container'
 	),
 	cid='task_new_container',
 	_class='btn btn-mini btn-inverse pull-right',
@@ -211,17 +228,7 @@
 	
       {{pass}}
 
-      </td>
-      
-
-
-    <td>
-      
-      <div class="{{=progress_css_class}}">
-	<div class="bar" style="width:{{=taskprogress}}%;"></div>
-      </div>
-      
-
+     
 
     </td>
     
