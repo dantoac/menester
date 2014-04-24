@@ -6,201 +6,206 @@
   {{pass}}
 </h2>
 
-<div id="filtro">
-  <div class="input-prepend input-append">        
-    <span class="add-on"><i class="icon-filter"></i></span>
-    <input name="filtrando" style="width:auto;margin:0;" class="input-mini" type="text" id="filtrando" placeholder="Filtrar Tareas" />
-    <span id="filtrado" class="add-on">0</span> 
-  </div>
-</div>
-
 {{=LOAD(c='p',f='progress.load', vars={'p':request.vars.p}, ajax=True, target='project_achievement', _style='clear:both; margin:15px auto;')}}
 
-<table class="table table-bordered table-condensed table-hover">
-  <thead>
-    <tr>
-      <th>Tarea</th>
-      <th></th>
-    </tr>
-    
-  </thead>
-  
-  {{    
-  
-  #mover esto a una función
-  for d in data:
-   
-    taskid = d.task.id
-    taskname = d.task.name
-    taskstate = 1 #task.state
-    taskdescription = d.task.description
-    taskfinish = d.task.finish
-    taskprogress = d.task.progress
-    taskpriority = d.task.priority
-    taskcreated = d.task.created
-    taskupdated = d.task.updated
-    taskauthor = d.task.author
-    tasknullify = d.task.nullify
-      tasktag = d.task.tag
+<div id="task-list">
 
-      projectname = d.project.name
-      projectslug = d.project.slug
-      projectuuid = d.project.uuid
+  <div style="text-align:center;">
+    <input name="filtrando"  class="fuzzy-search input-mini" type="text" id="filtrando" 
+	   placeholder="Filtrar por Tarea, Proyecto o Etiqueta" />
+  </div>
+
+  <ol class="list">
+    
+    {{    
+    
+    #mover esto a una función
+    for d in data:
       
-      fgcolor="none;"
+      taskid = d.task.id
+      taskname = d.task.name
+      taskstate = 1 #task.state
+      taskdescription = d.task.description
+      taskfinish = d.task.finish
+      taskprogress = d.task.progress
+      taskpriority = d.task.priority
+      taskcreated = d.task.created
+      taskupdated = d.task.updated
+      taskauthor = d.task.author
+      tasknullify = d.task.nullify
+	tasktag = d.task.tag
+
+	projectname = d.project.name
+	projectslug = d.project.slug
+	projectuuid = d.project.uuid
+	
+	fgcolor="none;"
+	
+	if taskpriority=="5":
+	  
+	  priority_class = "text-danger text-error"
+	elif taskpriority=="4":
+	  
+	  priority_class = "text-warning"
+	elif taskpriority=="3":
+	  
+	  priority_class = "text-success"
+	elif taskpriority=="2":
+	  
+	  priority_class = "text-info"
+	elif taskpriority=="1":
+	  
+	  priority_class = ""
+	else:
+	  bgcolor="transparent;"
+	  priority_class = ""
+	  
+    }} {{pass}}
+    
+    {{
+    #mover esto a una función
+    if taskprogress == '100':
+      #finalizado
+      state_class = ""
+      progress_css_class = "progress progress-success"
       
-      if taskpriority=="5":
-	
-	priority_class = "danger error"
-      elif taskpriority=="4":
-	
-	priority_class = "warning"
-      elif taskpriority=="3":
-	
-	priority_class = "success"
-      elif taskpriority=="2":
-	
-	priority_class = "info"
-      elif taskpriority=="1":
-	
-	priority_class = ""
-      else:
-	bgcolor="transparent;"
-	priority_class = ""
-	
-  }} {{pass}}
-  
-  {{
-  #mover esto a una función
-  if taskprogress == '100':
-    #finalizado
-    state_class = ""
-    progress_css_class = "progress progress-success"
-    
-  elif taskprogress >= '75':
-    #en pruebas
-    state_class = "badge-important"
-    progress_css_class = "progress progress-info"
-    
-  elif taskprogress >= '50':
-    #prototipo
-    state_class = "badge-warning"
-    progress_css_class = "progress "
-    
-  elif taskprogress >= '25':
-    #iniciado
-    state_class = "badge-info"
-    progress_css_class = "progress progress-warning"
-    
-  elif taskprogress >= '10':
-    #concepto
-    state_class = ""
-    progress_css_class = "progress progress-danger"
+    elif taskprogress >= '75':
+      #en pruebas
+      state_class = "badge-important"
+      progress_css_class = "progress progress-info"
+      
+    elif taskprogress >= '50':
+      #prototipo
+      state_class = "badge-warning"
+      progress_css_class = "progress "
+      
+    elif taskprogress >= '25':
+      #iniciado
+      state_class = "badge-info"
+      progress_css_class = "progress progress-warning"
+      
+    elif taskprogress >= '10':
+      #concepto
+      state_class = ""
+      progress_css_class = "progress progress-danger"
+      
+      
+    else:
+      #nuevo
+      state_class = ""
+      progress_css_class = "progress"
+
+    }}
+    {{pass}}    
     
     
-  else:
-    #nuevo
-    state_class = ""
-    progress_css_class = "progress"
 
-  }}
-  {{pass}}    
-  
-  <tr class = "{{=priority_class if not tasknullify else 'muted well'}}">
+    <li>
 
-    <td>
-
-  
-      <strong>
-
-      #{{=taskid}}
-      </strong> 
-
-      <a style="font:1em sans-serif;" name="{{=taskid}}" onclick="$('#task-{{=taskid}}-info').slideToggle();">
-	{{=taskname.capitalize()}}
-      </a>
-
-                  
+      
       <div class="pull-right">
 
-	 <div class="pull-left">
-      {{if not request.vars.p or request.vars.p == 'None':}}
-	{{=A(projectname.title(), _href=URL(f='index.html',vars={'p':d.project.uuid}),
-	_class='btn btn-mini'
-	)}}
-      {{pass}}
-	 </div>
+	{{if not request.vars.p or request.vars.p == 'None':}}
+	  {{=A(projectname.title(), _href=URL(f='index.html',vars={'p':d.project.uuid}),
+	  _class='btn btn-mini project-name')}}
+	{{pass}}
 
-	<div style="width:100px;margin:3px 0 5px 1em;" class="pull-right {{=progress_css_class}}">
+
+	<div style="width:100px;margin:3px 0 5px 1em;" class="{{=progress_css_class}} pull-right">
 	  <div class="bar" style="width:{{=taskprogress}}%;"></div>
 	</div>
+
+		
+
+	{{if not tasknullify:}}
+	  
+	  {{=A(SPAN(_class='icon icon-white icon-edit'), 
+	  _href=URL(f='new.load', args=taskid, vars=dict(p=projectuuid),
+	  anchor = 'task_new_container'
+	  ),
+	  cid='task_new_container',
+	  _class='btn btn-mini btn-inverse',
+	  _name=taskid)
+	  }}
+	  
+	{{else:}}
+	  <span class="badge badge-inverse">ANULADO</span>
+	{{pass}}
       </div>
 
 
-      {{if tasknullify:}}
-	<span class="badge badge-inverse">ANULADO</span>
-      {{pass}}
+      <h5>
+	<strong class="{{=priority_class}}">#{{=taskid}}</strong>
+
+	<a class="task-name" style="font:1em sans-serif;" name="{{=taskid}}" onclick="$('#task-{{=taskid}}-info').slideToggle();">
+	  {{=taskname.capitalize()}}
+	</a>
 
 
+	
+	<!-- Dependecias entre tareas -->
+
+	<small>
+	  {{if d.task.task_parent:}}
+	    {{task_parent = _get_task_info(d.task.task_parent)}}
+
+	    Necesita: 
+
+	    {{if not task_parent.closed:}}
+	      <strong><a href="#{{=task_parent.id}}">#{{=task_parent.id}}</a> </strong>
+	    {{else:}}
+	      <strong><del><a href="#{{=task_parent.id}}">#{{=task_parent.id}}</a></del></strong>
+	    {{pass}}
+	    
+
+	  {{pass}}
+	</small>
+
+	<small>
+	  {{if _get_task_child(d.task.uuid):}}
+	    Permite:
+	    {{for task_child in _get_task_child(d.task.uuid):}}
+	      {{if task_child.closed:}}
+		<del>
+		  <strong><a href="#{{=task_child.id}}">#{{=task_child.id}}</a></strong>
+		</del>
+	      {{else:}}
+		<strong><a href="#{{=task_child.id}}">#{{=task_child.id}}</a></strong>
+	      {{pass}}
+	    {{pass}}
+	  {{pass}}
+
+	  
       {{if tasktag:}}
 
 	{{critical = ['bug','error','critical','asap']}}
 
 	{{for tag in tasktag:}}
 	  {{if tag.lower().strip() in critical:}}
-	    <span class="label label-important">{{=tag}}</span>
+	    <span class="task-tag label label-important">{{=tag}}</span>
 	  {{else:}}
-	    <span class="label">{{=tag}}</span>
+	    <span class="task-tag label">{{=tag}}</span>
 	  {{pass #if critical}}
 	{{pass #for}}
       {{pass #if tasktag}}
-    
 
-      <!-- Dependecias entre tareas -->
+	</small>
 
-      <div>
-	<div class="" style="font:x-small sans-serif">
-	  <div>
-	    {{if d.task.task_parent:}}
-	      {{task_parent = _get_task_info(d.task.task_parent)}}
-
-	      Necesita: 
-
-	      {{if not task_parent.closed:}}
-		<strong><a href="#{{=task_parent.id}}">#{{=task_parent.id}}</a> </strong>
-	      {{else:}}
-		<strong><del><a href="#{{=task_parent.id}}">#{{=task_parent.id}}</a></del></strong>
-	      {{pass}}
-	      
-
-	    {{pass}}
-
-	  </div>
-	  <div>
-	    {{if _get_task_child(d.task.uuid):}}
-	      Permite:
-	      {{for task_child in _get_task_child(d.task.uuid):}}
-		{{if task_child.closed:}}
-		  <del>
-		    <strong><a href="#{{=task_child.id}}">#{{=task_child.id}}</a></strong>
-		  </del>
-		{{else:}}
-		  <strong><a href="#{{=task_child.id}}">#{{=task_child.id}}</a></strong>
-		{{pass}}
-	      {{pass}}
-	    {{pass}}
-
-	  </div>
-	</div>
-      </div>
+	
 
 
-       <!-- //Dependecias entre tareas -->
+	<!-- //Dependecias entre tareas -->
+
+
+
+      </h5>          
+
+
 
       <div class="clearfix" id="task-{{=taskid}}-info" style="display:none; clear:both;outline:1px inset #fff; margin-top:3px; padding:1px;">
 	
 	<div class="well well-small">
-	{{=MARKMIN(taskdescription)}}
+	  {{=MARKMIN(taskdescription)}}
 	</div>
 	
 
@@ -214,67 +219,26 @@
       </div>
 
 
-
-    </td>
-
+    </li>
 
     
-    <td>
+    {{pass}}
 
-	 
-
-      {{if not tasknullify:}}
-	
-	{{=A(SPAN(_class='icon icon-white icon-edit'), 
-	_href=URL(f='new.load', args=taskid, vars=dict(p=projectuuid),
-	anchor = 'task_new_container'
-	),
-	cid='task_new_container',
-	_class='btn btn-mini btn-inverse pull-right',
-	_name=taskid)
-	}}
-	
-      {{pass}}
-
-     
-
-    </td>
-    
-    
-
-  </tr>
+  </ul>
   
-  
-  {{pass}}
-  
-</table>
+</div>
 <script>
 
- function filtro(){
-   jQuery("#filtrando").keyup(function () {
-     var filter = jQuery(this).val(), count = 0;
-     
-     jQuery("tbody tr").each(function () {
-       if ((jQuery(this).text().search(
-	 new RegExp(filter, "i")) < 0)) {
-	 jQuery(this).addClass("hidden");
-       } else {
-	 jQuery(this).removeClass("hidden");
-	 count++;
-       }
-     });
-     jQuery("#filtrado").text(count);
-   });
- }
-
-
  jQuery(document).ready(function(){
-   
-   jQuery("#filtrando").focus();
-   //jQuery("td").popover();
-   jQuery(".task_created").tooltip();
-   filtro();
+   var taskList = new List('task-list', { 
+     valueNames: ['task-name','project-name','task-tag'], 
+     plugins: [ ListFuzzySearch() ] 
+   });
+
+
  });
+
+
 
 
 </script>
