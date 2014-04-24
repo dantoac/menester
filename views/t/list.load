@@ -1,5 +1,5 @@
 <style>
-  ul.list li {
+  ol.list li {
    border-bottom:1px solid #eaeaea;
  }
 
