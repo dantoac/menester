@@ -1,7 +1,12 @@
 <style>
-  ol.list li {
+  ul.list li {
    border-bottom:1px solid #eaeaea;
  }
+
+ ol.list li:first-child {
+   list-style:decimal;
+ }
+
 </style>
 
 <h2>
@@ -21,7 +26,7 @@
 	   placeholder="Filtrar por Tarea, Proyecto o Etiqueta" />
   </div>
 
-  <ol class="list">
+  <ol class="list" reversed="reversed" type="none">
     
     {{    
     
