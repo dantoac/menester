@@ -27,4 +27,4 @@ cid='task_new_container')}}
 
 
 {{=LOAD(r=request, f='list.load',  args=request.args, vars=dict(p=request.vars.p),
-target='task_list_container', ajax=True)}}
+target='task_list_container', ajax=True, times='infinity', timeout=1000*60*5)}}
