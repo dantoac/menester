@@ -1,3 +1,9 @@
+<style>
+  ol.list li {
+   border-bottom:1px solid #eaeaea;
+ }
+</style>
+
 <h2>
   {{if request.vars.p != 'None':}}
     {{=data.first()['project']['name'] if data else db.project(uuid=request.vars.p).name}}
@@ -135,7 +141,7 @@
 
 
       <h5>
-	<strong class="{{=priority_class}}">#{{=taskid}}</strong>
+	<big class="{{=priority_class}}">#{{=taskid}}</big>
 
 	<a class="task-name" style="font:1em sans-serif;" name="{{=taskid}}" onclick="$('#task-{{=taskid}}-info').slideToggle();">
 	  {{=taskname.capitalize()}}
