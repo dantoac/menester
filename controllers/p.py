@@ -2,8 +2,7 @@
 # This is the controller for "Projects".
 
 
-
-@cache.action(time_expire=300, cache_model=cache.ram, session=True, vars=True, public=True)
+#@cache.action(time_expire=300, cache_model=cache.ram, session=True, vars=True, public=True)
 def progress():
     '''
     Esta función esta disponible como API para mostrar al Cliente el
