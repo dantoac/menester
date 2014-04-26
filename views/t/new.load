@@ -68,6 +68,7 @@
   -->
   <div class="span2">
     <label class="control-label" for="task_finish">{{=form.custom.label.finish}}</label>
+      {{form.custom.widget.finish['_class'] = 'date'}}
       <div class="controls">{{=form.custom.widget.finish}}</div>
   </div>
   
