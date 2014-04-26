@@ -1,5 +1,5 @@
 
-<div class="progress">  
+<div class="progress progress-striped active">  
   
   <div class="bar" style="width:{{=progress}}%;">
     <span class="label">{{=progress or 0}}%</span>
