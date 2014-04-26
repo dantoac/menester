@@ -9,6 +9,9 @@ def progress():
     porcentaje de avance en el proyecto.
     '''
 
+    session.forget(response)
+    session._unlock(response)
+
     project = db(db.project.uuid == request.vars.p).select().first()
     
     #if not project: raise HTTP(404)
