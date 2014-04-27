@@ -11,7 +11,7 @@
 
 <h2>
   {{if request.get_vars.p != 'None':}}
-    {{=data.first()['project']['name'] if data else db.project(uuid=request.vars.p)}}
+    {{=data.first()['project']['name'] if data else db.project(uuid=request.vars.p).name}}
   {{else:}}
     Todas las Tareas 
   {{pass}}
