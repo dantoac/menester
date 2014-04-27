@@ -1,6 +1,5 @@
 #encode: utf8
 
-
 def _open_task(project_uuid):
     dataset = db((project_uuid == db.project.uuid)
                  & (db.project.uuid == db.task.project_uuid)
@@ -118,5 +117,27 @@ def numfmt(value, places=0, curr='$', sep='.', dp='',
     build(curr)
     build(neg if sign else pos)
     return ''.join(reversed(result))
+
+
+
+def week_dates(now = None):
+    '''
+    obtiene una lista de objetos datetime de los días de la semana
+    correspondiente al parámetro 'now' (datetime).
+    '''
+
+    import datetime
+
+    if not now: now = datetime.datetime.now().date()
+    
+    now_day_1 = now - datetime.timedelta(days=now.weekday())
+
+    dates = []
+
+    for n_week in range(1):
+        dates = [now_day_1 + datetime.timedelta(days=d+n_week*7) for d in range(7)]
+
+    return dates
+
 
 

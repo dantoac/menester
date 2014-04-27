@@ -52,12 +52,11 @@ def view():
 @auth.requires(auth.has_membership('cdo') or auth.has_membership('admin'))
 def list():
 
+    this_week = week_dates()
     
     project_id = project_uuid = None
     project_slug = request.vars.name
     project_uuid = request.vars.p
-
-
     
     # para obtener el nombre del proyecto según slug (!)
     project = db((db.project.uuid == project_uuid)
@@ -67,13 +66,24 @@ def list():
                           limitby=(0,1)).first()
         
     #query Tareas en cualquier estado
-    if request.vars.state == 'any':
+    if request.get_vars.state == 'any':
         query_task_state = (db.task.id > 0)
-    else:
+    elif request.get_vars.state == 'active':
+
+        query_task_state = ((db.task.progress != 100) & 
+                    (db.task.closed != True) &
+                    (db.task.nullify != True)                            
+                    )
+
+    elif request.get_vars.state in ['week', 'None']:
+
         query_task_state = ((db.task.progress != 100) & 
                             (db.task.closed != True) &
-                            (db.task.nullify != True)                            
+                            (db.task.nullify != True) &
+                            (db.task.finish >= this_week[0]) &
+                            (db.task.finish <= this_week[-1])
                             )
+
         
     #project_uuid = None
     if project:
@@ -99,7 +109,23 @@ def list():
         groupby=db.task.id
         )
 
-    return dict(data=data)
+
+    data2 = db((query_project)
+              & (query_task_state) 
+              )._select(
+        db.task.ALL,
+        db.project.name,
+        db.project.uuid,
+        db.project.slug,
+        #db.comment.id.count(),
+        #left=db.comment.on(db.task.uuid == db.comment.target_uuid),
+        orderby=~db.task.priority|~db.task.progress|db.task.closed|db.task.nullify,
+        groupby=db.task.id
+        )
+
+    print(data2)
+
+    return dict(data=data, this_week=this_week)
 
 @auth.requires(auth.has_membership('cdo') or auth.has_membership('admin'))
 def new():

@@ -10,11 +10,14 @@
 </style>
 
 <h2>
-  {{if request.vars.p != 'None':}}
-    {{=data.first()['project']['name'] if data else db.project(uuid=request.vars.p).name}}
+  {{if request.get_vars.p != 'None':}}
+    {{=data.first()['project']['name'] if data else db.project(uuid=request.vars.p)}}
   {{else:}}
-    Todas las Tareas
+    Todas las Tareas 
   {{pass}}
+
+  {{if request.get_vars.state == 'None' or request.get_vars.state == 'week':}}<small>Semana {{=this_week[0]}} / {{=this_week[-1]}}</small>{{pass}}
+
 </h2>
 
 {{=LOAD(c='p',f='progress.load', vars={'p':request.vars.p}, content='Cargando progreso...',
@@ -122,8 +125,7 @@ _style='clear:both; margin:15px auto;')}}
 	  {{=A(projectname.title(), _href=URL(f='index.html',vars={'p':d.project.uuid}),
 	  _class='btn btn-mini project-name')}}
 	{{pass}}
-		
-
+	
 	{{if not tasknullify:}}
 	  
 	  {{=A(SPAN(_class='icon icon-white icon-edit'), 
@@ -141,7 +143,7 @@ _style='clear:both; margin:15px auto;')}}
       </div>
 
 
-      <h5>
+      <h4>
 	<big class="{{=priority_class}}">#{{=taskid}}</big>
 
 	<a class="task-name" style="font:1em sans-serif;" name="{{=taskid}}" onclick="$('#task-{{=taskid}}-info').slideToggle();">
@@ -205,7 +207,7 @@ _style='clear:both; margin:15px auto;')}}
 
 
 
-      </h5>          
+      </h4>          
 
 
       

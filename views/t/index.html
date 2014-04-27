@@ -15,16 +15,15 @@ cid='task_new_container')}}
 
 <div class="btn-group pull-right" data-toggle="buttons-radio" style="margin:7px auto;">
 
-  {{ vars = dict(dict(state='active'),**request.vars)}}
 
-  {{=A('Tareas Activas', _href=URL(f='list.load', vars=vars), cid='task_list_container', _class='btn active primary btn-mini')}}
+  {{=A('Esta Semana', _href=URL(f='list.load', vars=dict(state='week', p=request.get_vars.p)), cid='task_list_container', _class='btn active primary btn-mini')}}
+
+  {{=A('Tareas Activas', _href=URL(f='list.load', vars=dict(state='active', p=request.get_vars.p)), cid='task_list_container', _class='btn primary btn-mini')}}
   
-  {{ vars = dict(dict(state='any'),**request.vars)}}
-
-  {{=A('Todas', _href=URL('list.load', vars=vars), cid='task_list_container', _class='btn  btn-mini')}}
+  {{=A('Todas', _href=URL('list.load', vars=dict(state='any', p=request.get_vars.p)), cid='task_list_container', _class='btn  btn-mini')}}
 
 </div>
 
 
-{{=LOAD(r=request, f='list.load',  args=request.args, vars=dict(p=request.vars.p),
-target='task_list_container', ajax=True, times='infinity', timeout=1000*60*5)}}
+{{=LOAD(r=request, f='list.load',  args=request.args, vars=dict(p=request.get_vars.p, state=request.get_vars.state),
+target='task_list_container', ajax=True)}}
