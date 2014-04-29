@@ -68,6 +68,7 @@ def list():
     #query Tareas en cualquier estado
     if request.get_vars.state == 'any':
         query_task_state = (db.task.id > 0)
+
     elif request.get_vars.state == 'active':
 
         query_task_state = ((db.task.progress != 100) & 
@@ -75,7 +76,8 @@ def list():
                     (db.task.nullify != True)                            
                     )
 
-    elif request.get_vars.state in ['week', 'None']:
+    # es lo mismo que un "else", pero mejor explícito a implícito...
+    elif not request.get_vars.state or request.get_vars.state in ['week', 'None']:
 
         query_task_state = ((db.task.progress != 100) & 
                             (db.task.closed != True) &
@@ -84,7 +86,10 @@ def list():
                             (db.task.finish <= this_week[-1])
                             )
 
-        
+    
+
+    session.task_state = request.get_vars.state
+
     #project_uuid = None
     if project:
         project_uuid = project.uuid
@@ -97,6 +102,7 @@ def list():
 
     #creando el dataset
     data = db((query_project)
+              & (db.project.close == False)
               & (query_task_state) 
               ).select(
         db.task.ALL,
@@ -207,10 +213,7 @@ def new():
         js_hideform = 'jQuery(document).ready(function(){jQuery("#task_new_container").slideUp();});'
 
         #if request.vars.p:
-        response.js = 'web2py_component("%s", "project_achievement"); \
-                           web2py_component("%s", "task_list_container"); %s' \
-                          % (URL(c='p',f='progress.load',vars={'p':request.vars.p}),
-                             URL(c='t',f='list.load',vars={'p':request.vars.p}),
+        response.js = 'web2py_component("%s", "task_list_container"); %s' % (URL(c='t',f='list.load',vars={'p': request.get_vars.p,'state': request.get_vars.state}),
                              js_hideform)
 
         #else:
