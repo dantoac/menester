@@ -25,5 +25,4 @@ cid='task_new_container')}}
 </div>
 
 
-{{=LOAD(r=request, f='list.load',  args=request.args, vars=dict(p=request.get_vars.p, state=request.get_vars.state),
-target='task_list_container', ajax=True)}}
+{{=LOAD(r=request, f='list.load',  args=request.args, vars=dict(p=request.get_vars.p, state=session.task_state), target='task_list_container', ajax=True)}}

@@ -162,7 +162,7 @@ def new():
     
     form = SQLFORM(db.task, tid)
 
-    form.vars.project_uuid = request.vars.p
+    #form.vars.project_uuid = request.get_vars.p
     
     if form.process().accepted:
 
