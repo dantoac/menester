@@ -191,9 +191,9 @@ _style='clear:both; margin:15px auto;')}}
 
 	{{for tag in tasktag:}}
 	  {{if tag.lower().strip() in critical:}}
-	    <span class="task-tag label label-important">{{=tag}}</span>
+	    <span class="task-tag badge badge-important">{{=tag}}</span>
 	  {{else:}}
-	    <span class="task-tag label">{{=tag}}</span>
+	    <span class="task-tag badge">{{=tag}}</span>
 	  {{pass #if critical}}
 	{{pass #for}}
       {{pass #if tasktag}}

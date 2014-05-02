@@ -25,7 +25,8 @@ def progress():
     return {
         'progress':progress, 
         'name': project.name if project else None,
-        'open_task_count': open_tasks
+        'open_task_count': open_tasks,
+        'date_finish': project.end if project else None
     }
 
 

@@ -16,7 +16,8 @@ dt('project',
    Field('slug', compute=lambda n: IS_SLUG()(n['name'])[0]),
    Field('start', 'datetime', default=request.now,
          label='Fecha Inicio'),
-   Field('end', 'datetime', label='Fecha Término'),
+   Field('end', 'datetime', represent = lambda v,r: v.date() if v else '',
+         label='Fecha Término'),
    Field('close', 'boolean', default=False),
    Field('email_contact', 'list:string', requires=IS_EMAIL()),
    Field('team', 'list:reference auth_user'),
@@ -165,4 +166,5 @@ if db(db.expense_type).isempty():
         {'name':'Otro...'},
     ])
 
-
+from gluon.scheduler import Scheduler
+scheduler = Scheduler(db)

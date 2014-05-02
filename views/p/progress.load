@@ -1,9 +1,9 @@
+<span title="{{=date_finish}}" class="pull-right label label-important">{{=prettydate(date_finish.date()) if date_finish else ''}}</span>
 
 <div class="progress progress-striped active">  
   
   <div class="bar" style="width:{{=progress}}%;">
     <span class="label">{{=progress or 0}}%</span>
-        
   </div>
 </div>
 
